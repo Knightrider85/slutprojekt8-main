@@ -12,13 +12,13 @@ export function CartLink() {
   return (
     <Button
       data-cy="cart-link"
-      variant="outline-primary"
+      variant="outline-dark"
       onClick={handleRouteToCart}
       style={{
         width: "3rem",
         height: "3rem",
         position: "relative",
-        color: "white",
+        color: "black",
         marginLeft: "3rem",
       }}
       className="rounded-circle"

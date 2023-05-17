@@ -9,9 +9,9 @@ export function AdminButton() {
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "white",
+          color: "black",
         }}
-        variant="outline-primary"
+        variant="outline-dark"
         className="rounded-circle"
       >
         <svg xmlns="http://www.w3.org/2000/svg" 

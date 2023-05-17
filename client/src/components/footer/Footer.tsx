@@ -10,7 +10,7 @@ export function Footer() {
             justifyContent: "center",
             padding: "2rem",
           }}>
-        Copyrights &#169; reserved by PALIMEDA webshop 2023
+        Copyrights &#169; 
         <CartLink ></CartLink>
       </div>
     </footer>

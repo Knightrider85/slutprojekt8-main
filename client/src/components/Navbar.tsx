@@ -39,7 +39,7 @@ const StyledNavLink = styled(NavLink)`
   font-size: 1.2rem;
   transition: all 0.3s ease;
   &.active {
-    color: #fff;
+    color: black;
     text-decoration: underline 3px;
   }
 `;

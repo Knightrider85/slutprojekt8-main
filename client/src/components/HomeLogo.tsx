@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import svglogonew from "/svglogonew.svg";
+import stepup from "/stepup.png";
 
 export function HomeLogo() {
   return (
@@ -9,7 +9,7 @@ export function HomeLogo() {
         height: "3rem",
         position: "relative",
         color: "white",
-        backgroundImage: `url(${svglogonew})`,
+        backgroundImage: `url(${stepup})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "contain",

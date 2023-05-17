@@ -21,13 +21,13 @@ export function CartButton() {
   return (
     <>
       <Button
-        variant="outline-primary"
+        variant="outline-dark"
         onClick={handleShow}
         style={{
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "white",
+          color: "black",
         }}
         className="rounded-circle"
       >
@@ -39,7 +39,7 @@ export function CartButton() {
             position: "absolute",
             bottom: "-5px",
             right: "-5px",
-            backgroundColor: "red",
+            backgroundColor: "blue",
             borderRadius: "50%",
             width: "20px",
             height: "20px",
@@ -48,6 +48,7 @@ export function CartButton() {
             alignItems: "center",
             fontWeight: "bold",
             fontSize: "12px",
+            color: "white"
           }}
         >
           {totalCartCount}
