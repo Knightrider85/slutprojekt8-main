@@ -7,10 +7,11 @@ import { DeleteButton } from "./DeleteButton";
 
 interface ProductListedItemProps {
   product: Product;
+  
 }
 
 export function ProductListedItem({
-  product,
+  product, 
 }: ProductListedItemProps) {
 
   const { handleEdit } = useContext(ProductContext)

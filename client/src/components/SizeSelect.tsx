@@ -2,20 +2,19 @@ import styled from "styled-components";
 
 interface SizeSelectProps {
   sizes: string[];
-  selectedSize: string;
-  setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  showLabel?: boolean;
 }
 
-export function SizeSelect({ sizes, selectedSize, setSelectedSize }: SizeSelectProps) {
-
-
+export function SizeSelect({ sizes, selectedOption, setSelectedOption, showLabel = true }: SizeSelectProps) {
   return (
     <>
-      <SizeLabel htmlFor="size">Size:</SizeLabel>
+      {showLabel && <SizeLabel htmlFor="size">Size:</SizeLabel>}
       <SizeSelectInput
         id="size"
-        value={selectedSize}
-        onChange={(event) => setSelectedSize(event.target.value)}
+        value={selectedOption}
+        onChange={(event) => setSelectedOption(event.target.value)}
       >
         {sizes.map((size) => (
           <option key={size}>{size}</option>
