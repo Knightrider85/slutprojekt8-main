@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import routes from "./routes/pagesRoutes"
+import routes from "./routes/pagesRoutes";
+import userRouter from "./routes/userRoutes";
 
 const app = express();
 const url = 'mongodb+srv://Knightrider:<StepUp8>@cluster0.lv2qtau.mongodb.net/stepup?retryWrites=true&w=majority'; // Your MongoDB Atlas connection URI
@@ -13,6 +14,7 @@ mongoose.connect(url)
 
     // Use the routes in your Express application
     app.use(routes);
+    app.use(userRouter)
 
     // Start the server after connecting to the database
     app.listen(port, () => {
