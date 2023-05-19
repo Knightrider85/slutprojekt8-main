@@ -1,17 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 import { AdminButton } from "./AdminButton";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
-import styled from "styled-components";
+import { LoginButton } from "./LoginButton";
 
 export function Navbar() {
   return (
     <header>
       <NavbarBs sticky="top" className="header shadow-lg mb-4">
         <Container>
-          <Nav className="me-auto" style={{ alignItems: 'center' }}>
+          <Nav className="me-auto" style={{ alignItems: "center" }}>
             <StyledNavLink to="/" as={NavLink}>
               <HomeLogo />
             </StyledNavLink>
@@ -22,10 +23,11 @@ export function Navbar() {
               FAQ
             </StyledNavLink>
           </Nav>
+          <LoginButton />
           <Link data-cy="admin-link" to="/admin" as={NavLink}>
             <AdminButton />
           </Link>
-          <CartButton/>
+          <CartButton />
         </Container>
       </NavbarBs>
     </header>
