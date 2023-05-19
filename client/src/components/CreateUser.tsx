@@ -45,9 +45,7 @@ export function CreateUser() {
 
           alignItems: "center",
         }}
-      >
-        <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
-      </div>
+      ></div>
       <StyledFormContainer className="d-flex justify-content-center align-items-center">
         <Formik
           validationSchema={schema}
@@ -218,3 +216,4 @@ const StyledFormContainer = styled.div`
     height: 110vh;
   }
 `;
+export default CreateUser;
