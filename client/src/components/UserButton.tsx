@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
-import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 
-export function AdminButton() {
+export function UserButton() {
   return (
     <>
       <Button
@@ -9,13 +8,13 @@ export function AdminButton() {
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "black",
+          color: "red", // ändra bild sedan!
         }}
         variant="outline-dark"
         className="rounded-circle"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
+          xmlns="client/public/noun-admin-3324336.svg"
           viewBox="0 0 24 24"
           fill="currentColor"
         >
