@@ -42,7 +42,7 @@ export function CreateUserPage() {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
+
           alignItems: "center",
         }}
       >
@@ -210,10 +210,9 @@ export function CreateUserPage() {
 }
 
 const StyledFormContainer = styled.div`
-  border-radius: 10px;
-  border: 1px solid #000;
-  background-color: lightgray;
-  padding: 3rem 1rem;
+  border: 1px solid #ffffff;
+  background-color: #f5f5f5;
+  padding: 3rem 2rem;
 
   @media (max-width: 768px) {
     height: 110vh;

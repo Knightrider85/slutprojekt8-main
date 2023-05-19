@@ -1,146 +1,220 @@
-import { useFormik } from "formik";
-import { useContext, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Formik } from "formik";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import * as Yup from "yup";
-import { Product } from "../../data";
-import { ProductContext } from "../contexts/ProductContext";
+import { useOrderContext } from "../contexts/OrderContext";
+
+const schema = Yup.object().shape({
+  name: Yup.string().required(),
+  address: Yup.string().required(),
+  city: Yup.string().required(),
+  zip: Yup.string()
+    .required()
+    .matches(/^[0-9]{5}$/, "Zipcode number must be exactly 5 digits"),
+  email: Yup.string().email("Invalid email address").required(),
+  phone: Yup.string()
+    .required()
+    .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
+});
+
+export type OrderDetails = Yup.InferType<typeof schema>;
+
+const initialValues: OrderDetails = {
+  name: "",
+  address: "",
+  city: "",
+  zip: "",
+  email: "",
+  phone: "",
+};
 
 export function CreateUser() {
-  const { handleSave, setEditingItem, editingItem } =
-    useContext(ProductContext);
-
-  useEffect(() => {
-    if (!editingItem) {
-      const storedItem = localStorage.getItem("selectedItem") ?? "{}";
-      const storedObj = JSON.parse(storedItem) as Product;
-      setEditingItem(storedObj);
-      formik.setFieldValue("image", storedObj.image);
-      formik.setFieldValue("title", storedObj.title);
-      formik.setFieldValue("description", storedObj.description);
-      formik.setFieldValue("price", storedObj.price);
-    }
-  }, []);
-
   const navigate = useNavigate();
 
-  const formik = useFormik<Product>({
-    initialValues: {
-      image: editingItem?.image ?? "",
-      title: editingItem?.title ?? "",
-      description: editingItem?.description ?? "",
-      price: editingItem?.price ?? ("" as any),
-      id: "",
-    },
-    validationSchema: Yup.object({
-      image: Yup.string()
-        .url("Please enter a valid URL")
-        .required("Please include a URL-link."),
-      title: Yup.string().required("Please add a product title."),
-      description: Yup.string().required("Please provide a description."),
-      price: Yup.number()
-        .moreThan(0)
-        .required("Please set a price to the item."),
-    }),
-    onSubmit: (values) => {
-      if (!editingItem) return;
-      handleSave({
-        ...editingItem,
-        image: values.image,
-        title: values.title,
-        description: values.description,
-        price: values.price,
-      });
-    },
-  });
-
+  const { setOrderDetails } = useOrderContext();
   return (
-    <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
-      <Form.Group controlId="image">
-        <Form.Label style={{ marginTop: "1rem" }}>Image</Form.Label>
-        <Form.Control
-          type="text"
-          value={formik.values.image}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={formik.touched.image && !!formik.errors.image}
-          data-cy="product-image"
-        />
-        {formik.touched.image && formik.errors.image && (
-          <Form.Control.Feedback type="invalid" data-cy="product-image-error">
-            {formik.errors.image}
-          </Form.Control.Feedback>
-        )}
-      </Form.Group>
+    <>
+      <div
+        style={{
+          display: "flex",
 
-      <Form.Group controlId="title">
-        <Form.Label style={{ marginTop: "1rem" }}>Title</Form.Label>
-        <Form.Control
-          type="text"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={formik.touched.title && !!formik.errors.title}
-          data-cy="product-title"
-        />
-        {formik.touched.title && formik.errors.title && (
-          <Form.Control.Feedback type="invalid" data-cy="product-title-error">
-            {formik.errors.title}
-          </Form.Control.Feedback>
-        )}
-      </Form.Group>
-
-      <Form.Group controlId="description">
-        <Form.Label style={{ marginTop: "1rem" }}>Description</Form.Label>
-        <Form.Control
-          type="text"
-          value={formik.values.description}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={formik.touched.description && !!formik.errors.description}
-          data-cy="product-description"
-        />
-        {formik.touched.description && formik.errors.description && (
-          <Form.Control.Feedback
-            type="invalid"
-            data-cy="product-description-error"
-          >
-            {formik.errors.description}
-          </Form.Control.Feedback>
-        )}
-      </Form.Group>
-
-      <Form.Group controlId="price">
-        <Form.Label style={{ marginTop: "1rem" }}>Price</Form.Label>
-        <Form.Control
-          type="text"
-          value={formik.values.price}
-          onChange={(e) =>
-            formik.setFieldValue("price", Number(e.target.value))
-          }
-          onBlur={formik.handleBlur}
-          isInvalid={formik.touched.price && !!formik.errors.price}
-          data-cy="product-price"
-        />
-        {formik.touched.price && formik.errors.price && (
-          <Form.Control.Feedback type="invalid" data-cy="product-price-error">
-            {formik.errors.price}
-          </Form.Control.Feedback>
-        )}
-      </Form.Group>
-
-      <Button variant="primary" type="submit" style={{ margin: "1rem" }}>
-        Save
-      </Button>
-      <Button
-        variant="outline-danger"
-        onClick={() => {
-          navigate("/admin");
-          setEditingItem(null);
+          alignItems: "center",
         }}
       >
-        Cancel
-      </Button>
-    </Form>
+        <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
+      </div>
+      <StyledFormContainer className="d-flex justify-content-center align-items-center">
+        <Formik
+          validationSchema={schema}
+          onSubmit={(values) => {
+            setOrderDetails(values);
+            navigate("/confirmation");
+          }}
+          initialValues={initialValues}
+        >
+          {({ handleSubmit, handleChange, values, touched, errors }) => (
+            <Form
+              data-cy="customer-form"
+              noValidate
+              onSubmit={handleSubmit}
+              autoComplete="on"
+            >
+              <Row className="mb-3">
+                <Form.Group as={Col} md="4" controlId="validationFormik01">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    data-cy="customer-name"
+                    type="text"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    placeholder="Name"
+                    isValid={touched.name && !errors.name}
+                    isInvalid={touched.name && !!errors.name}
+                    autoComplete="name"
+                  />
+                  {touched.name && errors.name && (
+                    <Form.Control.Feedback
+                      type="invalid"
+                      data-cy="customer-name-error"
+                    >
+                      {errors.name}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationFormik03">
+                  <Form.Label>Adress</Form.Label>
+                  <InputGroup hasValidation>
+                    <Form.Control
+                      data-cy="customer-address"
+                      type="text"
+                      name="address"
+                      value={values.address}
+                      onChange={handleChange}
+                      placeholder="Adress"
+                      isValid={touched.address && !errors.address}
+                      isInvalid={touched.address && !!errors.address}
+                      autoComplete="street-address"
+                    />
+                    {touched.address && errors.address && (
+                      <Form.Control.Feedback
+                        type="invalid"
+                        data-cy="customer-address-error"
+                      >
+                        {errors.address}
+                      </Form.Control.Feedback>
+                    )}
+                  </InputGroup>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="6" controlId="validationFormik04">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control
+                    data-cy="customer-city"
+                    type="text"
+                    placeholder="City"
+                    name="city"
+                    value={values.city}
+                    onChange={handleChange}
+                    isInvalid={touched.city && !!errors.city}
+                    autoComplete="address-level2"
+                  />
+                  {touched.city && errors.city && (
+                    <Form.Control.Feedback
+                      type="invalid"
+                      data-cy="customer-city-error"
+                    >
+                      {errors.city}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationFormik07">
+                  <Form.Label>Zip</Form.Label>
+                  <Form.Control
+                    data-cy="customer-zipcode"
+                    type="text"
+                    placeholder="Zip"
+                    name="zip"
+                    value={values.zip}
+                    onChange={handleChange}
+                    isInvalid={touched.zip && !!errors.zip}
+                    autoComplete="postal-code"
+                  />
+                  {touched.zip && errors.zip && (
+                    <Form.Control.Feedback
+                      type="invalid"
+                      data-cy="customer-zipcode-error"
+                    >
+                      {errors.zip}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationFormik05">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    data-cy="customer-email"
+                    type="text"
+                    placeholder="email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    isInvalid={touched.email && !!errors.email}
+                    autoComplete="email"
+                  />
+                  {touched.email && errors.email && (
+                    <Form.Control.Feedback
+                      type="invalid"
+                      data-cy="customer-email-error"
+                    >
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationFormik06">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    data-cy="customer-phone"
+                    type="text"
+                    placeholder="phone"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    isInvalid={touched.phone && !!errors.phone}
+                    autoComplete="tel"
+                  />
+                  {touched.phone && errors.phone && (
+                    <Form.Control.Feedback
+                      type="invalid"
+                      data-cy="customer-phone-error"
+                    >
+                      {errors.phone}
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+              </Row>
+              <Button style={{ marginTop: "1rem" }} type="submit">
+                Create Account
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </StyledFormContainer>
+    </>
   );
 }
+
+const StyledFormContainer = styled.div`
+  border: 1px solid #ffffff;
+  background-color: #f5f5f5;
+  padding: 3rem 2rem;
+
+  @media (max-width: 768px) {
+    height: 110vh;
+  }
+`;
