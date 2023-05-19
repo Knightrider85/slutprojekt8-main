@@ -41,7 +41,7 @@ export default function App() {
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
-            <Route path="/createUser" element={<CreateUserPage />} />
+            <Route path="/users" element={<CreateUserPage />} />
           </Routes>
         </Container>
       </main>
