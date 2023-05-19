@@ -10,7 +10,6 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
-
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -20,7 +19,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^10.2.3",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.2",
+    "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-jss": "^10.10.0",
