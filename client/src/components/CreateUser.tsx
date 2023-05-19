@@ -51,7 +51,7 @@ export function CreateUser() {
           validationSchema={schema}
           onSubmit={(values) => {
             setOrderDetails(values);
-            navigate("/confirmation");
+            navigate("/");
           }}
           initialValues={initialValues}
         >
