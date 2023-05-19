@@ -46,7 +46,7 @@ export function CreateUserPage() {
           alignItems: "center",
         }}
       >
-        <h2 style={{ textAlign: "center" }}>Order Details</h2>
+        <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
       </div>
       <StyledFormContainer className="d-flex justify-content-center align-items-center">
         <Formik
@@ -73,6 +73,7 @@ export function CreateUserPage() {
                     name="name"
                     value={values.name}
                     onChange={handleChange}
+                    placeholder="Name"
                     isValid={touched.name && !errors.name}
                     isInvalid={touched.name && !!errors.name}
                     autoComplete="name"
