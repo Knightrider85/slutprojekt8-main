@@ -1,7 +1,8 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
+import Form from "react-bootstrap/Form";
 import * as Yup from "yup";
 
-function TestForm = () => {
+const TestForm = () => {
   const initialValues = {
     name: "",
     email: "",
@@ -14,7 +15,7 @@ function TestForm = () => {
     password: Yup.string().required("Password is required"),
   });
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values: any, { resetForm }: any) => {
     try {
       const response = await fetch("/api/users", {
         method: "POST",
@@ -25,7 +26,7 @@ function TestForm = () => {
       });
 
       if (response.ok) {
-        console.log("User created successfully"); // Reset the form after successful submission
+        console.log("User created successfully");
         resetForm();
       } else {
         console.error("Error creating user:", response.statusText);

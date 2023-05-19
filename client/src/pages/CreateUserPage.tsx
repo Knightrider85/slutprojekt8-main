@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import CreateUser from "../components/CreateUser";
+import TestUser from "../components/TestUser";
 
 export function CreateUserPage() {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ export function CreateUserPage() {
       >
         <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
       </div>
-      <CreateUser />
+
+      <TestUser />
     </>
   );
 }
