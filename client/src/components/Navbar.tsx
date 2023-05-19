@@ -23,7 +23,9 @@ export function Navbar() {
               FAQ
             </StyledNavLink>
           </Nav>
-          <LoginButton />
+          <StyledNavLink to="/login" as={NavLink}>
+            <LoginButton />
+          </StyledNavLink>
           <Link data-cy="admin-link" to="/admin" as={NavLink}>
             <AdminButton />
           </Link>
