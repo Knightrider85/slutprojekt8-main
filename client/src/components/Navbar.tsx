@@ -37,7 +37,7 @@ export function Navbar() {
 }
 
 const StyledNavLink = styled(NavLink)`
-  padding: 0px 3px;
+  padding: 0px 4px;
   color: black;
   text-decoration: none;
   font-size: 1.2rem;
