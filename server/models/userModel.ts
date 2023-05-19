@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { Document } from "mongoose";
 
-interface IUser extends Document {
+export interface IUser extends Document {
     isAdmin: boolean;
     userId: string;
     name: string;
