@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
 import routes from './routes/pagesRoutes';
 import userRouter from './routes/userRoutes';
+import cors from 'cors';
 
 const app = express();
-const url = 'mongodb+srv://Knightrider:<StepUp8>@cluster0.lv2qtau.mongodb.net:27017/stepup?retryWrites=true&w=majority'; 
+const url = 'mongodb+srv://Knightrider:StepUp8@cluster0.lv2qtau.mongodb.net/stepup?retryWrites=true&w=majority'; 
 const port = 3000;
 
 // Connect to the MongoDB Atlas cluster using Mongoose
@@ -27,6 +28,10 @@ mongoose
 
     // Parse incoming JSON payloads
     app.use(express.json());
+
+    // Enable Cors
+    app.use(cors());
+
 
     // Use the routes in your Express application
     app.use(routes);

@@ -17,7 +17,7 @@ const TestForm = () => {
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("http://localhost:5173/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
