@@ -1,15 +1,13 @@
 import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 
-const TestForm = () => {
+const SignInForm = () => {
   const initialValues = {
-    name: "",
     email: "",
     password: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
@@ -18,7 +16,7 @@ const TestForm = () => {
     console.log("Form values:", values); // Log form values
 
     try {
-      const response = await fetch("http://localhost:3000/users", {
+      const response = await fetch("http://localhost:3000/signIn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,20 +25,21 @@ const TestForm = () => {
       });
 
       if (response.ok) {
-        console.log("User created successfully");
+        console.log("User signed in successfully");
         resetForm();
+
         window.location.href = "/";
       } else {
-        console.error("Error creating user:", response.statusText);
+        console.error("Error signing in user:", response.statusText);
       }
     } catch (error) {
-      console.error("Error creating user:", error);
+      console.error("Error signing in user:", error);
     }
   };
 
   return (
     <div className="container">
-      <h2>Create User</h2>
+      <h2>Sign In</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -48,13 +47,6 @@ const TestForm = () => {
       >
         {({ handleSubmit }) => (
           <FormikForm onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
-              </label>
-              <Field type="text" id="name" name="name" className="form-control" />
-              <ErrorMessage name="name" component="div" className="text-danger" />
-            </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email
@@ -70,7 +62,7 @@ const TestForm = () => {
               <ErrorMessage name="password" component="div" className="text-danger" />
             </div>
             <button type="submit" className="btn btn-primary">
-              Create User
+              Sign In
             </button>
           </FormikForm>
         )}
@@ -79,4 +71,4 @@ const TestForm = () => {
   );
 };
 
-export default TestForm;
+export default SignInForm;
