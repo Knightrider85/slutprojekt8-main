@@ -14,9 +14,9 @@ export function CreateUserPage() {
         }}
       >
         <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
+      <TestUser />
       </div>
 
-      <TestUser />
     </>
   );
 }

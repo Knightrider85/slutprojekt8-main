@@ -23,13 +23,13 @@ export function Navbar() {
               FAQ
             </StyledNavLink>
           </Nav>
-          <Link data-cy="user-link" to="/createUser" as={NavLink}>
+          <Link data-cy="user-link" to="/users" as={NavLink}>
             <UserButton />
           </Link>
           <Link data-cy="admin-link" to="/admin" as={NavLink}>
             <AdminButton />
           </Link>
-          <Link data-cy="user-link" to="/createUser" as={NavLink}>
+          <Link data-cy="user-link" to="/cart" as={NavLink}>
             <CartButton />
           </Link>
         </Container>
