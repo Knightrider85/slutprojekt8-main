@@ -1,0 +1,33 @@
+### Get all products
+GET http://localhost:3000/api/products
+
+###
+
+POST http://localhost:3000/api/product
+Content-Type: application/json
+
+{
+  "name": 123,
+  "description": "sko eller skointe",
+  "price": 2979,
+  "imageId": "11111111111",
+  "stock": 1123123,
+  "categories": 2
+}
+
+
+### Update product
+PUT http://localhost:3000/api/products/628f408b21bbf42102dc7a24
+Content-Type: application/json
+
+{
+  "name": 444444,
+  "description": "en röd sko",
+  "price": 299,
+  "imageId": "0000",
+  "stock": 200,
+  "categories": ["röd", "sko"]
+}
+
+### Delete product
+DELETE http://localhost:3000/api/products/628f408b21bbf42102dc7a22
