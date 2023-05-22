@@ -34,8 +34,8 @@ mongoose
 
 
     // Use the routes in your Express application
-    app.use(routes);
     app.use(userRouter);
+    app.use(routes);
 
     // Start the server after connecting to the database
     app.listen(port, () => {

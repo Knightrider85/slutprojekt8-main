@@ -3,7 +3,7 @@ import { createUser } from '../controllers/userController';
 
 const userRouter = express.Router();
 
-userRouter.post('/api/users', createUser);
+userRouter.post('/users', createUser);
 
 // Other user routes
 
