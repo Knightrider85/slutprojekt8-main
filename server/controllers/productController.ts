@@ -32,3 +32,31 @@ export const deleteProduct = async (req: Request, res: Response) => {
     }
   }
 };
+
+// Update a product with ID
+
+export const updateProduct = async (
+  req: Request<{ id: string }>,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const product = await ProductModel.findByIdAndUpdate(id, req.body, {
+      useFindAndModify: false,
+    });
+
+    if (!product) {
+      return res.status(400).json(product);
+    }
+
+    await product.save();
+    res.status(200).json({
+      old: product,
+      new: req.body,
+    });
+  } catch (err) {
+    console.log("update Product error");
+    res.status(400).json(err);
+  }
+};
