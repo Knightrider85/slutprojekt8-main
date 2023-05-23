@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 
-const TestForm = () => {
+const CreateUserForm = () => {
   const initialValues = {
     name: "",
     email: "",
@@ -106,4 +106,4 @@ const TestForm = () => {
   );
 };
 
-export default TestForm;
+export default CreateUserForm;

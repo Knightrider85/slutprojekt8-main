@@ -1,6 +1,6 @@
-import argon2 from 'argon2';
-import { NextFunction, Request, Response } from 'express';
-import { IUser } from '../models/userModel';
+import argon2 from "argon2";
+import { NextFunction, Request, Response } from "express";
+import { IUser } from "../models/userModel";
 
 // Middleware to hash user password using argon2
 export const hashPassword = async (
@@ -27,7 +27,23 @@ export const hashPassword = async (
 
     next();
   } catch (error) {
-    console.error('Error hashing password:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error hashing password:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+// Middleware to check if the user is an admin
+export const adminCheckMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const isAdmin = req.session?.isAdmin;
+
+  // If user is not an admin, return an error
+  if (!isAdmin) {
+    return res.status(403).json({ error: "Access denied" });
+  }
+
+  next();
 };

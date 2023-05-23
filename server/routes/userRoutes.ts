@@ -1,11 +1,14 @@
 import express from 'express';
-import { createUser } from '../controllers/createUserController';
-import { signInUser } from '../controllers/signInController';
+import { checkAdmin, createUser, getAllUsers, signInUser } from '../controllers/userController';
+import { adminCheckMiddleware } from '../middlewares/userMiddlewear';
 
 const userRouter = express.Router();
 
 userRouter.post('/api/users', createUser);
 userRouter.post('/api/signIn', signInUser);
+userRouter.get('/api/users/all', adminCheckMiddleware, getAllUsers)
+userRouter.get('/api/checkAdmin', checkAdmin);
+
 
 // Other user routes
 
