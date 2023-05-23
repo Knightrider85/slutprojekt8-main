@@ -1,6 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import { Address } from "cluster";
+import mongoose, { ObjectId, Schema } from "mongoose";
+import { Product } from "./productModel";
 import { IUser } from "./userModel";
 
+export interface Order {
+  orderNumber: string;
+  totalCost: number;
+  products: Product [];
+  customerId: ObjectId;
+  deliveryAddress: Address;
+  isShipped: boolean;
+  createdAt: Date;
+}
 
 
 const OrderSchema = new Schema({
@@ -13,6 +24,7 @@ const OrderSchema = new Schema({
   isShipped: { type: Boolean, required: true },
   createdAt: { type: Date, required: true },
 });
+
 
 const Order = mongoose.model<IUser>("Order", OrderSchema);
 
