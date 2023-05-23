@@ -10,6 +10,7 @@ import { ConfirmationPage } from "./pages/ConfirmationPage";
 import { CreateUserPage } from "./pages/CreateUserPage";
 import { FAQ } from "./pages/FAQ";
 import { Home } from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
 import { ProductPage } from "./pages/ProductPage";
 
 export default function App() {
@@ -38,10 +39,13 @@ export default function App() {
               element={<EditForm />}
             />
             <Route path="/FAQ" element={<FAQ />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
+
             <Route path="/users" element={<CreateUserPage />} />
+
           </Routes>
         </Container>
       </main>

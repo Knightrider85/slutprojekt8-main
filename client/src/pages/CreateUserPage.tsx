@@ -1,4 +1,6 @@
+import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import SignInUser from "../components/SignInUser";
 import TestUser from "../components/TestUser";
 
 export function CreateUserPage() {
@@ -6,17 +8,15 @@ export function CreateUserPage() {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-
-          alignItems: "center",
-        }}
-      >
-        <h2 style={{ textAlign: "center" }}>Create Step Up Account</h2>
-      <TestUser />
-      </div>
-
+      <h2 className="text-center mt-4">Create Your Step Up Account</h2>
+      <Row className="justify-content-center mt-4">
+        <Col md={6} className="mb-3">
+          <TestUser />
+        </Col>
+        <Col md={6} className="mb-3 border border-dark">
+          <SignInUser />
+        </Col>
+      </Row>
     </>
   );
 }
