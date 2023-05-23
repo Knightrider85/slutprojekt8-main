@@ -1,7 +1,7 @@
+import cookieSession from 'cookie-session';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cookieSession from 'cookie-session';
 import userRouter from './routes/userRoutes';
 
 dotenv.config();
