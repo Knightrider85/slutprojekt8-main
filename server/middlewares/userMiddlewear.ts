@@ -21,8 +21,8 @@ export const hashPassword = async (
     const user = req.body as IUser;
 
     if (req.session) {
-      req.session.userId = user.userId;
-      req.session.isAdmin = user.isAdmin;
+      req.session!.userId = user.userId;
+      req.session!.isAdmin = user.isAdmin;
     }
 
     next();
