@@ -7,6 +7,7 @@ import { Footer } from "./components/footer/Footer";
 import { Admin } from "./pages/Admin";
 import { CartPage } from "./pages/Checkout";
 import { ConfirmationPage } from "./pages/ConfirmationPage";
+import { CreateUserPage } from "./pages/CreateUserPage";
 import { FAQ } from "./pages/FAQ";
 import { Home } from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
@@ -42,6 +43,9 @@ export default function App() {
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
+
+            <Route path="/users" element={<CreateUserPage />} />
+
           </Routes>
         </Container>
       </main>

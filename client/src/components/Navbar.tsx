@@ -5,7 +5,11 @@ import styled from "styled-components";
 import { AdminButton } from "./AdminButton";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
+
 import { LoginButton } from "./LoginButton";
+
+import { UserButton } from "./UserButton";
+
 
 export function Navbar() {
   return (
@@ -23,6 +27,7 @@ export function Navbar() {
               FAQ
             </StyledNavLink>
           </Nav>
+
           <StyledNavLink to="/login" as={NavLink}>
             <LoginButton />
           </StyledNavLink>
@@ -30,6 +35,17 @@ export function Navbar() {
             <AdminButton />
           </Link>
           <CartButton />
+
+          <Link data-cy="user-link" to="/users" as={NavLink}>
+            <UserButton />
+          </Link>
+          <Link data-cy="admin-link" to="/admin" as={NavLink}>
+            <AdminButton />
+          </Link>
+          <Link data-cy="user-link" to="/cart" as={NavLink}>
+            <CartButton />
+          </Link>
+
         </Container>
       </NavbarBs>
     </header>
