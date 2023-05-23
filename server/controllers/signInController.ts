@@ -26,10 +26,9 @@ export const signInUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Incorrect password' });
     }
 
-    // if (req.session) {
-    //     req.session.userId = existingUser.userId;
-    //     req.session.isAdmin = existingUser.isAdmin;
-    // }
+    req.session!.id = existingUser.id;
+    req.session!.isAdmin = existingUser.isAdmin;
+  
 
     // User authenticated successfully
     console.log('User signed in successfully');
