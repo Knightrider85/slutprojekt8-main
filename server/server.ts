@@ -1,12 +1,13 @@
-import cookieSession from 'cookie-session';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 import userRouter from './routes/userRoutes';
+
 dotenv.config();
 
 const app = express();
-const url = process.env.MONGO_URL || 'mongodb://localhost:27017/stepup'; 
+const url = process.env.MONGO_URL || 'mongodb://localhost:27017/stepup';
 const port = 3000;
 
 // Connect to the MongoDB Atlas cluster using Mongoose
@@ -29,11 +30,8 @@ mongoose
     // Parse incoming JSON payloads
     app.use(express.json());
 
-
-
     // Use the routes in your Express application
     app.use(userRouter);
-
 
     // Start the server after connecting to the database
     app.listen(port, () => {
