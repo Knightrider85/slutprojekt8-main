@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Order from "../models/orderModel"; // Add this import statement to import the Order model
 import router from "../routes/orderRoutes";
 
 // POST new order
@@ -34,6 +35,7 @@ export const addOrder = async (req: Request, res: Response) => {
     res.status(500).send({ message: error.message });
   }
 };
+
 // PUT update order
 export const updateOrder = async (req: Request, res: Response) => {
   try {
@@ -42,6 +44,7 @@ export const updateOrder = async (req: Request, res: Response) => {
     res.status(500).send({ message: error.message });
   }
 };
+
 // GET Admin get all orders
 export const getOrders = async (req: Request, res: Response) => {
   try {
@@ -51,6 +54,7 @@ export const getOrders = async (req: Request, res: Response) => {
     res.status(500).send({ message: error.message });
   }
 };
+
 // GET order by id
 export const getOrderById = async (req: Request, res: Response) => {
   try {
@@ -64,10 +68,5 @@ export const getOrderById = async (req: Request, res: Response) => {
     res.status(500).send({ message: error.message });
   }
 };
-
-//router.post("/api/orders", addOrder);
-//router.put("/api/orders/:id", updateOrder);
-//router.get("/api/orders/all", getOrders);
-//router.get("/api/orders", getOrderById);
 
 export default router;

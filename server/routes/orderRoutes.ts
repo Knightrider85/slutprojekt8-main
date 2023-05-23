@@ -4,7 +4,6 @@ import { addOrder, getOrderById, getOrders, updateOrder } from "../controllers/o
 const router = express.Router();
 
 router.get("/order/:id", (req, res) => {
-  // Logic for the product page route
   const orderId = req.params.id;
   res.send(`Order Page - ID: ${orderId}`);
 });
