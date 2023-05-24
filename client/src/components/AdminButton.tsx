@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 
 export function AdminButton() {
   return (
@@ -9,7 +8,7 @@ export function AdminButton() {
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "black",
+          color: "grey",
         }}
         variant="outline-dark"
         className="rounded-circle"
