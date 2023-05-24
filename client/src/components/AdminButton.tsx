@@ -8,7 +8,7 @@ export function AdminButton() {
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "grey",
+          color: "black",
         }}
         variant="outline-dark"
         className="rounded-circle"
