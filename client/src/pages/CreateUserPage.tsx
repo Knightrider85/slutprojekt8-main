@@ -1,7 +1,8 @@
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import TestUser from "../components/CreateUser";
 import SignInUser from "../components/SignInUser";
-import TestUser from "../components/TestUser";
+import StepUpAdmin from "../components/StepupAdmin";
 
 export function CreateUserPage() {
   const navigate = useNavigate();

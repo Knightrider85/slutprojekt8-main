@@ -12,12 +12,12 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
-    // isAdmin: {type: Boolean, required: true},
-    // userId: {type: String, required: true},
+    isAdmin: {type: Boolean, default: false},
+    userId: {type: String, required: false},
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    // phone: {type: Number, required: true},
-    // address: {type: String, required: true},
+    phone: {type: Number, required: false},
+    address: {type: String, required: false},
     password: {type: String, required: true},
 });
 
