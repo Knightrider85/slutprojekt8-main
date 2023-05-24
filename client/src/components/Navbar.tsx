@@ -24,7 +24,8 @@ export function Navbar() {
               </StyledNavLink>
             </Nav>
             <Nav style={{ alignItems: "center" }}>
-              <Link data-cy="user-link" to="/signIn" as={NavLink}>
+              <Link data-cy="user-link" to="SignInUser" as={NavLink}>
+                {/* ändra sökväg till Jennys sida */}
                 Sign in
               </Link>
               <Link data-cy="user-link" to="/users" as={NavLink}>
