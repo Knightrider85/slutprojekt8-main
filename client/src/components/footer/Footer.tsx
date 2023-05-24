@@ -1,17 +1,18 @@
-import { CartLink } from "../CartLink";
 import "../footer/footer.css";
 
 export function Footer() {
   return (
     <footer>
-      <div className="footer" style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            padding: "2rem",
-          }}>
-        Copyrights &#169; 
-        <CartLink ></CartLink>
+      <div
+        className="footer"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
+        Copyrights &#169;
       </div>
     </footer>
   );
