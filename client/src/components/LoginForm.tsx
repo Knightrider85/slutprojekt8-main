@@ -35,7 +35,7 @@ function LoginForm() {
         resetForm();
         window.location.href = "/";
       } else {
-        setLoginError("Password is incorrect."); // Uppdatera felmeddelandet
+        setLoginError("Password is incorrect.");
       }
     } catch (error) {
       console.error("Error signing in user:", error);
