@@ -1,6 +1,12 @@
 import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
+import React from "react";
 import { Container } from "react-bootstrap";
 import * as Yup from "yup";
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -10,10 +16,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginForm() {
-  const initialValues = {
-    email: "",
-    password: "",
-  };
+  const [loginError, setLoginError] = React.useState<string>("");
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     console.log("Form values:", values); // Log form values
@@ -30,10 +33,9 @@ function LoginForm() {
       if (response.ok) {
         console.log("User signed in successfully");
         resetForm();
-
         window.location.href = "/";
       } else {
-        console.error("Error signing in user:", response.statusText);
+        setLoginError("Password is incorrect."); // Uppdatera felmeddelandet
       }
     } catch (error) {
       console.error("Error signing in user:", error);
@@ -81,6 +83,9 @@ function LoginForm() {
                 component="div"
                 className="text-danger"
               />
+              {loginError && ( // Visa felmeddelande
+                <div className="text-danger">{loginError}</div>
+              )}
             </div>
             <button type="submit" className="btn btn-primary">
               Sign In
