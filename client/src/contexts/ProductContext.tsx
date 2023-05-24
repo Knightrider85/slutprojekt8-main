@@ -11,6 +11,7 @@ export interface ProductData {
   stock: number;
   categories: string[];
   imageUrl?: string;
+  quantity:number
 }
 
 interface ProductContext {
@@ -18,7 +19,7 @@ interface ProductContext {
     setSelectedProduct: {},
     products: ProductData[],
     removeProduct: (product: ProductData) => void,
-    editProduct: (product: ProductData) => void,
+    editProduct: (product: ProductData) => void, //
     addProduct: (product: ProductData) => void,
     getAllProducts: () => Promise<any>;
 
@@ -74,13 +75,14 @@ export const ProductProvider: FC = (props: any) => {
         "PUT",
         editedProduct
       );
-      if (ok){
+      if (ok) {
         return data;
-      } 
-    }       catch (err) {
-      return console.log(err)
+      }
+    } catch (err) {
+      return console.log(err);
     }
-  }
+  };
+  
   
   return (
     <ProductContext.Provider

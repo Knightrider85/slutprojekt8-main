@@ -1,26 +1,20 @@
 import { useContext } from "react";
 import { Button, Col } from "react-bootstrap";
 import styled from "styled-components";
-import { Product } from "../../data";
-import { ProductContext } from "../contexts/ProductContext";
+import { ProductContext, ProductData } from "../contexts/ProductContext";
 import { DeleteButton } from "./DeleteButton";
 
-interface ProductListedItemProps {
-  product: Product;
-}
 
-export function ProductListedItem({
-  product,
-}: ProductListedItemProps) {
 
-  const { handleEdit } = useContext(ProductContext)
+export function ProductListedItem({ product }: { product: ProductData }) {
+  const { editProduct } = useContext(ProductContext);
 
   return (
       <Container>
         <Col xs={12} md={3}>
           <TitleContainer data-cy="product-title">
-            <img src={product.image} />
-            <p>{product.title}</p>
+            <img src={product.imageUrl} />
+            <p>{product.name}</p>
           </TitleContainer>
         </Col>
 
@@ -44,7 +38,7 @@ export function ProductListedItem({
             <Button
               variant="outline-secondary"
               onClick={() => {
-                handleEdit(product.id);
+                editProduct(product);
               }}
               data-cy="admin-edit-product"
             >
@@ -55,6 +49,7 @@ export function ProductListedItem({
       </Container>
   );
 }
+
 
 const Container = styled.div`
 display: flex;

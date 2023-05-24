@@ -39,7 +39,7 @@ export function NewProductForm() {
       categories: Yup.string().required("Please enter a category")
     }),
     onSubmit: (values) => {
-      let product: ProductData = {
+        let product: ProductData = {
         id: values.id,
         name: values.name,
         imageUrl:values.imageUrl,
@@ -47,6 +47,7 @@ export function NewProductForm() {
         description: values.description,
         stock: values.stock,
         categories: values.categories,
+        quantity: values.stock
       };
       
       formik.resetForm();

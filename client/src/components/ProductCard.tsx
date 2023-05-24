@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Product, CartItem } from "../../data";
-import { SizeSelect } from "./SizeSelect";
+import { CartItem, Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
+import { SizeSelect } from "./SizeSelect";
 
 interface ProductCardProps {
   product: Product;
@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <StyledCard data-cy="product">
       <StyledCardImg
         variant="top"
-        src={product.image}
+        src={product.imageUrl}
         onClick={handleCardClick}
       />
       <Card.Body
@@ -55,7 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
             }}
           >
             <div>
-              <Card.Title data-cy="product-title">{product.title}</Card.Title>
+              <Card.Title data-cy="product-title">{product.name}</Card.Title>
               <Card.Text data-cy="product-price">
                 Price: {product.price + " SEK"}
               </Card.Text>
