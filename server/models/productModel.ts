@@ -10,7 +10,7 @@ image: string;
 imageId: Types.ObjectId;
 stock: number;
 categories: string[];
-quantity?: number;
+
 }
 
 export const ProductSchema = new mongoose.Schema<Product>(

@@ -77,3 +77,14 @@ res.status(400).json(err);
 }
 
 };
+
+// Get all products
+
+export const getAllProducts = async (req: Request, res: Response) => {
+    const products = await ProductModel.find({});
+
+    if(!products.length){
+        return res.status(400).json(products);
+    }
+    res.status(200).json(products)
+};
