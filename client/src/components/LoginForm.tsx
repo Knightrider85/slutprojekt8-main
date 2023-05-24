@@ -1,69 +1,91 @@
-import { ErrorMessage, Field, Formik } from "formik";
-import React from "react";
+import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
 import { Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-interface FormValues {
-  username: string;
-  password: string;
-}
-
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
 
 function LoginForm() {
-  const navigate = useNavigate();
-  const [loginError, setLoginError] = React.useState<string>(" ");
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
-  const handleSubmit = async (values: FormValues) => {
-    console.log("Form data:", values);
-    const success = await (values.username, values.password);
-    if (success) {
-      navigate("/");
-    } else {
-      setLoginError("Something went wrong. Please try again.");
+  const handleSubmit = async (values: any, { resetForm }: any) => {
+    console.log("Form values:", values); // Log form values
+
+    try {
+      const response = await fetch("/api/signIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        console.log("User signed in successfully");
+        resetForm();
+
+        window.location.href = "/";
+      } else {
+        console.error("Error signing in user:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error signing in user:", error);
     }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-60">
+    <Container className="d-flex flex-column align-items-center vh-60">
+      <h2>Sign In</h2>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Username</Form.Label>
-              <Field type="text" name="username" className="form-control" />
+          <FormikForm onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <Field
+                type="email"
+                id="email"
+                name="email"
+                className="form-control"
+              />
               <ErrorMessage
-                name="username"
+                name="email"
                 component="div"
                 className="text-danger"
               />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Field type="password" name="password" className="form-control" />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <Field
+                type="password"
+                id="password"
+                name="password"
+                className="form-control"
+              />
               <ErrorMessage
                 name="password"
                 component="div"
                 className="text-danger"
               />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
-          </Form>
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Sign In
+            </button>
+          </FormikForm>
         )}
       </Formik>
     </Container>
