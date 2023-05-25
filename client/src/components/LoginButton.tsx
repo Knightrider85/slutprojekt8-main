@@ -19,6 +19,7 @@ export function LoginButton() {
         style={{
           backgroundColor: "white",
           color: "black",
+          border: "0px",
         }}
       >
         {isLoggedIn ? <span>Sign in</span> : <span>Sign out</span>}
