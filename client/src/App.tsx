@@ -12,6 +12,7 @@ import { FAQ } from "./pages/FAQ";
 import { Home } from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import { ProductPage } from "./pages/ProductPage";
+import CreateProductForm from "./components/CreateProduct";
 
 export default function App() {
   return (
@@ -43,8 +44,8 @@ export default function App() {
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
-
             <Route path="/users" element={<CreateUserPage />} />
+
 
           </Routes>
         </Container>

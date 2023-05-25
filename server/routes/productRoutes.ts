@@ -1,23 +1,11 @@
-import express from "express";
-import {
-  addProduct,
-  deleteProduct,
-  updateProduct,
-} from "../controllers/productController";
+import express from 'express';
+import { addProduct, deleteProduct, updateProduct, getAllProducts } from '../controllers/productController';
 
-const router = express.Router();
+const productRouter = express.Router();
 
-//första utkast
-//fortsätt todo
-router.get("/product/:id", (req, res) => {
+productRouter.post('/api/products', addProduct);
+productRouter.delete('/api/products/:productId', deleteProduct);
+productRouter.put('/api/products/:productId', updateProduct);
+productRouter.get('/api/products/all', getAllProducts);
 
-// Logic for the product page route
-const productId = req.params.id;
-res.send(`Product Page - ID: ${productId}`);
-});
-
-export const productRouter = express
-.Router()
-.post("/product", addProduct)
-.delete("/products/:id", deleteProduct)
-.put("/products/:id", updateProduct);
+export default productRouter;
