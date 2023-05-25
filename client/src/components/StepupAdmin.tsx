@@ -1,18 +1,17 @@
-import { IUser } from "../../../server/models/userModel";
 import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
+import { IUser } from "../../../server/models/userModel";
 
 function StepUpAdmin() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
-
 
   useEffect(() => {
     // Fetch users from the server
     fetch("/api/users/all")
       .then((response) => response.json())
       .then((data) => {
-        console.log('Fetched users:', data); // Add this line for debugging
+        console.log("Fetched users:", data); // Add this line for debugging
         setUsers(data);
       })
       .catch((error) => console.error("Error fetching users:", error));
@@ -59,16 +58,6 @@ function StepUpAdmin() {
       .catch((error) => console.error("Error updating admin status:", error));
   };
 
-  const handleSignOutUser = () => {
-    fetch("/api/signOut", {
-      method: "POST",
-    })
-      .then(() => {
-        setIsAdmin(false); // Reset the isAdmin state
-      })
-      .catch((error) => console.error("Error signing out user:", error));
-  };
-
   return (
     <>
       {isAdmin && (
@@ -104,9 +93,6 @@ function StepUpAdmin() {
           ))}
         </Accordion>
       )}
-                <Button variant="primary" onClick={handleSignOutUser}>
-            Sign Out
-          </Button>
     </>
   );
 }

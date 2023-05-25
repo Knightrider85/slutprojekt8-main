@@ -63,8 +63,8 @@ export function ProductCard({ product }: ProductCardProps) {
             <div style={{ display: "flex", alignItems: "center" }}>
               <SizeSelect
                 sizes={sizes}
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
+                selectedOption={selectedSize}
+                setSelectedOption={setSelectedSize}
               />
             </div>
           </div>

@@ -1,10 +1,18 @@
 import { useContext } from "react";
 import { Button, Col } from "react-bootstrap";
 import styled from "styled-components";
+import { Product } from "../../data";
 import { ProductContext, ProductData } from "../contexts/ProductContext";
 import { DeleteButton } from "./DeleteButton";
 
+interface ProductListedItemProps {
+  product: Product;
+  
+}
 
+export function ProductListedItem({
+  product, 
+}: ProductListedItemProps) {
 
 export function ProductListedItem({ product }: { product: ProductData }) {
   const { editProduct } = useContext(ProductContext);

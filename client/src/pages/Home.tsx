@@ -5,6 +5,7 @@ import { ProductCard } from "../components/ProductCard";
 import StepUpAdmin from "../components/StepupAdmin";
 import { ToastCart } from "../components/ToastCart";
 import { useProducts } from "../contexts/ProductContext";
+import FilterList from "../components/FilterList";
 import { useCart } from "../contexts/cartContext";
 
 export function Home() {
@@ -12,6 +13,10 @@ export function Home() {
   const { products } = useProducts();
   const [showToast, setShowToast] = useState(false);
   const [lastAddedProduct, setLastAddedProduct] = useState<Product | null>(null);
+  const sizes = ["Small", "Medium", "Large"];
+  const [selectedSize, setSelectedSize] = useState("");
+  const colors = ["Red", "Blue", "Green"];
+  const brands = ['Adidas', 'Nike', 'Puma' ]
 
   useEffect(() => {
   const newProduct = cartItems[cartItems.length - 1];
@@ -25,7 +30,16 @@ export function Home() {
   return (
     <main>
       <div>
-        <Heading>Welcome to StepUp</Heading>
+        <Heading>Welcome to StepUp</Heading>    
+        <FilterList
+          sizes={sizes}
+          SelectedOption={selectedSize}
+          setSelectedOption={setSelectedSize}
+          colors={colors}
+          brands={brands}
+          label="Filterar efter"
+          />
+
       </div>
       {showToast && lastAddedProduct && (
         <ToastCart
