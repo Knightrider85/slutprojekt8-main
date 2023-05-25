@@ -12,7 +12,7 @@ export function Navbar() {
         <Container>
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
           <NavbarBs.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto" style={{ alignItems: "center" }}>
+            <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
                 <HomeLogo />
               </StyledNavLink>
@@ -22,7 +22,7 @@ export function Navbar() {
               <StyledNavLink to="/FAQ" as={NavLink}>
                 FAQ
               </StyledNavLink>
-            </Nav>
+            </NavWrapper>
             <Nav style={{ alignItems: "center" }}>
               <Link data-cy="user-link" to="SignInUser" as={NavLink}>
                 {/* ändra sökväg till Jennys sida */}
@@ -68,5 +68,13 @@ const Link = styled(NavLink)`
   &:hover {
     color: #9d9d9d;
     text-decoration: underline 3px;
+  }
+`;
+
+const NavWrapper = styled(Nav)`
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
   }
 `;
