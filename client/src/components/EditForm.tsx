@@ -6,13 +6,13 @@ import * as Yup from "yup";
 import { ProductContext, ProductData } from "../contexts/ProductContext";
 
 export function EditForm() {
-  const { getAllProducts, addProduct, editProduct } = useContext(ProductContext);
+  const { getAllProducts, setEditingItem, editProduct } = useContext(ProductContext);
 
   useEffect(() => {
     if (!editProduct) {
       const storedItem = localStorage.getItem("selectedItem") ?? "{}";
       const storedObj = JSON.parse(storedItem) as ProductData;
-      addProduct(storedObj);
+      setEditingItem(storedObj);
       formik.setFieldValue("image", storedObj.imageUrl);
       formik.setFieldValue("title", storedObj.name);
       formik.setFieldValue("description", storedObj.description);
