@@ -14,8 +14,15 @@ export function LoginButton() {
 
   return (
     <>
-      <Button onClick={handleButtonClick}>
-        {isLoggedIn ? <span>Logga in</span> : <span>Logga ut</span>}
+      <Button
+        onClick={handleButtonClick}
+        style={{
+          backgroundColor: "white",
+          color: "black",
+          border: "0px",
+        }}
+      >
+        {isLoggedIn ? <span>Sign in</span> : <span>Sign out</span>}
       </Button>
     </>
   );

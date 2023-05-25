@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
+import { LoginButton } from "./LoginButton";
 
 export function Navbar() {
   return (
@@ -25,8 +26,7 @@ export function Navbar() {
             </NavWrapper>
             <Nav style={{ alignItems: "center" }}>
               <Link data-cy="user-link" to="/login" as={NavLink}>
-                {/* ändra sökväg till Jennys sida */}
-                Sign in
+                <LoginButton />
               </Link>
               <Link data-cy="user-link" to="/users" as={NavLink}>
                 User
