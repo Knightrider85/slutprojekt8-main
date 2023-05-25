@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import { BsFillBasket3Fill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { useNavigate } from "react-router-dom";
 
 export function CartButton() {
   const [show, setShow] = useState(false);
@@ -21,7 +21,7 @@ export function CartButton() {
   return (
     <>
       <Button
-        variant="outline-dark"
+        variant="outline-secondary"
         onClick={handleShow}
         style={{
           width: "3rem",
@@ -48,7 +48,7 @@ export function CartButton() {
             alignItems: "center",
             fontWeight: "bold",
             fontSize: "12px",
-            color: "white"
+            color: "white",
           }}
         >
           {totalCartCount}
@@ -102,7 +102,6 @@ export function CartButton() {
                     <div>{product.title}</div>
                     <div>{product.price} kr</div>
                     <div>{product.size}</div>
-
                   </div>
                 </div>
               ))
