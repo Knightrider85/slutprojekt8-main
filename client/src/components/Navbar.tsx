@@ -5,11 +5,7 @@ import styled from "styled-components";
 import { AdminButton } from "./AdminButton";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
-
-import { LoginButton } from "./LoginButton";
-
 import { UserButton } from "./UserButton";
-
 
 export function Navbar() {
   return (
@@ -27,25 +23,15 @@ export function Navbar() {
               FAQ
             </StyledNavLink>
           </Nav>
-
-          <StyledNavLink to="/login" as={NavLink}>
-            <LoginButton />
-          </StyledNavLink>
-          <Link data-cy="admin-link" to="/admin" as={NavLink}>
-            <AdminButton />
-          </Link>
-          <CartButton />
-
           <Link data-cy="user-link" to="/users" as={NavLink}>
             <UserButton />
           </Link>
           <Link data-cy="admin-link" to="/admin" as={NavLink}>
             <AdminButton />
           </Link>
-          <Link data-cy="user-link" to="/cart" as={NavLink}>
+          {/* <Link data-cy="user-link" to="/checkout" as={NavLink}> */}
             <CartButton />
-          </Link>
-
+          {/* </Link> */}
         </Container>
       </NavbarBs>
     </header>
@@ -53,7 +39,7 @@ export function Navbar() {
 }
 
 const StyledNavLink = styled(NavLink)`
-  padding: 0px 4px;
+  padding: 0px 10px;
   color: black;
   text-decoration: none;
   font-size: 1.2rem;

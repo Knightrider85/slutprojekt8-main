@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ProductListedItem } from "../components/ProductListedItem";
 import { ProductContext } from "../contexts/ProductContext";
+import StepUpAdmin from "../components/StepupAdmin";
 
 export function Admin() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export function Admin() {
 
   return (
     <Container>
+      <StepUpAdmin />
       <AddBtnContainer>
         <Button
           variant="primary"
