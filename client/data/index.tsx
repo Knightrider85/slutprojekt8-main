@@ -1,3 +1,4 @@
+
 export interface Product {
   id: string;
   name: string;
@@ -10,8 +11,9 @@ export interface Product {
 }
 
 export interface CartItem extends Product {
-  quantity: number;
+  size: string;
 }
+
 
 /**
  * function that returns a unique Id, both numbers and letters
