@@ -2,40 +2,46 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AdminButton } from "./AdminButton";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
+
 import { LoginButton } from "./LoginButton";
 import { UserButton } from "./UserButton";
+
 
 export function Navbar() {
   return (
     <header>
-      <NavbarBs sticky="top" className="header shadow-lg mb-4">
+      <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
         <Container>
-          <Nav className="me-auto" style={{ alignItems: "center" }}>
-            <StyledNavLink to="/" as={NavLink}>
-              <HomeLogo />
-            </StyledNavLink>
-            <StyledNavLink to="/" as={NavLink}>
-              Home
-            </StyledNavLink>
-            <StyledNavLink to="/FAQ" as={NavLink}>
-              FAQ
-            </StyledNavLink>
-          </Nav>
-          <Link data-cy="user-link" to="/login" as={NavLink}>
-            <LoginButton />
-          </Link>
-          <Link data-cy="user-link" to="/users" as={NavLink}>
-            <UserButton />
-          </Link>
-          <Link data-cy="admin-link" to="/admin" as={NavLink}>
-            <AdminButton />
-          </Link>
-          {/* <Link data-cy="user-link" to="/checkout" as={NavLink}> */}
-          <CartButton />
-          {/* </Link> */}
+
+          <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
+          <NavbarBs.Collapse id="responsive-navbar-nav">
+            <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
+              <StyledNavLink to="/" as={NavLink}>
+                <HomeLogo />
+              </StyledNavLink>
+              <StyledNavLink to="/" as={NavLink}>
+                Home
+              </StyledNavLink>
+              <StyledNavLink to="/FAQ" as={NavLink}>
+                FAQ
+              </StyledNavLink>
+            </NavWrapper>
+            <Nav style={{ alignItems: "center" }}>
+              <Link data-cy="user-link" to="SignInUser" as={NavLink}>
+                {/* ändra sökväg till Jennys sida */}
+                Sign in
+              </Link>
+              <Link data-cy="user-link" to="/users" as={NavLink}>
+                User
+              </Link>
+              <Link data-cy="admin-link" to="/admin" as={NavLink}>
+                Admin
+              </Link>
+              <CartButton />
+            </Nav>
+          </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
     </header>
@@ -48,6 +54,11 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   font-size: 1.2rem;
   transition: all 0.3s ease;
+
+  &:hover {
+    color: #9d9d9d;
+    text-decoration: underline 3px;
+  }
   &.active {
     color: black;
     text-decoration: underline 3px;
@@ -56,4 +67,19 @@ const StyledNavLink = styled(NavLink)`
 
 const Link = styled(NavLink)`
   padding: 0px 10px;
+  text-decoration: none;
+  color: black;
+  transition: all 0.3s ease;
+  &:hover {
+    color: #9d9d9d;
+    text-decoration: underline 3px;
+  }
+`;
+
+const NavWrapper = styled(Nav)`
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
 `;
