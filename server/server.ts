@@ -1,11 +1,13 @@
+import cookieSession from 'cookie-session';
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cookieSession from 'cookie-session';
-import routes from './routes/pagesRoutes';
 import userRouter from './routes/userRoutes';
 
+dotenv.config();
+
 const app = express();
-const url = 'mongodb+srv://Knightrider:<StepUp8>@cluster0.lv2qtau.mongodb.net:27017/stepup?retryWrites=true&w=majority'; 
+const url = process.env.MONGO_URL || 'mongodb://localhost:27017/stepup';
 const port = 3000;
 
 // Connect to the MongoDB Atlas cluster using Mongoose
@@ -29,7 +31,6 @@ mongoose
     app.use(express.json());
 
     // Use the routes in your Express application
-    app.use(routes);
     app.use(userRouter);
 
     // Start the server after connecting to the database

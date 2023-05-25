@@ -1,27 +1,37 @@
-import { Product } from './../../client/data/index';
-import mongoose, { Schema } from "mongoose";
-import { Document } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
-export interface IUser extends Document {
-    isAdmin: boolean;
-    Id: string;
-    title: string;
-    color: string;
-    description: String;
-    brand: string;
-    
+export interface Product extends Document {
+
+id: string,
+name: string;
+description: string;
+price: number;
+image: string;
+imageId: Types.ObjectId;
+stock: number;
+categories: string[];
 }
 
-const ProductSchema = new Schema<IUser>({
-    isAdmin: {type: Boolean, required: true},
-    Id: {type: String, required: true},
-    title: {type: String, required: true},
-    color: {type: String, required: true, unique: true},
-    description: {type: String, required: true},
-    brand: {type: String, required: true},
-    
+export const ProductSchema = new mongoose.Schema<Product>(
+{
+
+name: { type: String, required: true },
+description: { type: String, required: true },
+price: { type: Number, required: true },
+imageId: { type: Schema.Types.ObjectId, required: true },
+stock: { type: Number, required: true },
+categories: { type: [String], required: true },
+},
+ {
+
+toJSON: { virtuals: true },
+toObject: { virtuals: true },
+}
+ );
+
+ProductSchema.virtual("imageUrl").get(function () {
+
+return "/api/media/" + this.imageId;
 });
 
-const Product = mongoose.model<IUser>('User', ProductSchema);
-
-export default Product
+export const ProductModel = mongoose.model("product", ProductSchema);

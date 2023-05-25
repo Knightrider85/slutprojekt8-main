@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Product } from "../../data/index";
 import { ProductCard } from "../components/ProductCard";
+import StepUpAdmin from "../components/StepupAdmin";
 import { ToastCart } from "../components/ToastCart";
-import { useCart } from "../contexts/cartContext";
 import { useProducts } from "../contexts/ProductContext";
 import FilterList from "../components/FilterList";
+import { useCart } from "../contexts/cartContext";
 
 export function Home() {
   const { cartItems } = useCart();

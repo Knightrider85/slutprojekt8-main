@@ -1,24 +1,28 @@
 import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
+import React from "react";
+import { Container } from "react-bootstrap";
 import * as Yup from "yup";
 
-const CreateUserForm = () => {
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-  };
+const initialValues = {
+  email: "",
+  password: "",
+};
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().required("Password is required"),
-  });
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
+
+function LoginForm() {
+  const [loginError, setLoginError] = React.useState<string>("");
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     console.log("Form values:", values); // Log form values
 
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/signIn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,20 +31,20 @@ const CreateUserForm = () => {
       });
 
       if (response.ok) {
-        console.log("User created successfully");
+        console.log("User signed in successfully");
         resetForm();
-        window.location.href = "/login";
+        window.location.href = "/";
       } else {
-        console.error("Error creating user:", response.statusText);
+        setLoginError("Password is incorrect.");
       }
     } catch (error) {
-      console.error("Error creating user:", error);
+      console.error("Error signing in user:", error);
     }
   };
 
   return (
-    <div className="container">
-      <h2>Create User</h2>
+    <Container className="d-flex flex-column align-items-center vh-60">
+      <h2>Sign In</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -48,22 +52,6 @@ const CreateUserForm = () => {
       >
         {({ handleSubmit }) => (
           <FormikForm onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
-              </label>
-              <Field
-                type="text"
-                id="name"
-                name="name"
-                className="form-control"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-danger"
-              />
-            </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email
@@ -95,15 +83,18 @@ const CreateUserForm = () => {
                 component="div"
                 className="text-danger"
               />
+              {loginError && ( // Visa felmeddelande
+                <div className="text-danger">{loginError}</div>
+              )}
             </div>
             <button type="submit" className="btn btn-primary">
-              Create User
+              Sign In
             </button>
           </FormikForm>
         )}
       </Formik>
-    </div>
+    </Container>
   );
-};
+}
 
-export default CreateUserForm;
+export default LoginForm;
