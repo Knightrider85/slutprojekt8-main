@@ -4,7 +4,7 @@ import { Button, FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { generateId, Product } from "../../data";
+import { Product, generateId } from "../../data";
 import { ProductContext } from "../contexts/ProductContext";
 
 export function NewProductForm() {
@@ -14,6 +14,7 @@ export function NewProductForm() {
   const formik = useFormik<Product>({
     initialValues: {
       image: "",
+      Color:"",
       title: "",
       description: "",
       price: "" as any,

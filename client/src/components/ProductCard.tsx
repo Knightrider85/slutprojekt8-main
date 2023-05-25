@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Product, CartItem } from "../../data";
 import { SizeSelect } from "./SizeSelect";
 import { CartContext } from "../contexts/cartContext";
+import { Color } from "react-bootstrap/esm/types";
 
 interface ProductCardProps {
   product: Product;
@@ -63,8 +64,8 @@ export function ProductCard({ product }: ProductCardProps) {
             <div style={{ display: "flex", alignItems: "center" }}>
               <SizeSelect
                 sizes={sizes}
-                selectedSize={selectedSize}
-                setSelectedSize={setSelectedSize}
+                selectedOption={selectedSize}
+                setSelectedOption={setSelectedSize}
               />
             </div>
           </div>
