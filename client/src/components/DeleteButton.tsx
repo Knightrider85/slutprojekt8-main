@@ -11,7 +11,7 @@ interface DeleteButtonProps {
 export function DeleteButton({ product }: DeleteButtonProps) {
   const [show, setShow] = useState(false);
 
-  const { handleDelete } = useContext(ProductContext)
+  const { removeProduct } = useContext(ProductContext)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

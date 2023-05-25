@@ -58,7 +58,7 @@ export function ProductListedItem({ product }: { product: ProductData }) {
   );
 }
 
-
+}
 const Container = styled.div`
 display: flex;
 border-bottom: 1px solid orange;
