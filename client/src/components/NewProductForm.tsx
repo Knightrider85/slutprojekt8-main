@@ -4,30 +4,22 @@ import { Button, FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-<<<<<<< HEAD
+
 import { ProductContext, ProductData, useProducts } from "../contexts/ProductContext";
-=======
-import { Product, generateId } from "../../data";
-import { ProductContext } from "../contexts/ProductContext";
->>>>>>> main
+
 
 export function NewProductForm() {
-  const { addProduct, getAllProducts, uploadImage } = useProducts();
+  const { addProduct, getAllProducts, uploadImage, editProduct } = useProducts();
 
   const navigate = useNavigate();
   const { products: items } = useContext(ProductContext);
 
   const formik = useFormik({
     initialValues: {
-<<<<<<< HEAD
       name: "",
+      Color:"",
       imageId:'',
       price: 0,
-=======
-      image: "",
-      Color:"",
-      title: "",
->>>>>>> main
       description: "",
       stock: 0,
       categories: [""],
@@ -57,6 +49,13 @@ export function NewProductForm() {
       };
       
       formik.resetForm();
+
+      if (editProduct) {
+        editProduct(product);
+      } else {
+        addProduct(product);
+      }
+
     },
   });
 
