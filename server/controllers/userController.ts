@@ -96,17 +96,21 @@ export const checkAdmin = (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    console.log('Deleting user with userId:', userId);
 
-    //delete the user from the database with the userId
     const deletedUser = await User.findByIdAndDelete(userId);
+    console.log('Deleted user:', deletedUser);
 
-    if(!deletedUser) {
+    if (!deletedUser) {
+      console.log('User not found');
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json({ message: 'User deleted succesfully' });
+
+    console.log('User deleted successfully');
+    res.json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
-    res.status(500).json({ error: 'a error occurred while deleting the user' });
+    res.status(500).json({ error: 'An error occurred while deleting the user' });
   }
 }
 
@@ -133,3 +137,12 @@ export const updateUserAdminStatus = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'An error occured while updating the user admin status' });
   }
 }
+
+export const handleSignOutUser = (req: Request, res: Response) => {
+  // Remove the user-related information from the session
+  delete req.session!.userId;
+  delete req.session!.isAdmin;
+
+  // Send a response indicating successful sign-out
+  res.json({ message: "Sign-out successful" });
+};
