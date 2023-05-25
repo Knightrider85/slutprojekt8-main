@@ -1,19 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { IUser } from '../models/userModel';
 
-// Middleware to hash user password using argon2
-export const Products = async (
+export const adminCheckMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const isAdmin = req.session?.isAdmin;
 
-    const user = req.body as IUser;
+  if (!isAdmin) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
 
-    if (req.session) {
-      req.session.userId = user.userId;
-      req.session.isAdmin = user.isAdmin;
-    }
-
-    next();
-  };
+  next();
+};

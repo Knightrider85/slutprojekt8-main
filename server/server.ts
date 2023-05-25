@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './routes/userRoutes';
+import productRouter from './routes/productRoutes';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ mongoose
 
     // Use the routes in your Express application
     app.use(userRouter);
+    app.use(productRouter);
 
     // Start the server after connecting to the database
     app.listen(port, () => {

@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { ProductListedItem } from "../components/ProductListedItem";
 import { ProductContext } from "../contexts/ProductContext";
 import StepUpAdmin from "../components/StepupAdmin";
+import StepUpProduct from "../components/StepUpProduct";
 
 export function Admin() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ export function Admin() {
   return (
     <Container>
       <StepUpAdmin />
-      <AddBtnContainer>
+      <StepUpProduct />
+      {/* <AddBtnContainer>
         <Button
           variant="primary"
           onClick={() => navigate(`/admin/product/new`)}
@@ -52,7 +54,7 @@ export function Admin() {
               />
             </Row>
           ))}
-        </div>
+        </div> */}
     </Container>
   );
 }
