@@ -29,7 +29,7 @@ const CreateUserForm = () => {
       if (response.ok) {
         console.log("User created successfully");
         resetForm();
-        window.location.href = "/";
+        window.location.href = "/login";
       } else {
         console.error("Error creating user:", response.statusText);
       }

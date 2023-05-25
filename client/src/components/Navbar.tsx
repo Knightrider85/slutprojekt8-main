@@ -5,11 +5,16 @@ import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 
+import { LoginButton } from "./LoginButton";
+import { UserButton } from "./UserButton";
+
+
 export function Navbar() {
   return (
     <header>
       <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
         <Container>
+
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
           <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
