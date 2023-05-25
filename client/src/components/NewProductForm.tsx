@@ -17,7 +17,7 @@ export function NewProductForm() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      Color:"",
+      color:"",
       imageId:'',
       price: 0,
       description: "",
@@ -45,13 +45,14 @@ export function NewProductForm() {
         description: values.description,
         stock: values.stock,
         categories: values.categories,
-        quantity: values.stock
+        quantity: values.stock, 
+        color: values.color
       };
       
       formik.resetForm();
 
       if (editProduct) {
-        editProduct(product);
+        editProduct(product.id);
       } else {
         addProduct(product);
       }

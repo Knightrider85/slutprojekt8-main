@@ -9,7 +9,7 @@ export interface Product {
   quantity: number;
   imageUrl?: string;
   size?: string;
-  Color: string;
+  color: string;
 }
 
 export interface CartItem extends Product {
@@ -28,7 +28,7 @@ export const generateId = () => {
 };
 
 
-
+/* 
 export const products: Product[] = [
   {
     image:
@@ -121,3 +121,4 @@ export const products: Product[] = [
     Color: 'Black',
   },
 ];
+ */

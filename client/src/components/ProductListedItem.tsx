@@ -1,18 +1,13 @@
 import { useContext } from "react";
 import { Button, Col } from "react-bootstrap";
 import styled from "styled-components";
-import { Product } from "../../data";
 import { ProductContext, ProductData } from "../contexts/ProductContext";
 import { DeleteButton } from "./DeleteButton";
 
 interface ProductListedItemProps {
-  product: Product;
+  product: ProductData;
   
 }
-
-export function ProductListedItem({
-  product, 
-}: ProductListedItemProps) {
 
 export function ProductListedItem({ product }: { product: ProductData }) {
   const { editProduct } = useContext(ProductContext);
@@ -46,7 +41,7 @@ export function ProductListedItem({ product }: { product: ProductData }) {
             <Button
               variant="outline-secondary"
               onClick={() => {
-                editProduct(product);
+                editProduct(product.id);
               }}
               data-cy="admin-edit-product"
             >
@@ -58,7 +53,6 @@ export function ProductListedItem({ product }: { product: ProductData }) {
   );
 }
 
-}
 const Container = styled.div`
 display: flex;
 border-bottom: 1px solid orange;

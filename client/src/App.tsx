@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { NewProductForm } from "./components/NewProductForm";
 import { Footer } from "./components/footer/Footer";
-import { Admin } from "./pages/Admin";
 import { CartPage } from "./pages/Checkout";
 import { ConfirmationPage } from "./pages/ConfirmationPage";
 import { CreateUserPage } from "./pages/CreateUserPage";
@@ -30,7 +29,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/admin/product?/:productid?/:editItem?"
-              element={<Admin />}
+              element={<NewProductForm />}
             />
             <Route path="/admin/product/new" element={<NewProductForm />} />
             <Route

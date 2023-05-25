@@ -12,15 +12,16 @@ export interface ProductData {
   categories: string[];
   imageId: string;
   imageUrl?: string;
-  quantity:number
+  quantity:number,
+  color: string,
 }
 
 interface ProductContext {
     selectedProduct: {},
     setSelectedProduct: {},
     products: ProductData[],
-    removeProduct: (product: ProductData) => void,
-    editProduct: (product: ProductData) => void, //
+    removeProduct: (id: string) => void,
+    editProduct: (id:string) => void, //
     addProduct: (product: ProductData) => void,
     getAllProducts: () => Promise<void>;
     uploadImage: (file: File) => Promise<string>;
@@ -31,7 +32,7 @@ export const ProductContext = createContext<ProductContext>({
   setSelectedProduct: {},
   products: [],
   addProduct: async () => {},
-  removeProduct: async () => {},
+  removeProduct: async (id: string) => {},
   editProduct: () => {},
   getAllProducts: async () => {},
   uploadImage: async () => "",
@@ -52,30 +53,31 @@ export const ProductProvider: FC = (props: any) => {
       let { data, ok } = await useRequest(`/api/products`, "GET");
       if (ok) {
         setProducts(data);
-        return true;
       }
     } catch (err){
       return console.log(err);
     }
   }
 
-  const removeProduct = async (products: ProductData) => {
-    try {
-      let { data, ok } = await useRequest(`/api/product/${products.id}`, "DELETE");
-      if (ok){
-        return data;
-      }
-    } catch (err) {
-      return console.log(err)
-    }
-  }
 
-  const editProduct = async (editedProduct: ProductData) => {
+
+  const removeProduct = async (id: string) => {
+    try {
+        let { data, ok } = await useRequest(`/api/product/${id}`, "DELETE");
+        if (ok){
+            return data;
+        }
+    } catch (err) {
+        return console.log(err)
+    }
+}
+
+  const editProduct = async (id: string) => {
     try {
       let { data, ok } = await useRequest(
-        `/api/product/${editedProduct.id}`,
+        `/api/product/${id}`,
         "PUT",
-        editedProduct
+        id
       );
       if (ok) {
         return data;
