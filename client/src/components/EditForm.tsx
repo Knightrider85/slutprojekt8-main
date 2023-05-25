@@ -1,21 +1,20 @@
+import { useFormik } from "formik";
 import { useContext, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../data";
-import { ProductContext } from "../contexts/ProductContext";
-import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ProductContext, ProductData } from "../contexts/ProductContext";
 
 export function EditForm() {
-  const { handleSave, setEditingItem, editingItem } = useContext(ProductContext);
+  const { getAllProducts, addProduct, editProduct } = useContext(ProductContext);
 
   useEffect(() => {
-    if (!editingItem) {
+    if (!editProduct) {
       const storedItem = localStorage.getItem("selectedItem") ?? "{}";
-      const storedObj = JSON.parse(storedItem) as Product;
-      setEditingItem(storedObj);
-      formik.setFieldValue("image", storedObj.image);
-      formik.setFieldValue("title", storedObj.title);
+      const storedObj = JSON.parse(storedItem) as ProductData;
+      addProduct(storedObj);
+      formik.setFieldValue("image", storedObj.imageUrl);
+      formik.setFieldValue("title", storedObj.name);
       formik.setFieldValue("description", storedObj.description);
       formik.setFieldValue("price", storedObj.price);
     }
@@ -23,13 +22,16 @@ export function EditForm() {
 
   const navigate = useNavigate();
 
-  const formik = useFormik<Product>({
+  const formik = useFormik<ProductData>({
     initialValues: {
-      image: editingItem?.image ?? "",
-      title: editingItem?.title ?? "",
-      description: editingItem?.description ?? "",
-      price: editingItem?.price ?? "" as any,
+      imageUrl: editProduct?.imageUrl ?? "",
+      name: editProduct?.name ?? "",
+      description: editProduct?.description ?? "",
+      price: editProduct?.price ?? "" as any,
       id: "",
+      stock: editProduct?.stock ?? "" as any,
+      quantity: editProduct?.quantity ?? "" as any,
+      categories: editProduct?.categories ?? "",
     },
     validationSchema: Yup.object({
       image: Yup.string().url("Please enter a valid URL").required("Please include a URL-link."),
@@ -38,13 +40,17 @@ export function EditForm() {
       price: Yup.number().moreThan(0).required("Please set a price to the item."),
     }),
     onSubmit: (values) => {
-      if (!editingItem) return;
-      handleSave({
-        ...editingItem,
-        image: values.image,
-        title: values.title,
+      if (!editProduct) return;
+      getAllProducts({
+        ...editProduct,
+        imageUrl: values.imageUrl,
+        name: values.name,
         description: values.description,
         price: values.price,
+        id: values.id,
+        stock: values.stock, 
+        quantity: values.quantity,
+        categories: values.categories
       });
     },
   });
@@ -55,18 +61,18 @@ export function EditForm() {
         <Form.Label style={{ marginTop: "1rem" }}>Image</Form.Label>
         <Form.Control
           type="text"
-          value={formik.values.image}
+          value={formik.values.imageUrl}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          isInvalid={formik.touched.image && !!formik.errors.image}
+          isInvalid={formik.touched.imageUrl && !!formik.errors.imageUrl}
           data-cy="product-image"
         />
-          {formik.touched.image && formik.errors.image && (
+          {formik.touched.imageUrl && formik.errors.imageUrl && (
             <Form.Control.Feedback
               type="invalid"
               data-cy="product-image-error"
             >
-              {formik.errors.image}
+              {formik.errors.imageUrl}
             </Form.Control.Feedback>
           )}
       </Form.Group>
@@ -75,18 +81,18 @@ export function EditForm() {
         <Form.Label style={{ marginTop: "1rem" }}>Title</Form.Label>
         <Form.Control
           type="text"
-          value={formik.values.title}
+          value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          isInvalid={formik.touched.title && !!formik.errors.title}
+          isInvalid={formik.touched.name && !!formik.errors.name}
           data-cy="product-title"
         />
-          {formik.touched.title && formik.errors.title && (
+          {formik.touched.name && formik.errors.name && (
             <Form.Control.Feedback
               type="invalid"
               data-cy="product-title-error"
             >
-              {formik.errors.title}
+              {formik.errors.name}
             </Form.Control.Feedback>
           )}
       </Form.Group>
