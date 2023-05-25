@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext } from "react";
 import { Button, FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,7 @@ import * as Yup from "yup";
 import { ProductContext, ProductData, useProducts } from "../contexts/ProductContext";
 
 export function NewProductForm() {
-  const { addProduct, getAllProducts } = useProducts();
-  const [ imageID, setImageId] = useState<string>();
-  const [image, setImage] = useState();
-
+  const { addProduct, getAllProducts, uploadImage } = useProducts();
 
   const navigate = useNavigate();
   const { products: items } = useContext(ProductContext);
@@ -18,7 +15,7 @@ export function NewProductForm() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      imageUrl:'',
+      imageId:'',
       price: 0,
       description: "",
       stock: 0,
@@ -26,9 +23,7 @@ export function NewProductForm() {
       id: "",
     },
     validationSchema: Yup.object({
-      image: Yup.string()
-        .url("Please enter a valid URL")
-        .required("Please enter a URL"),
+      imageId: Yup.string().required("Please enter a URL"),
       title: Yup.string().required("Please enter a title"),
       description: Yup.string().required("Please enter a description"),
       price: Yup.number().moreThan(0)
@@ -42,7 +37,7 @@ export function NewProductForm() {
         let product: ProductData = {
         id: values.id,
         name: values.name,
-        imageUrl:values.imageUrl,
+        imageId: values.imageId,
         price: values.price,
         description: values.description,
         stock: values.stock,
@@ -59,28 +54,40 @@ export function NewProductForm() {
     getAllProducts();
   }
 
-
+  async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const imageId = await uploadImage(file);
+        formik.setFieldValue("imageId", imageId);
+      } catch (error) {
+        if (error instanceof Error) {
+          formik.setFieldError("imageId", error.message);
+        }
+      }
+    }
+  }
 
   return (
     <>
       <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
         <FloatingLabel controlId="image" label="Image URL" className="mb-3">
           <Form.Control
-            type="text"
-            placeholder="https://example.jpg"
+            type="file"
+            // placeholder="https://example.jpg"
             name="image"
-            value={formik.values.imageUrl}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            // value={formik.values.imageId}
+            onChange={handleUploadImage}
+            // onBlur={formik.handleBlur}
             data-cy="product-image"
-            isInvalid={formik.touched.imageUrl && !!formik.errors.imageUrl}
+            isInvalid={formik.touched.imageId && !!formik.errors.imageId}
           />
-          {formik.touched.imageUrl && formik.errors.imageUrl && (
+          {formik.touched.imageId && formik.errors.imageId && (
             <Form.Control.Feedback
               type="invalid"
               data-cy="product-image-error"
             >
-              {formik.errors.imageUrl}
+              {formik.errors.imageId}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>

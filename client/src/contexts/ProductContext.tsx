@@ -10,6 +10,7 @@ export interface ProductData {
   /*imageId?: string;*/
   stock: number;
   categories: string[];
+  imageId: string;
   imageUrl?: string;
   quantity:number
 }
@@ -21,8 +22,8 @@ interface ProductContext {
     removeProduct: (product: ProductData) => void,
     editProduct: (product: ProductData) => void, //
     addProduct: (product: ProductData) => void,
-    getAllProducts: () => Promise<any>;
-
+    getAllProducts: () => Promise<void>;
+    uploadImage: (file: File) => Promise<string>;
 }
 
 export const ProductContext = createContext<ProductContext>({
@@ -32,7 +33,8 @@ export const ProductContext = createContext<ProductContext>({
   addProduct: async () => {},
   removeProduct: async () => {},
   editProduct: () => {},
-  getAllProducts: async () => void [],
+  getAllProducts: async () => {},
+  uploadImage: async () => "",
 });
 
 export const ProductProvider: FC = (props: any) => {
@@ -83,10 +85,18 @@ export const ProductProvider: FC = (props: any) => {
     }
   };
   
+  const uploadImage = async (file: File) => {
+    // Ladda upp bild till API'et
+    const formData = new FormData();
+    formData.append("image", file);
+    const response = await fetch("/api/images", { method: "POST", body: formData });
+    const imageId = await response.json();
+    return imageId;
+  }
   
   return (
     <ProductContext.Provider
-      value={{ addProduct, removeProduct, editProduct, products, selectedProduct, setSelectedProduct, getAllProducts }}
+      value={{ addProduct, removeProduct, editProduct, products, selectedProduct, setSelectedProduct, getAllProducts, uploadImage }}
     >
       {props.children}
     </ProductContext.Provider>
