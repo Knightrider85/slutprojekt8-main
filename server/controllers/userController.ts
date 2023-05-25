@@ -63,7 +63,7 @@ export const signInUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Incorrect password' });
     }
 
-    req.session!.id = existingUser.id;
+    req.session!.userId = existingUser.id;
     req.session!.isAdmin = existingUser.isAdmin;
   
 
@@ -90,4 +90,59 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const checkAdmin = (req: Request, res: Response) => {
   const isAdmin = req.session?.isAdmin || false;
   res.json({ isAdmin });
+};
+
+//DELETE USER
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    console.log('Deleting user with userId:', userId);
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+    console.log('Deleted user:', deletedUser);
+
+    if (!deletedUser) {
+      console.log('User not found');
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    console.log('User deleted successfully');
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'An error occurred while deleting the user' });
+  }
+}
+
+// UPDATE THE USER´S isAdmin status
+export const updateUserAdminStatus = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { isAdmin } = req.body;
+
+    //find the user in the database based on the userId
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { isAdmin },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ message: 'User admin status updated successfully' });
+  } catch (error) {
+    console.error('Error updating the user admin status', error);
+    res.status(500).json({ error: 'An error occured while updating the user admin status' });
+  }
+}
+
+export const handleSignOutUser = (req: Request, res: Response) => {
+  // Remove the user-related information from the session
+  delete req.session!.userId;
+  delete req.session!.isAdmin;
+
+  // Send a response indicating successful sign-out
+  res.json({ message: "Sign-out successful" });
 };
