@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
+
 import { Navbar } from "./components/Navbar";
 import { NewProductForm } from "./components/NewProductForm";
 import { Footer } from "./components/footer/Footer";
