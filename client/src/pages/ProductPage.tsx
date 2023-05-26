@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CartItem, Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
-import { SizeSelect } from "../components/FilterSelect";
+import { FilterSelect } from "../components/FilterSelect";
 import { useProducts } from "../contexts/ProductContext";
 import { ToastCart } from "../components/ToastCart";
 import { useCart } from "../contexts/cartContext";
@@ -59,29 +59,29 @@ export function ProductPage() {
                 <Carousel.Item>
                   <img
                     className="w-100"
-                    src={product.image}
-                    alt={product.title}
+                    src={product.imageId}
+                    alt={product.name}
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
                     className="w-100"
-                    src={product.image}
-                    alt={product.title}
+                    src={product.imageId}
+                    alt={product.name}
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
                     className="w-100"
-                    src={product.image}
-                    alt={product.title}
+                    src={product.imageId}
+                    alt={product.name}
                   />
                 </Carousel.Item>
               </Carousel>{" "}
             </Col>
             <Col lg={6}>
               <ContentDetails>
-                <Title data-cy="product-title">{product.title}</Title>
+                <Title data-cy="product-title">{product.name}</Title>
                 <Description data-cy="product-description">
                   {product.description}
                 </Description>
@@ -89,10 +89,10 @@ export function ProductPage() {
                   Price: {product.price} SEK
                 </Styledp>
                 <div>
-                  <SizeSelect
-                    sizes={sizes}
-                    selectedSize={selectedSize}
-                    setSelectedSize={setSelectedSize}
+                  <FilterSelect
+                    filter={sizes}
+                    selectedOption={selectedSize}
+                    setSelectedOption={setSelectedSize}
                   />
                 </div>
                 <AddToCartButton
