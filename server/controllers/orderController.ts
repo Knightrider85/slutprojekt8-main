@@ -1,12 +1,9 @@
-import { Request, Response } from "express";
-import Order from "../models/orderModel"; 
-import router from "../routes/orderRoutes";
+import Order from "../models/orderModel";
+import { Request, Response } from 'express';
 
-// POST new order
-// orderController.js
 
 // Controller method for submitting an order
-export const addOrder = async (req, res) => {
+export const addOrder = async (req: Request, res: Response) => {
   try {
     const { userId, products, totalCost, name, address, city, zip, email, phone } = req.body;
 
@@ -27,7 +24,7 @@ export const addOrder = async (req, res) => {
     // Save the order to the database
     const savedOrder = await order.save();
     console.log('Order saved:', savedOrder);
-    
+
     res.status(201).json({ message: 'Order submitted successfully' });
   } catch (error) {
     console.error('Error submitting order:', error);
@@ -36,7 +33,7 @@ export const addOrder = async (req, res) => {
 };
 
 // Controller method for retrieving all orders
-export const getOrders = async (req, res) => {
+export const getOrders = async (req: Request, res: Response) => {
   try {
     // Retrieve all orders from the database
     const orders = await Order.find();
@@ -47,7 +44,3 @@ export const getOrders = async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve orders' });
   }
 };
-
-
-
-export default router;
