@@ -1,16 +1,18 @@
 import express from "express";
 import { addOrder, getOrderById, getOrders, updateOrder } from "../controllers/orderController";
+import authMiddleware from "../middlewares/orderMiddlewear";
 
-const router = express.Router();
 
-router.get("/order/:id", (req, res) => {
-  const orderId = req.params.id;
-  res.send(`Order Page - ID: ${orderId}`);
-});
+const orderRouter = express.Router();
 
-router.post("/api/orders", addOrder);
-router.put("/api/orders/:id", updateOrder);
-router.get("/api/orders/all", getOrders);
-router.get("/api/orders", getOrderById);
+// router.get("/order/:id", (req, res) => {
+//   const orderId = req.params.id;
+//   res.send(`Order Page - ID: ${orderId}`);
+// });
 
-export default router;
+orderRouter.post("/api/orders", addOrder, authMiddleware);
+orderRouter.put("/api/orders/:id", updateOrder);
+orderRouter.get("/api/orders/all", getOrders);
+orderRouter.get("/api/orders", getOrderById);
+
+export default orderRouter;

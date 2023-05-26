@@ -1,72 +1,53 @@
 import { Request, Response } from "express";
-import Order from "../models/orderModel"; // Add this import statement to import the Order model
+import Order from "../models/orderModel"; 
 import router from "../routes/orderRoutes";
 
 // POST new order
-export const addOrder = async (req: Request, res: Response) => {
+// orderController.js
+
+// Controller method for submitting an order
+export const addOrder = async (req, res) => {
   try {
-    const {
-      orderNumber,
+    const { userId, products, totalCost, name, address, city, zip, email, phone } = req.body;
+
+    // Create a new order
+    const order = new Order({
+      userId,
       products,
-      customerId,
-      deliveryAddress,
-      isShipped,
-      shippingPrice,
-      createdAt,
-    } = req.body;
-    if (orderNumber && orderNumber.length === 0) {
-      res.status(400).send({ message: "No order items" });
-    } else {
-      const order = new Order({
-        orderNumber,
-        products,
-        customerId,
-        deliveryAddress,
-        isShipped,
-        shippingPrice,
-        createdAt,
-      });
-      const createdOrder = await order.save();
-      res
-        .status(201)
-        .send({ message: "New Order Created", order: createdOrder });
-    }
+      totalCost,
+      name,
+      address,
+      city,
+      zip,
+      email,
+      phone,
+      isShipped: false,
+    });
+
+    // Save the order to the database
+    const savedOrder = await order.save();
+    console.log('Order saved:', savedOrder);
+    
+    res.status(201).json({ message: 'Order submitted successfully' });
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    console.error('Error submitting order:', error);
+    res.status(500).json({ message: 'Failed to submit order' });
   }
 };
 
-// PUT update order
-export const updateOrder = async (req: Request, res: Response) => {
+// Controller method for retrieving all orders
+export const getOrders = async (req, res) => {
   try {
-    const orderId = req.params.id;
+    // Retrieve all orders from the database
+    const orders = await Order.find();
+
+    res.status(200).json(orders);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    console.error('Error retrieving orders:', error);
+    res.status(500).json({ message: 'Failed to retrieve orders' });
   }
 };
 
-// GET Admin get all orders
-export const getOrders = async (req: Request, res: Response) => {
-  try {
-    const orders = await Order.find({});
-    res.send(orders);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
 
-// GET order by id
-export const getOrderById = async (req: Request, res: Response) => {
-  try {
-    const order = await Order.findById(req.params.id);
-    if (order) {
-      res.send(order);
-    } else {
-      res.status(404).send({ message: "Order Not Found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
 
 export default router;
