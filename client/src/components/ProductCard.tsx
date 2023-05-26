@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartItem, Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
-import { SizeSelect } from "./SizeSelect";
+import { FilterSelect } from "./FilterSelect";
 
 interface ProductCardProps {
   product: Product;
@@ -12,7 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);//here is where the context is beeing used//dv
+  const { addToCart } = useContext(CartContext); //here is where the context is beeing used//dv
   const sizes = ["37", "38", "39", "40", "41", "42", "43", "44", "45", "46"];
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [quantity, setQuantity] = useState(1);
@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleAddToCart = () => {
-    const cartItem: CartItem = { ...product, size: selectedSize, quantity }
+    const cartItem: CartItem = { ...product, size: selectedSize, quantity };
     addToCart(cartItem);
     setQuantity(1);
     setSelectedSize(sizes[0]);
@@ -61,8 +61,8 @@ export function ProductCard({ product }: ProductCardProps) {
               </Card.Text>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <SizeSelect
-                sizes={sizes}
+              <FilterSelect
+                filter={sizes}
                 selectedOption={selectedSize}
                 setSelectedOption={setSelectedSize}
               />

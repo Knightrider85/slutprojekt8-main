@@ -1,11 +1,10 @@
-
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
   stock: number;
-  categories: string[];
+  category: string;
   quantity: number;
   imageUrl?: string;
   size?: string;
@@ -16,7 +15,6 @@ export interface CartItem extends Product {
   size: string;
 }
 
-
 /**
  * function that returns a unique Id, both numbers and letters
  */
@@ -26,7 +24,6 @@ export const generateId = () => {
     .substring(1);
   return newId;
 };
-
 
 /* 
 export const products: Product[] = [

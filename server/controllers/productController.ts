@@ -1,9 +1,18 @@
-import { Request, Response } from 'express';
-import Product, { IProduct } from '../models/productModel';
+import { Request, Response } from "express";
+import Product, { IProduct } from "../models/productModel";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const { productId, name, description, price, image, stock, categories } = req.body;
+    const {
+      productId,
+      name,
+      description,
+      price,
+      image,
+      stock,
+      category,
+      color,
+    } = req.body;
 
     const product: IProduct = new Product({
       productId,
@@ -12,15 +21,18 @@ export const addProduct = async (req: Request, res: Response) => {
       price,
       image,
       stock,
-      categories,
+      category,
+      color,
     });
 
     await product.save();
 
-    res.status(201).json({ message: 'Product created successfully', product });
+    res.status(201).json({ message: "Product created successfully", product });
   } catch (error) {
-    console.error('Error creating product:', error);
-    res.status(500).json({ error: 'An error occurred while creating the product' });
+    console.error("Error creating product:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the product" });
   }
 };
 
@@ -31,13 +43,15 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const deletedProduct = await Product.findOneAndDelete({ productId });
 
     if (!deletedProduct) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    res.json({ message: 'Product deleted successfully' });
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
-    console.error('Error deleting product:', error);
-    res.status(500).json({ error: 'An error occurred while deleting the product' });
+    console.error("Error deleting product:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the product" });
   }
 };
 
@@ -53,16 +67,20 @@ export const updateProduct = async (req: Request, res: Response) => {
     );
 
     if (!updatedProduct) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ error: "Product not found" });
     }
 
-    res.json({ message: 'Product updated successfully', product: updatedProduct });
+    res.json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
   } catch (error) {
-    console.error('Error updating product:', error);
-    res.status(500).json({ error: 'An error occurred while updating the product' });
+    console.error("Error updating product:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the product" });
   }
 };
-
 
 // Get all products
 
@@ -71,9 +89,9 @@ export const getAllProducts = async (req: Request, res: Response) => {
     const products = await Product.find();
     res.json({ products });
   } catch (error) {
-    console.error('Error getting products:', error);
-    res.status(500).json({ error: 'An error occurred while getting the products' });
+    console.error("Error getting products:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while getting the products" });
   }
 };
-
-

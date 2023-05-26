@@ -1,18 +1,38 @@
 import { useFormik } from "formik";
-import { ChangeEvent, useContext } from "react";
+import { useContext } from "react";
 import { Button, FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-import { ProductContext, ProductData, useProducts } from "../contexts/ProductContext";
+import {
+  ProductContext,
+  ProductData,
+  useProducts,
+} from "../contexts/ProductContext";
 
 export function NewProductForm() {
-  const { addProduct, getAllProducts, uploadImage, editProduct } = useProducts();
+  const { addProduct, getAllProducts, /* uploadImage, */ editProduct } =
+    useProducts();
+  const colors = [
+    "White",
+    "Black",
+    "Red",
+    "Yellow",
+    "Green",
+    "Blue",
+    "Purpule",
+    "Orange",
+  ];
+  const category = [
+    "Sandals",
+    "Sneakers",
+    "Boots",
+    "Hikingshoes",
+    "Flipflops",
+    "Running",
+  ];
 
-  const navigate = useNavigate();
   const { products: items } = useContext(ProductContext);
-  console.log("");
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +42,7 @@ export function NewProductForm() {
       price: 0,
       description: "",
       stock: 0,
-      categories: [""],
+      category: "",
       id: "",
     },
 
@@ -36,10 +56,12 @@ export function NewProductForm() {
       stock: Yup.number()
         .moreThan(0, "Please enter a number")
         .required("Please enter a quantity"),
-      categories: Yup.string().required("Please enter a category"),
+      category: Yup.string().required("Please enter a category"),
+      color: Yup.string().required("Please select a color"),
     }),
 
     onSubmit: (values) => {
+      console.log("hello");
       const product: ProductData = {
         id: values.id,
         name: values.name,
@@ -47,36 +69,24 @@ export function NewProductForm() {
         price: values.price,
         description: values.description,
         stock: values.stock,
-        categories: values.categories,
+        category: values.category,
         quantity: values.stock,
         color: values.color,
       };
 
       formik.resetForm();
 
-      if (editProduct) {
-        console.log(product);
-        editProduct(product.id);
-      } else {
-        console.log(product);
-        addProduct(product);
-      }
+      /*       if (editProduct) {
+        console.log("trying to edit product, called edit from context");
+        editProduct(product);
+      } else { */
+      console.log("trying to add product, called add from context");
+      addProduct(product);
+      /*       } */
     },
   });
 
-  async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) {
-      try {
-        const imageId = await uploadImage(file);
-        formik.setFieldValue("imageId", imageId);
-      } catch (error) {
-        if (error instanceof Error) {
-          formik.setFieldError("imageId", error.message);
-        }
-      }
-
-  async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
+  /*   async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
       try {
@@ -89,7 +99,7 @@ export function NewProductForm() {
       }
     }
   }
-
+ */
   return (
     <>
       <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
@@ -99,16 +109,13 @@ export function NewProductForm() {
             // placeholder="https://example.jpg"
             name="image"
             // value={formik.values.imageId}
-            onChange={handleUploadImage}
+            /* onChange={handleUploadImage} */
             // onBlur={formik.handleBlur}
             data-cy="product-image"
             isInvalid={formik.touched.imageId && !!formik.errors.imageId}
           />
           {formik.touched.imageId && formik.errors.imageId && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-image-error"
-            >
+            <Form.Control.Feedback type="invalid" data-cy="product-image-error">
               {formik.errors.imageId}
             </Form.Control.Feedback>
           )}
@@ -126,10 +133,7 @@ export function NewProductForm() {
             isInvalid={formik.touched.name && !!formik.errors.name}
           />
           {formik.touched.name && formik.errors.name && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-name-error"
-            >
+            <Form.Control.Feedback type="invalid" data-cy="product-name-error">
               {formik.errors.name}
             </Form.Control.Feedback>
           )}
@@ -160,21 +164,20 @@ export function NewProductForm() {
 
         <FloatingLabel controlId="price" label="Product price">
           <Form.Control
-            style={{ marginTop: '1rem'}}
+            style={{ marginTop: "1rem" }}
             type="text"
             placeholder="Set a price for the product"
             name="price"
             value={formik.values.price}
-            onChange={(e) => formik.setFieldValue("price", Number(e.target.value))}
+            onChange={(e) =>
+              formik.setFieldValue("price", Number(e.target.value))
+            }
             onBlur={formik.handleBlur}
             data-cy="product-price"
             isInvalid={formik.touched.price && !!formik.errors.price}
           />
           {formik.touched.price && formik.errors.price && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-price-error"
-            >
+            <Form.Control.Feedback type="invalid" data-cy="product-price-error">
               {formik.errors.price}
             </Form.Control.Feedback>
           )}
@@ -182,54 +185,80 @@ export function NewProductForm() {
 
         <FloatingLabel controlId="stock" label="Amount in Stock">
           <Form.Control
-            style={{ marginTop: '1rem'}}
+            style={{ marginTop: "1rem" }}
             type="text"
             placeholder="Set how many in stock"
             name="stock"
             value={formik.values.stock}
-            onChange={(e) => formik.setFieldValue("stock", Number(e.target.value))}
+            onChange={(e) =>
+              formik.setFieldValue("stock", Number(e.target.value))
+            }
             onBlur={formik.handleBlur}
             data-cy="product-stock"
             isInvalid={formik.touched.stock && !!formik.errors.stock}
           />
           {formik.touched.stock && formik.errors.stock && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-stock-error"
-            >
+            <Form.Control.Feedback type="invalid" data-cy="product-stock-error">
               {formik.errors.stock}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>
 
-        <FloatingLabel controlId="price" label="Product price">
-          <Form.Control
-            style={{ marginTop: '1rem'}}
-            type="text"
-            placeholder="Set a price for the product"
-            name="price"
-            value={formik.values.price}
-            onChange={(e) => formik.setFieldValue("price", Number(e.target.value))}
+        <FloatingLabel controlId="color" label="Color" className="mb-3">
+          <Form.Select
+            style={{ marginTop: "1rem" }}
+            name="color"
+            value={formik.values.color}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            data-cy="product-price"
-            isInvalid={formik.touched.price && !!formik.errors.price}
-          />
-          {formik.touched.price && formik.errors.price && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-price-error"
-            >
-              {formik.errors.price}
+            data-cy="product-color"
+            isInvalid={formik.touched.color && !!formik.errors.color}
+          >
+            <option>Select a color</option>
+            {colors.map((color, index) => (
+              <option key={index} value={color}>
+                {color}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.color && formik.errors.color && (
+            <Form.Control.Feedback type="invalid" data-cy="product-color-error">
+              {formik.errors.color}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>
 
-        <Button type="submit" onClick={() => {formik.submitForm, console.log("hello now a product should be submitted")}} style={{ marginTop: '1rem'}}>Create product</Button>
+        <FloatingLabel controlId="category" label="category" className="mb-3">
+          <Form.Select
+            style={{ marginTop: "1rem" }}
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            data-cy="product-category"
+            isInvalid={formik.touched.category && !!formik.errors.category}
+          >
+            <option>Select a category</option>
+            {category.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.category && formik.errors.category && (
+            <Form.Control.Feedback
+              type="invalid"
+              data-cy="product-category-error"
+            >
+              {formik.errors.category}
+            </Form.Control.Feedback>
+          )}
+        </FloatingLabel>
+
+        <Button type="submit" style={{ marginTop: "1rem" }}>
+          Create product
+        </Button>
       </Form>
-{/*       <StepUpProduct/> */}
-          
-      
     </>
   );
 }
-  }
