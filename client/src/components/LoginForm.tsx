@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Formik, Form as FormikForm } from "formik";
-import React from "react";
-import { Container } from "react-bootstrap";
+import { useState } from "react";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 import * as Yup from "yup";
 
 const initialValues = {
@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginForm() {
-  const [loginError, setLoginError] = React.useState<string>("");
+  const [loginError, setLoginError] = useState<string>("");
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     console.log("Form values:", values); // Log form values
@@ -51,11 +51,9 @@ function LoginForm() {
         onSubmit={handleSubmit}
       >
         {({ handleSubmit }) => (
-          <FormikForm onSubmit={handleSubmit}>
+          <Form as={FormikForm} onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
+              <Form.Label>Email</Form.Label>
               <Field
                 type="email"
                 id="email"
@@ -69,9 +67,7 @@ function LoginForm() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
+              <Form.Label>Password</Form.Label>
               <Field
                 type="password"
                 id="password"
@@ -83,14 +79,12 @@ function LoginForm() {
                 component="div"
                 className="text-danger"
               />
-              {loginError && ( // Visa felmeddelande
-                <div className="text-danger">{loginError}</div>
-              )}
+              {loginError && <Alert variant="danger">{loginError}</Alert>}
             </div>
-            <button type="submit" className="btn btn-primary">
+            <Button type="submit" variant="primary">
               Sign In
-            </button>
-          </FormikForm>
+            </Button>
+          </Form>
         )}
       </Formik>
     </Container>
