@@ -3,7 +3,8 @@ import { addOrder, getOrders } from "../controllers/orderController";
 
 const router = express.Router();
 
-router.post("/order", addOrder);
-router.get("/orders", getOrders);
+router.post("/api/order", addOrder);
+// router.get("/api/orders", getOrders);
+router.get("/api/orders/all", getOrders);
 
 export default router;

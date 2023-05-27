@@ -61,16 +61,18 @@ function StepUpAdmin() {
       .catch((error) => console.error("Error updating admin status:", error));
   };
 
-  const getOrders = () => {
-    fetch("/api/orders")
-      .then((response) => response.json())
-      .then((data) => {
-        setOrders(data);
-      })
-      .catch((error) => console.error("Error fetching orders:", error));
-  };
-
   useEffect(() => {
+    // Fetch all orders from server
+    const getOrders = () => {
+      fetch("/api/orders/all")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched orders:", data);
+          setOrders(data);
+        })
+        .catch((error) => console.error("Error fetching orders:", error));
+    };
+
     if (showModal) {
       getOrders();
     }
@@ -92,7 +94,7 @@ function StepUpAdmin() {
                 <p>Email: {user.email}</p>
                 <p>Phone: {user.phone}</p>
                 <p>Address: {user.address}</p>
-                {/* <p>isAdmin: {user.isAdmin.toString()}</p> */}
+                <p>isAdmin: {user.isAdmin.toString()}</p>
                 {/* Render additional user information here */}
                 <Button
                   variant="danger"
