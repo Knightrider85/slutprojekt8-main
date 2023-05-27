@@ -34,8 +34,8 @@ export function OrderProvider({ children }: PropsWithChildren) {
   const setOrderDetails = (values: Partial<OrderDetails>) => {
     const item = cartItems.map((cartItem) => (
       <div style={{ padding: '1rem', }}>
-        <img src={cartItem.image} style={{ width: '5rem'}} />
-        <div>{cartItem.title}</div>
+        <img src={cartItem.imageUrl} style={{ width: '5rem'}} />
+        <div>{cartItem.name}</div>
         <div>{cartItem.price + ' kr'}</div>
       </div>
     ));

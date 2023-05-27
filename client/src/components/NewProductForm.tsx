@@ -2,91 +2,139 @@ import { useFormik } from "formik";
 import { useContext } from "react";
 import { Button, FloatingLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { Product, generateId } from "../../data";
-import { ProductContext } from "../contexts/ProductContext";
+
+import {
+  ProductContext,
+  ProductData,
+  useProducts,
+} from "../contexts/ProductContext";
 
 export function NewProductForm() {
-  const navigate = useNavigate();
-  const { products: items, setProducts: setItems } = useContext(ProductContext);
+  const { addProduct, getAllProducts, /* uploadImage, */ editProduct } =
+    useProducts();
+  const colors = [
+    "White",
+    "Black",
+    "Red",
+    "Yellow",
+    "Green",
+    "Blue",
+    "Purpule",
+    "Orange",
+  ];
+  const category = [
+    "Sandals",
+    "Sneakers",
+    "Boots",
+    "Hikingshoes",
+    "Flipflops",
+    "Running",
+  ];
 
-  const formik = useFormik<Product>({
+  const { products: items } = useContext(ProductContext);
+
+  const formik = useFormik({
     initialValues: {
-      image: "",
-      Color:"",
-      title: "",
+      name: "",
+      color: "",
+      imageId: "",
+      price: 0,
       description: "",
-      price: "" as any,
+      stock: 0,
+      category: "",
       id: "",
     },
+
     validationSchema: Yup.object({
-      image: Yup.string()
-        .url("Please enter a valid URL")
-        .required("Please enter a URL"),
-      title: Yup.string().required("Please enter a title"),
+      //imageId: Yup.object().required(),
+      name: Yup.string().required("Please enter a title"),
       description: Yup.string().required("Please enter a description"),
-      price: Yup.number().moreThan(0)
-        .typeError("Please enter a number")
+      price: Yup.number()
+        .moreThan(0, "Please enter a number")
         .required("Please enter a price"),
+      stock: Yup.number()
+        .moreThan(0, "Please enter a number")
+        .required("Please enter a quantity"),
+      category: Yup.string().required("Please enter a category"),
+      color: Yup.string().required("Please select a color"),
     }),
-    onSubmit: (values, { resetForm }) => {
-      const id = generateId();
-      const newProduct = { ...values, id };
-      updateLocalStorage(newProduct);
-      resetForm();
-      navigate("/admin");
+
+    onSubmit: (values) => {
+      console.log("hello");
+      const product: ProductData = {
+        id: values.id,
+        name: values.name,
+        imageId: values.imageId,
+        price: values.price,
+        description: values.description,
+        stock: values.stock,
+        category: values.category,
+        quantity: values.stock,
+        color: values.color,
+      };
+
+      formik.resetForm();
+
+      /*       if (editProduct) {
+        console.log("trying to edit product, called edit from context");
+        editProduct(product);
+      } else { */
+      console.log("trying to add product, called add from context");
+      addProduct(product);
+      /*       } */
     },
   });
 
-  const updateLocalStorage = (newProduct: Product) => {
-    const updatedProducts = structuredClone(items);
-    updatedProducts.push(newProduct);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
-    setItems(updatedProducts);
-  };
-
+  /*   async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const imageId = await uploadImage(file);
+        formik.setFieldValue("imageId", imageId);
+      } catch (error) {
+        if (error instanceof Error) {
+          formik.setFieldError("imageId", error.message);
+        }
+      }
+    }
+  }
+ */
   return (
     <>
       <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
-        <FloatingLabel controlId="image" label="Image URL" className="mb-3">
+        <FloatingLabel controlId="image" label="Image" className="mb-3">
           <Form.Control
-            type="text"
-            placeholder="https://example.jpg"
+            type="file"
+            // placeholder="https://example.jpg"
             name="image"
-            value={formik.values.image}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            // value={formik.values.imageId}
+            /* onChange={handleUploadImage} */
+            // onBlur={formik.handleBlur}
             data-cy="product-image"
-            isInvalid={formik.touched.image && !!formik.errors.image}
+            isInvalid={formik.touched.imageId && !!formik.errors.imageId}
           />
-          {formik.touched.image && formik.errors.image && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-image-error"
-            >
-              {formik.errors.image}
+          {formik.touched.imageId && formik.errors.imageId && (
+            <Form.Control.Feedback type="invalid" data-cy="product-image-error">
+              {formik.errors.imageId}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>
 
-        <FloatingLabel controlId="title" label="Product title" className="mb-3">
+        <FloatingLabel controlId="name" label="Product name" className="mb-3">
           <Form.Control
             type="text"
             placeholder="Example"
-            name="title"
-            value={formik.values.title}
+            name="name"
+            value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             data-cy="product-title"
-            isInvalid={formik.touched.title && !!formik.errors.title}
+            isInvalid={formik.touched.name && !!formik.errors.name}
           />
-          {formik.touched.title && formik.errors.title && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-title-error"
-            >
-              {formik.errors.title}
+          {formik.touched.name && formik.errors.name && (
+            <Form.Control.Feedback type="invalid" data-cy="product-name-error">
+              {formik.errors.name}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>
@@ -116,27 +164,100 @@ export function NewProductForm() {
 
         <FloatingLabel controlId="price" label="Product price">
           <Form.Control
-            style={{ marginTop: '1rem'}}
+            style={{ marginTop: "1rem" }}
             type="text"
             placeholder="Set a price for the product"
             name="price"
             value={formik.values.price}
-            onChange={(e) => formik.setFieldValue("price", Number(e.target.value))}
+            onChange={(e) =>
+              formik.setFieldValue("price", Number(e.target.value))
+            }
             onBlur={formik.handleBlur}
             data-cy="product-price"
             isInvalid={formik.touched.price && !!formik.errors.price}
           />
           {formik.touched.price && formik.errors.price && (
-            <Form.Control.Feedback
-              type="invalid"
-              data-cy="product-price-error"
-            >
+            <Form.Control.Feedback type="invalid" data-cy="product-price-error">
               {formik.errors.price}
             </Form.Control.Feedback>
           )}
         </FloatingLabel>
 
-        <Button type="submit" style={{ marginTop: '1rem'}}>Create product</Button>
+        <FloatingLabel controlId="stock" label="Amount in Stock">
+          <Form.Control
+            style={{ marginTop: "1rem" }}
+            type="text"
+            placeholder="Set how many in stock"
+            name="stock"
+            value={formik.values.stock}
+            onChange={(e) =>
+              formik.setFieldValue("stock", Number(e.target.value))
+            }
+            onBlur={formik.handleBlur}
+            data-cy="product-stock"
+            isInvalid={formik.touched.stock && !!formik.errors.stock}
+          />
+          {formik.touched.stock && formik.errors.stock && (
+            <Form.Control.Feedback type="invalid" data-cy="product-stock-error">
+              {formik.errors.stock}
+            </Form.Control.Feedback>
+          )}
+        </FloatingLabel>
+
+        <FloatingLabel controlId="color" label="Color" className="mb-3">
+          <Form.Select
+            style={{ marginTop: "1rem" }}
+            name="color"
+            value={formik.values.color}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            data-cy="product-color"
+            isInvalid={formik.touched.color && !!formik.errors.color}
+          >
+            <option>Select a color</option>
+            {colors.map((color, index) => (
+              <option key={index} value={color}>
+                {color}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.color && formik.errors.color && (
+            <Form.Control.Feedback type="invalid" data-cy="product-color-error">
+              {formik.errors.color}
+            </Form.Control.Feedback>
+          )}
+        </FloatingLabel>
+
+        <FloatingLabel controlId="category" label="category" className="mb-3">
+          <Form.Select
+            style={{ marginTop: "1rem" }}
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            data-cy="product-category"
+            isInvalid={formik.touched.category && !!formik.errors.category}
+          >
+            <option>Select a category</option>
+            {category.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </Form.Select>
+          {formik.touched.category && formik.errors.category && (
+            <Form.Control.Feedback
+              type="invalid"
+              data-cy="product-category-error"
+            >
+              {formik.errors.category}
+            </Form.Control.Feedback>
+          )}
+        </FloatingLabel>
+
+        <Button type="submit" style={{ marginTop: "1rem" }}>
+          Create product
+        </Button>
       </Form>
     </>
   );

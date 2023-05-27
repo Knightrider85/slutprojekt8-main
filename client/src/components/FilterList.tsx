@@ -1,49 +1,62 @@
 import Accordion from "react-bootstrap/esm/Accordion";
-import { SizeSelect } from "./SizeSelect";
-import styled from "styled-components";
+import { FilterSelect } from "./FilterSelect";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-interface FilterListProps {
-  sizes: string[];
-  colors: string[];
-  brands: string[];
-  label: string;
-  setSelectedOption: Dispatch<SetStateAction<string>>;
-  SelectedOption: string;
-}
-
-export default function FilterList({ sizes, colors, brands, label }: FilterListProps) {
+export default function FilterList() {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+
+  const price = ["Lowest to Highest", "Highest to Lowest"];
+
+  const colors = [
+    "None",
+    "White",
+    "Black",
+    "Red",
+    "Yellow",
+    "Green",
+    "Blue",
+    "Purpule",
+    "Orange",
+  ];
+  const category = [
+    "None",
+    "Sandals",
+    "Sneakers",
+    "Boots",
+    "Hikingshoes",
+    "Flipflops",
+    "Running",
+  ];
 
   return (
     <>
       <Accordion>
         <Accordion.Item eventKey="0">
-          <Accordion.Header>{label}</Accordion.Header>
+          <Accordion.Header>{"Filterar efter"}</Accordion.Header>
           <Accordion.Body>
-            <SizeSelect
-              sizes={sizes}
+            <FilterSelect
+              filter={price}
               selectedOption={selectedSize}
               setSelectedOption={setSelectedSize}
             />
           </Accordion.Body>
           <Accordion.Body>
             <label htmlFor="">Color:</label>
-            <SizeSelect
+            <FilterSelect
               showLabel={false}
-              sizes={colors}
+              filter={colors}
               selectedOption={selectedColor}
               setSelectedOption={setSelectedColor}
             />
           </Accordion.Body>
           <Accordion.Body>
-            <label htmlFor="">Brand:</label>
-            <SizeSelect
+            <label htmlFor="">Category:</label>
+            <FilterSelect
               showLabel={false}
-              sizes={brands}
+              filter={category}
               selectedOption={selectedBrand}
               setSelectedOption={setSelectedBrand}
             />

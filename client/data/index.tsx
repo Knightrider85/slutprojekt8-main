@@ -1,15 +1,18 @@
 export interface Product {
   id: string;
-  image: string;
-  title: string;
+  name: string;
   description: string;
   price: number;
+  stock: number;
+  category: string;
+  quantity: number;
+  imageUrl?: string;
   size?: string;
-  Color: string;
+  color: string;
 }
 
 export interface CartItem extends Product {
-  quantity: number;
+  size: string;
 }
 
 /**
@@ -22,8 +25,7 @@ export const generateId = () => {
   return newId;
 };
 
-
-
+/* 
 export const products: Product[] = [
   {
     image:
@@ -116,3 +118,4 @@ export const products: Product[] = [
     Color: 'Black',
   },
 ];
+ */

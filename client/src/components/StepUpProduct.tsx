@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
-import CreateProductForm from "./CreateProduct";
 import { IProduct } from "../../../server/models/productModel";
 
 function StepUpProduct() {
@@ -58,7 +57,6 @@ function StepUpProduct() {
 
   return (
     <>
-      <CreateProductForm />
       <Accordion>
         {products.map((product, index) => (
           <Accordion.Item key={product._id} eventKey={index.toString()}>

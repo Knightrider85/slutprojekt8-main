@@ -1,0 +1,37 @@
+# prepping for rest testing
+
+
+### Add Product
+POST http:///localhost:5000/api/products/product
+Content-Type: application/json
+
+{
+  "productId": "<PRODUCT_ID>",
+  "name": "<PRODUCT_NAME>",
+  "description": "<PRODUCT_DESCRIPTION>",
+  "price": <PRODUCT_PRICE>,
+  "image": "<PRODUCT_IMAGE_URL>",
+  "stock": <PRODUCT_STOCK>,
+  "category": "<PRODUCT_CATEGORY>",
+  "color": "<PRODUCT_COLOR>"
+}
+
+### Delete Product
+DELETE http://<YOUR_SERVER_URL>/product/<PRODUCT_ID>
+
+### Update Product
+PUT http://<YOUR_SERVER_URL>/product/<PRODUCT_ID>
+Content-Type: application/json
+
+{
+  "name": "<UPDATED_PRODUCT_NAME>",
+  "description": "<UPDATED_PRODUCT_DESCRIPTION>",
+  "price": <UPDATED_PRODUCT_PRICE>,
+  "image": "<UPDATED_PRODUCT_IMAGE_URL>",
+  "stock": <UPDATED_PRODUCT_STOCK>,
+  "category": "<UPDATED_PRODUCT_CATEGORY>",
+  "color": "<UPDATED_PRODUCT_COLOR>"
+}
+
+### Get All Products
+GET http://<YOUR_SERVER_URL>/products

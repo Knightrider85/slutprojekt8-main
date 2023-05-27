@@ -1,10 +1,9 @@
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import { EditForm } from "./components/EditForm";
+
 import { Navbar } from "./components/Navbar";
 import { NewProductForm } from "./components/NewProductForm";
 import { Footer } from "./components/footer/Footer";
-import { Admin } from "./pages/Admin";
 import { CartPage } from "./pages/Checkout";
 import { ConfirmationPage } from "./pages/ConfirmationPage";
 import { CreateUserPage } from "./pages/CreateUserPage";
@@ -12,7 +11,6 @@ import { FAQ } from "./pages/FAQ";
 import { Home } from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import { ProductPage } from "./pages/ProductPage";
-import CreateProductForm from "./components/CreateProduct";
 
 export default function App() {
   return (
@@ -32,20 +30,20 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/admin/product?/:productid?/:editItem?"
-              element={<Admin />}
+              element={<NewProductForm />}
             />
             <Route path="/admin/product/new" element={<NewProductForm />} />
             <Route
               path="/admin/product/editItem/:productid"
-              element={<EditForm />}
+              element={<NewProductForm />}
             />
             <Route path="/FAQ" element={<FAQ />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
-            <Route path="/users" element={<CreateUserPage />} />
 
+            <Route path="/users" element={<CreateUserPage />} />
 
           </Routes>
         </Container>
