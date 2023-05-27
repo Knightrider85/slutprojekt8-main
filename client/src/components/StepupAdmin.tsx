@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Modal } from "react-bootstrap";
+import { IOrder } from "../../../server/models/orderModel";
 import { IUser } from "../../../server/models/userModel";
 
 function StepUpAdmin() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
   const [showModal, setShowModal] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
 
   useEffect(() => {
     // Fetch users from the server
@@ -91,7 +92,9 @@ function StepUpAdmin() {
                 <p>Email: {user.email}</p>
                 <p>Phone: {user.phone}</p>
                 <p>Address: {user.address}</p>
-                <p>isAdmin: {user.isAdmin.toString()}</p>
+                <p>City: {user.city}</p>
+                <p>Zip: {user.zip}</p>
+                {/* <p>isAdmin: {user.isAdmin.toString()}</p> */}
                 {/* Render additional user information here */}
                 <Button
                   variant="danger"
