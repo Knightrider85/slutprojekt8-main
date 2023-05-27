@@ -92,8 +92,6 @@ function StepUpAdmin() {
                 <p>Email: {user.email}</p>
                 <p>Phone: {user.phone}</p>
                 <p>Address: {user.address}</p>
-                <p>City: {user.city}</p>
-                <p>Zip: {user.zip}</p>
                 {/* <p>isAdmin: {user.isAdmin.toString()}</p> */}
                 {/* Render additional user information here */}
                 <Button
