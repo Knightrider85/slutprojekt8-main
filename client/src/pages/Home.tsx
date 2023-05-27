@@ -12,34 +12,24 @@ export function Home() {
   const { cartItems } = useCart();
   const { products } = useProducts();
   const [showToast, setShowToast] = useState(false);
-  const [lastAddedProduct, setLastAddedProduct] = useState<Product | null>(null);
-  const sizes = ["Small", "Medium", "Large"];
-  const [selectedSize, setSelectedSize] = useState("");
-  const colors = ["Red", "Blue", "Green"];
-  const brands = ['Adidas', 'Nike', 'Puma' ]
+  const [lastAddedProduct, setLastAddedProduct] = useState<Product | null>(
+    null
+  );
 
   useEffect(() => {
-  const newProduct = cartItems[cartItems.length - 1];
-     if (newProduct) {
-       setLastAddedProduct(newProduct);
-       setShowToast(true);
-       setTimeout(() => setShowToast(false), 5000);
-     }
-   }, [cartItems]);
+    const newProduct = cartItems[cartItems.length - 1];
+    if (newProduct) {
+      setLastAddedProduct(newProduct);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 5000);
+    }
+  }, [cartItems]);
 
   return (
     <main>
       <div>
-        <Heading>Welcome to StepUp</Heading>    
-        <FilterList
-          sizes={sizes}
-          SelectedOption={selectedSize}
-          setSelectedOption={setSelectedSize}
-          colors={colors}
-          brands={brands}
-          label="Filterar efter"
-          />
-
+        <Heading>Welcome to StepUp</Heading>
+        <FilterList />
       </div>
       {showToast && lastAddedProduct && (
         <ToastCart
@@ -71,4 +61,3 @@ const Heading = styled.h1`
   color: #333;
   -webkit-text-stroke: 1px #fff;
 `;
-

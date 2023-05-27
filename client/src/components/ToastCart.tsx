@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import Toast from "react-bootstrap/Toast";
-import ToastContainer, { ToastPosition } from "react-bootstrap/ToastContainer";
+import ToastContainer from "react-bootstrap/ToastContainer";
 import { Product } from "../../data";
 
 interface ToastCartProps {
@@ -32,7 +31,7 @@ export function ToastCart(props: ToastCartProps) {
             className="rounded me-2"
             alt=""
           />
-          <strong className="me-auto">{props.product.title}</strong>
+          <strong className="me-auto">{props.product.name}</strong>
           <small className="text-muted">just now</small>
         </Toast.Header>
         <Toast.Body data-cy="added-to-cart-toast">Har lagts till</Toast.Body>

@@ -1,26 +1,22 @@
-import { useContext, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
+import { useContext } from "react";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ProductListedItem } from "../components/ProductListedItem";
-import { ProductContext } from "../contexts/ProductContext";
-import StepUpAdmin from "../components/StepupAdmin";
 import StepUpProduct from "../components/StepUpProduct";
+import StepUpAdmin from "../components/StepupAdmin";
+import { ProductContext } from "../contexts/ProductContext";
 
 export function Admin() {
   const navigate = useNavigate();
 
   const { products: items, setProducts: setItems } = useContext(ProductContext);
 
-  useEffect(() => {
+/*   useEffect(() => {
     const storedProducts = localStorage.getItem("products");
     if (storedProducts) {
       setItems(JSON.parse(storedProducts));
     }
-  }, []);
+  }, []); */
 
   return (
     <Container>

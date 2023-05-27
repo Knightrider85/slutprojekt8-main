@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Product, CartItem } from "../../data";
-import { SizeSelect } from "./SizeSelect";
+import { CartItem, Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
-import { Color } from "react-bootstrap/esm/types";
+import { FilterSelect } from "./FilterSelect";
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);//here is where the context is beeing used//dv
+  const { addToCart } = useContext(CartContext); //here is where the context is beeing used//dv
   const sizes = ["37", "38", "39", "40", "41", "42", "43", "44", "45", "46"];
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [quantity, setQuantity] = useState(1);
@@ -23,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleAddToCart = () => {
-    const cartItem: CartItem = { ...product, size: selectedSize, quantity }
+    const cartItem: CartItem = { ...product, size: selectedSize, quantity };
     addToCart(cartItem);
     setQuantity(1);
     setSelectedSize(sizes[0]);
@@ -33,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <StyledCard data-cy="product">
       <StyledCardImg
         variant="top"
-        src={product.image}
+        src={product.imageUrl}
         onClick={handleCardClick}
       />
       <Card.Body
@@ -56,14 +55,14 @@ export function ProductCard({ product }: ProductCardProps) {
             }}
           >
             <div>
-              <Card.Title data-cy="product-title">{product.title}</Card.Title>
+              <Card.Title data-cy="product-title">{product.name}</Card.Title>
               <Card.Text data-cy="product-price">
                 Price: {product.price + " SEK"}
               </Card.Text>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <SizeSelect
-                sizes={sizes}
+              <FilterSelect
+                filter={sizes}
                 selectedOption={selectedSize}
                 setSelectedOption={setSelectedSize}
               />
