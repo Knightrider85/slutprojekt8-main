@@ -22,7 +22,7 @@ export function LoginButton() {
           border: "0px",
         }}
       >
-        {isLoggedIn ? <span>Sign in</span> : <span>Sign out</span>}
+        {isLoggedIn ? <span>Sign out</span> : <span>Sign in</span>}
       </Button>
     </>
   );
