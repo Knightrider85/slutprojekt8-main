@@ -104,10 +104,22 @@ export function CartButton() {
           Please sign in or create a user to access the cart.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/login");
+              handleCloseModal();
+            }}
+          >
             Sign In
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/users");
+              handleCloseModal();
+            }}
+          >
             Create User
           </Button>
         </Modal.Footer>
