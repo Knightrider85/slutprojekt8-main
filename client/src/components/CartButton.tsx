@@ -18,6 +18,10 @@ export function CartButton() {
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
+  function handleRouteToCart() {
+    navigate("/checkout");
+  }
+
   const handleCartButtonClick = () => {
     if (isSignedIn) {
       handleShowCart();
