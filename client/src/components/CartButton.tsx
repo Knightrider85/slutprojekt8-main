@@ -16,6 +16,8 @@ export function CartButton() {
   const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
 
+  // BÖRJAN TILL KOD FÖR ATT SE OM ANVÄNDARE ÄR INLOGGAD ELLER INTE, VERKAR DOCK INTE FUNGERA
+
   useEffect(() => {
     const isAuthenticated: boolean = checkIfUserIsAuthenticated(); // Implement your own authentication check logic here
 
