@@ -1,28 +1,55 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
 
 export function CartButton() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const { cartItems, totalCartCount, totalCost } = useContext(CartContext); //changed here to make the number update
-
+  const [showCart, setShowCart] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseCart = () => setShowCart(false);
+  const handleShowCart = () => setShowCart(true);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
 
-  function handleRouteToCart() {
-    navigate("/checkout");
+  useEffect(() => {
+    const isAuthenticated: boolean = checkIfUserIsAuthenticated(); // Implement your own authentication check logic here
+
+    if (isAuthenticated) {
+      handleCloseModal();
+    }
+  }, []);
+
+  function handleCartButtonClick() {
+    const isAuthenticated: boolean = checkIfUserIsAuthenticated(); // Implement your own authentication check logic here
+
+    if (isAuthenticated) {
+      handleShowCart();
+    } else {
+      handleShowModal();
+    }
+  }
+
+  function checkIfUserIsAuthenticated() {
+    // Implement your own authentication check logic here
+    // For example, you can check if there is a user token or session available
+    // Return true if user is authenticated, false otherwise
+
+    // Example implementation:
+    const userToken = localStorage.getItem("userToken"); // Assuming you store the user token in local storage
+
+    return !!userToken; // Convert truthy/falsy value to boolean
   }
 
   return (
     <>
       <Button
         variant="outline-secondary"
-        onClick={handleShow}
+        onClick={handleCartButtonClick}
         style={{
           width: "3rem",
           height: "3rem",
@@ -54,7 +81,7 @@ export function CartButton() {
           {totalCartCount}
         </div>
       </Button>
-      <Offcanvas show={show} onHide={handleClose} placement="start">
+      <Offcanvas show={showCart} onHide={handleCloseCart} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Your cart</Offcanvas.Title>
         </Offcanvas.Header>
@@ -66,60 +93,25 @@ export function CartButton() {
             backgroundColor: "#f8f9fa",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "flex-end" }}></div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: "1rem",
-            }}
-          >
-            {cartItems.length > 0 ? (
-              cartItems.map((product: Product) => (
-                <div
-                  key={product.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    margin: "1rem",
-                    width: "300px",
-                    borderBottom: "1px solid black",
-                  }}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    style={{
-                      width: "120px",
-                      height: "100px",
-                      objectFit: "cover",
-                      marginRight: "1rem",
-                    }}
-                  />
-                  <div>
-                    <div>{product.title}</div>
-                    <div>{product.price} kr</div>
-                    <div>{product.size}</div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div>Your cart is empty</div>
-            )}
-          </div>
-          <div data-cy="total-price">Total cost: {totalCost} kr</div>
-          <Button
-            data-cy="cart-link"
-            variant="primary"
-            style={{ marginTop: "2rem" }}
-            onClick={handleRouteToCart}
-          >
-            Checkout
-          </Button>
+          {/* Cart content */}
         </Offcanvas.Body>
       </Offcanvas>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Sign In or Create User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Please sign in or create a user to access the cart.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Sign In
+          </Button>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Create User
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
