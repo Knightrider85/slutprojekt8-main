@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
@@ -22,35 +21,19 @@ export function CartButton() {
     navigate("/checkout");
   }
 
-  const handleCartButtonClick = () => {
-    if (isSignedIn) {
-      handleShowCart();
-    } else {
-      handleShowModal();
-    }
-  };
-
-  const handleSignIn = () => {
-    // Perform sign-in logic here
-    // Set isSignedIn flag to true if sign-in is successful
-    navigate("/login");
-    setIsSignedIn(true);
-    handleCloseModal();
-  };
-
-  const handleCreateUser = () => {
-    // Perform create user logic here
-    // Set isSignedIn flag to true if user creation is successful
-    // setIsSignedIn(true);
-    navigate("/users");
-    handleCloseModal();
-  };
+  // const handleCartButtonClick = () => {
+  //   if (isSignedIn) {
+  //     handleShowCart();
+  //   } else {
+  //     handleShowModal();
+  //   }
+  // };
 
   return (
     <>
       <Button
         variant="outline-secondary"
-        onClick={handleCartButtonClick}
+        onClick={handleRouteToCart}
         style={{
           width: "3rem",
           height: "3rem",
@@ -148,7 +131,9 @@ export function CartButton() {
           </Button>
         </Offcanvas.Body>
       </Offcanvas>
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+
+      {/* MODAL SOM SKA VISAS OM ANVÄNDAREN INTE ÄR INLOGGAD OCH KLICKAR PÅ VARUKORGEN */}
+      {/* <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Sign In or Create User</Modal.Title>
         </Modal.Header>
@@ -156,14 +141,26 @@ export function CartButton() {
           Please sign in or create a user to access the cart.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleSignIn}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/login");
+              handleCloseModal();
+            }}
+          >
             Sign In
           </Button>
-          <Button variant="primary" onClick={handleCreateUser}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/users");
+              handleCloseModal();
+            }}
+          >
             Create User
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
     </>
   );
 }
