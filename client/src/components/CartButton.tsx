@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -15,37 +15,31 @@ export function CartButton() {
   const handleShowModal = () => setShowModal(true);
   const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
-  // BÖRJAN TILL KOD FÖR ATT SE OM ANVÄNDARE ÄR INLOGGAD ELLER INTE, VERKAR DOCK INTE FUNGERA
-
-  useEffect(() => {
-    const isAuthenticated: boolean = checkIfUserIsAuthenticated(); // Implement your own authentication check logic here
-
-    if (isAuthenticated) {
-      handleCloseModal();
-    }
-  }, []);
-
-  function handleCartButtonClick() {
-    const isAuthenticated: boolean = checkIfUserIsAuthenticated(); // Implement your own authentication check logic here
-
-    if (isAuthenticated) {
+  const handleCartButtonClick = () => {
+    if (isSignedIn) {
       handleShowCart();
     } else {
       handleShowModal();
     }
-  }
+  };
 
-  function checkIfUserIsAuthenticated() {
-    // Implement your own authentication check logic here
-    // For example, you can check if there is a user token or session available
-    // Return true if user is authenticated, false otherwise
+  const handleSignIn = () => {
+    // Perform sign-in logic here
+    // Set isSignedIn flag to true if sign-in is successful
+    navigate("/login");
+    setIsSignedIn(true);
+    handleCloseModal();
+  };
 
-    // Example implementation:
-    const userToken = localStorage.getItem("userToken"); // Assuming you store the user token in local storage
-
-    return !!userToken; // Convert truthy/falsy value to boolean
-  }
+  const handleCreateUser = () => {
+    // Perform create user logic here
+    // Set isSignedIn flag to true if user creation is successful
+    // setIsSignedIn(true);
+    navigate("/users");
+    handleCloseModal();
+  };
 
   return (
     <>
@@ -106,22 +100,10 @@ export function CartButton() {
           Please sign in or create a user to access the cart.
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("/login");
-              handleCloseModal();
-            }}
-          >
+          <Button variant="primary" onClick={handleSignIn}>
             Sign In
           </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("/users");
-              handleCloseModal();
-            }}
-          >
+          <Button variant="primary" onClick={handleCreateUser}>
             Create User
           </Button>
         </Modal.Footer>
