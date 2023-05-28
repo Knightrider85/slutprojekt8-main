@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { BsFillBasket3Fill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
 
 export function CartButton() {
@@ -89,7 +90,58 @@ export function CartButton() {
             backgroundColor: "#f8f9fa",
           }}
         >
-          {/* Cart content */}
+          <div style={{ display: "flex", justifyContent: "flex-end" }}></div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            {cartItems.length > 0 ? (
+              cartItems.map((product: Product) => (
+                <div
+                  key={product.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    margin: "1rem",
+                    width: "300px",
+                    borderBottom: "1px solid black",
+                  }}
+                >
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    style={{
+                      width: "120px",
+                      height: "100px",
+                      objectFit: "cover",
+                      marginRight: "1rem",
+                    }}
+                  />
+                  <div>
+                    <div>{product.title}</div>
+                    <div>{product.price} kr</div>
+                    <div>{product.size}</div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div>Your cart is empty</div>
+            )}
+          </div>
+          <div data-cy="total-price">Total cost: {totalCost} kr</div>
+          <Button
+            data-cy="cart-link"
+            variant="primary"
+            style={{ marginTop: "2rem" }}
+            onClick={handleRouteToCart}
+          >
+            Checkout
+          </Button>
         </Offcanvas.Body>
       </Offcanvas>
       <Modal show={showModal} onHide={handleCloseModal} centered>
