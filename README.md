@@ -19,14 +19,19 @@ Kod basen var redan uppbyggd med `React`, `TypeScript`, `YUP`, `Formik` och `Rea
 
 ### Krav för Godkänt
 
-- [ ] Användaren får börja med att välja ett eget visningsnamn när den besöker sidan.
-- [ ] Användaren ska kunna skapa ett rum och samtidigt gå med i rummet.
-- [ ] Användaren ska kunna lämna ett rum. Tomma rum ska automatiskt försvinna.
-- [ ] Samtliga rum ska vara synliga i en lista.
-- [ ] Användaren ska kunna gå med i ett befintligt rum genom att klicka på det i listan.
-- [ ] När en användare går med i ett nytt rum ska befintligt rum lämnas automatiskt.
-- [ ] Användaren ska kunna skicka och läsa nya meddelanden i rummet den gått med i.
-- [ ] När en användare håller på att skriva ett meddelande skall det synas för alla andra i rummet.
-- [ ] Git & GitHub har används.
-- [ ] Projektmappen innehåller en README.md fil.
-- [ ] Uppgiften lämnas in i tid.
+- [x] Alla sidor skall vara responsiva.
+- [x] Arbetet ska implementeras med en React frontend och en Express backend.
+- [ ] Express backenden ska ha validering på samtliga endpoints.
+- [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet.
+- [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet.
+- [ ] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm)
+- [x] Man ska kunna logga in som administratör i systemet.
+- [x] Inga Lösenord får sparas i klartext i databasen.
+- [ ] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen.
+- [ ] Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan.
+- [ ] Administratörer ska kunna se en lista på alla gjorda beställningar.
+- [ ] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera.
+- [ ] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori.
+- [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten.
+- [x] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas.
+- [x] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält.
