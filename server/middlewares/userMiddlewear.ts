@@ -56,10 +56,5 @@ export const signInCheckMiddleware = (
 ) => {
   const userId = req.session?.userId;
 
-  // If user is not signed in, return an error
-  if (!userId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
   next();
 };
