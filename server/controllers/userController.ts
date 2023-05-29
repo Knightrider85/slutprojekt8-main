@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
 import argon2 from 'argon2';
+import { Request, Response } from 'express';
 import User, { IUser } from '../models/userModel';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -65,7 +65,7 @@ export const signInUser = async (req: Request, res: Response) => {
 
     req.session!.userId = existingUser.id;
     req.session!.isAdmin = existingUser.isAdmin;
-  
+    req.session!.isSignedIn = true; // Add a flag indicating the user is signed in
 
     // User authenticated successfully
     console.log('User signed in successfully');
@@ -75,6 +75,7 @@ export const signInUser = async (req: Request, res: Response) => {
     return res.status(500).json({ error });
   }
 };
+
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {

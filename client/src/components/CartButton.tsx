@@ -7,22 +7,33 @@ import { Product } from "../../data";
 import { CartContext } from "../contexts/cartContext";
 
 export function CartButton() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const { cartItems, totalCartCount, totalCost } = useContext(CartContext); //changed here to make the number update
-
+  const [showCart, setShowCart] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseCart = () => setShowCart(false);
+  const handleShowCart = () => setShowCart(true);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
   function handleRouteToCart() {
     navigate("/checkout");
   }
 
+  // const handleCartButtonClick = () => {
+  //   if (isSignedIn) {
+  //     handleShowCart();
+  //   } else {
+  //     handleShowModal();
+  //   }
+  // };
+
   return (
     <>
       <Button
         variant="outline-secondary"
-        onClick={handleShow}
+        onClick={handleRouteToCart}
         style={{
           width: "3rem",
           height: "3rem",
@@ -54,7 +65,7 @@ export function CartButton() {
           {totalCartCount}
         </div>
       </Button>
-      <Offcanvas show={show} onHide={handleClose} placement="start">
+      <Offcanvas show={showCart} onHide={handleCloseCart} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Your cart</Offcanvas.Title>
         </Offcanvas.Header>
@@ -120,6 +131,36 @@ export function CartButton() {
           </Button>
         </Offcanvas.Body>
       </Offcanvas>
+
+      {/* MODAL SOM SKA VISAS OM ANVÄNDAREN INTE ÄR INLOGGAD OCH KLICKAR PÅ VARUKORGEN */}
+      {/* <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Sign In or Create User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Please sign in or create a user to access the cart.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/login");
+              handleCloseModal();
+            }}
+          >
+            Sign In
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/users");
+              handleCloseModal();
+            }}
+          >
+            Create User
+          </Button>
+        </Modal.Footer>
+      </Modal> */}
     </>
   );
 }

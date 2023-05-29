@@ -47,3 +47,19 @@ export const adminCheckMiddleware = (
 
   next();
 };
+
+// Middleware to check if the user is signed in
+export const signInCheckMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.session?.userId;
+
+  // If user is not signed in, return an error
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  next();
+};
