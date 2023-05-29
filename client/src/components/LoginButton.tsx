@@ -11,7 +11,7 @@ export function LoginButton() {
   );
 
   const handleButtonClick = () => {
-    setIsLoggedInState(!isLoggedInState);
+    setIsLoggedInState(false);
   };
 
   return (
