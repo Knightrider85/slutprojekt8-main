@@ -8,40 +8,38 @@ import { CartContext } from "../contexts/cartContext";
 
 export function CartButton() {
   const [showCart, setShowCart] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+
   const handleCloseCart = () => setShowCart(false);
-  const handleShowCart = () => setShowCart(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
   const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [hasNavigatedToCheckout, setHasNavigatedToCheckout] = useState(false);
 
-  function handleRouteToCart() {
-    navigate("/checkout");
-  }
-
-  // const handleCartButtonClick = () => {
-  //   if (isSignedIn) {
-  //     handleShowCart();
-  //   } else {
-  //     handleShowModal();
-  //   }
-  // };
-
+  const handleButtonClick = () => {
+    setIsLoggedIn(!isLoggedIn); // Toggle the isLoggedIn state
+  
+    if (!hasNavigatedToCheckout && !isLoggedIn) {
+      navigate("/checkout");
+      setHasNavigatedToCheckout(true);
+    } else {
+      console.log("Please sign in to proceed to checkout");
+    }
+  };
   return (
     <>
       <Button
-        variant="outline-secondary"
-        onClick={handleRouteToCart}
-        style={{
-          width: "3rem",
-          height: "3rem",
-          position: "relative",
-          color: "black",
-        }}
-        className="rounded-circle"
-      >
+  variant="outline-secondary"
+  onClick={handleButtonClick}
+  style={{
+    width: "3rem",
+    height: "3rem",
+    position: "relative",
+    color: "black",
+  }}
+  className="rounded-circle"
+>
+
+
         <BsFillBasket3Fill />
 
         <div
@@ -100,8 +98,8 @@ export function CartButton() {
                   }}
                 >
                   <img
-                    src={product.image}
-                    alt={product.title}
+                    src={product.imageUrl}
+                    alt={product.name}
                     style={{
                       width: "120px",
                       height: "100px",
@@ -110,7 +108,7 @@ export function CartButton() {
                     }}
                   />
                   <div>
-                    <div>{product.title}</div>
+                    <div>{product.name}</div>
                     <div>{product.price} kr</div>
                     <div>{product.size}</div>
                   </div>
@@ -125,7 +123,7 @@ export function CartButton() {
             data-cy="cart-link"
             variant="primary"
             style={{ marginTop: "2rem" }}
-            onClick={handleRouteToCart}
+            onClick={handleButtonClick}
           >
             Checkout
           </Button>

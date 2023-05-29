@@ -15,8 +15,9 @@ const validationSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-function LoginForm() {
+export function LoginForm() {
   const [loginError, setLoginError] = useState<string>("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     console.log("Form values:", values); // Log form values
@@ -34,6 +35,8 @@ function LoginForm() {
         console.log("User signed in successfully");
         resetForm();
         window.location.href = "/";
+        setIsLoggedIn(true) 
+        
       } else {
         setLoginError("Password is incorrect.");
       }
@@ -90,5 +93,6 @@ function LoginForm() {
     </Container>
   );
 }
+export let isLoggedIn = true;
 
 export default LoginForm;
