@@ -13,7 +13,9 @@ const schema = Yup.object().shape({
   name: Yup.string().required(),
   address: Yup.string().required(),
   city: Yup.string().required(),
-  zip: Yup.string().required().matches(/^[0-9]{5}$/, "Zipcode number must be exactly 5 digits"),
+  zip: Yup.string()
+    .required()
+    .matches(/^[0-9]{5}$/, "Zipcode number must be exactly 5 digits"),
   email: Yup.string().email("Invalid email address").required(),
   phone: Yup.string()
     .required()
@@ -31,10 +33,22 @@ const initialValues: OrderDetails = {
   phone: "",
 };
 
-export function OrderForm() {
+export const OrderForm = () => {
   const navigate = useNavigate();
+  const { setOrderDetails, addOrder } = useOrderContext();
 
-  const { setOrderDetails } = useOrderContext();
+  const handleSubmit = async (values: OrderDetails, { setSubmitting }: any) => {
+    try {
+      setOrderDetails(values);
+      await addOrder(values);
+      setSubmitting(false);
+      navigate("/confirmation");
+    } catch (error) {
+      console.error("Error submitting order:", error);
+      // Handle error and display an error message to the user
+    }
+  };
+
   return (
     <>
       <div
@@ -204,7 +218,7 @@ export function OrderForm() {
       </StyledFormContainer>
     </>
   );
-}
+};
 
 const StyledFormContainer = styled.div`
   border-radius: 10px;
