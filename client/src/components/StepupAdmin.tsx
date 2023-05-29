@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button } from "react-bootstrap";
+import { Accordion, Button, Modal } from "react-bootstrap";
+import { IOrder } from "../../../server/models/orderModel";
 import { IUser } from "../../../server/models/userModel";
 
 function StepUpAdmin() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
+  const [showModal, setShowModal] = useState(false);
+  const [orders, setOrders] = useState<IOrder[]>([]);
 
   useEffect(() => {
     // Fetch users from the server
@@ -58,6 +61,27 @@ function StepUpAdmin() {
       .catch((error) => console.error("Error updating admin status:", error));
   };
 
+  useEffect(() => {
+    // Fetch all orders from server
+    const getOrders = () => {
+      fetch("/api/orders/all")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched orders:", data);
+          setOrders(data);
+        })
+        .catch((error) => console.error("Error fetching orders:", error));
+    };
+
+    if (showModal) {
+      getOrders();
+    }
+  }, [showModal]);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
       {isAdmin && (
@@ -86,13 +110,43 @@ function StepUpAdmin() {
                   variant="primary"
                   onClick={() => updateAdminStatus(user._id, !user.isAdmin)}
                 >
-                  {user.isAdmin ? "Revoke Admin" : "Grant Admin"}
+                  {user.isAdmin ? "Revoke Admin" : "Make Admin"}
                 </Button>
               </Accordion.Body>
             </Accordion.Item>
           ))}
         </Accordion>
       )}
+
+      <Button variant="primary" onClick={() => setShowModal(true)}>
+        View Orders
+      </Button>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Orders</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {orders.map((order) => (
+            <div key={order._id}>
+              <h4>Order ID: {order._id}</h4>
+              <p>Name: {order.name}</p>
+              <p>Address: {order.address}</p>
+              <p>City: {order.city}</p>
+              <p>Zipcode: {order.zip}</p>
+              {/* <p>Email: {user.email}</p>
+              <p>Phone: {user.phone}</p> */}
+              {/* <p>createdAt: {order.address}</p> */}
+              {/* Render other order details */}
+            </div>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

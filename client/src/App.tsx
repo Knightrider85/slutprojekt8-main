@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import { Navbar } from "./components/Navbar";
 import { NewProductForm } from "./components/NewProductForm";
+import StepUpAdmin from "./components/StepupAdmin";
 import { Footer } from "./components/footer/Footer";
 import { CartPage } from "./pages/Checkout";
 import { ConfirmationPage } from "./pages/ConfirmationPage";
@@ -22,7 +23,7 @@ export default function App() {
             backgroundColor: "#fff",
             padding: "20px",
             borderRadius: "5px",
-            minHeight: "100vh", //dv pushar ner footer<
+            minHeight: "100vh",
           }}
           className="mb-4"
         >
@@ -30,21 +31,29 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/admin/product?/:productid?/:editItem?"
-              element={<NewProductForm />}
+              element={
+                <>
+                  <StepUpAdmin />
+                  <NewProductForm />
+                </>
+              }
             />
             <Route path="/admin/product/new" element={<NewProductForm />} />
             <Route
               path="/admin/product/editItem/:productid"
-              element={<NewProductForm />}
+              element={
+                <>
+                  <StepUpAdmin />
+                  <NewProductForm />
+                </>
+              }
             />
             <Route path="/FAQ" element={<FAQ />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/product/:productid" element={<ProductPage />} />
             <Route path="/checkout" element={<CartPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
-
             <Route path="/users" element={<CreateUserPage />} />
-
           </Routes>
         </Container>
       </main>

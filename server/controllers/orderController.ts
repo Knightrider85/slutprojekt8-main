@@ -1,5 +1,5 @@
-import Order from "../models/orderModel";
 import { Request, Response } from 'express';
+import Order from "../models/orderModel";
 
 
 // Controller method for submitting an order
