@@ -87,6 +87,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const products = await Product.find();
+    return res.status(200).json(products)
     res.json({ products });
   } catch (error) {
     console.error("Error getting products:", error);

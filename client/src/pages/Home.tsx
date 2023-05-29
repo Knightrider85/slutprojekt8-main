@@ -7,6 +7,7 @@ import { ToastCart } from "../components/ToastCart";
 import { useProducts } from "../contexts/ProductContext";
 import FilterList from "../components/FilterList";
 import { useCart } from "../contexts/cartContext";
+import StepUpProduct from "../components/StepUpProduct";
 
 export function Home() {
   const { cartItems } = useCart();
