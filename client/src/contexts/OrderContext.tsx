@@ -3,10 +3,12 @@ import { OrderDetails } from "../components/OrderForm";
 import { useCart } from "./cartContext";
 
 interface OrderContextType {
-  orderNumber: number;
+  orderId: number;
   orderDetails: OrderDetails;
   setOrderDetails: (values: Partial<OrderDetails>) => void;
-  addOrder: (order: Partial<OrderDetails>) => Promise<void>;
+  addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => Promise<void>;
+  totalCost: number; // Add the totalCost property to the interface
+
 }
 
 const OrderContext = createContext({} as OrderContextType);
@@ -17,8 +19,7 @@ export function useOrderContext() {
 
 export function OrderProvider({ children }: PropsWithChildren) {
   const { cartItems, setCartItems, totalCost } = useCart();
-
-  const [orderNumber, setOrderNumber] = useState(0);
+  const [orderNumber, setOrderNumber] = useState<number>(0);
   const [orderDetails, updateOrderDetails] = useState<OrderDetails>({
     name: "",
     address: "",
@@ -47,20 +48,32 @@ export function OrderProvider({ children }: PropsWithChildren) {
       ...values,
       item,
       totalCost,
-    }));
+        }));
     setCartItems([]);
   };
 
-  const addOrder = async (order: Partial<OrderDetails>) => {
+  const addOrder = async (order: Partial<OrderDetails & { userId: string; products: any[]; totalCost: number }>) => {
     try {
+      const { name, address, city, zip, email, phone } = orderDetails;
+      const { products, totalCost } = order;
+  
       const response = await fetch("/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(order),
+        body: JSON.stringify({
+          products: products,
+          totalCost: totalCost, // Pass the totalCost value
+          name,
+          address,
+          city,
+          zip,
+          email,
+          phone,
+        }),
       });
-
+  
       if (response.ok) {
         console.log("Order submitted successfully");
         const data = await response.json();
@@ -77,9 +90,10 @@ export function OrderProvider({ children }: PropsWithChildren) {
 
   return (
     <OrderContext.Provider
-      value={{ orderNumber, orderDetails, setOrderDetails, addOrder }}
+      value={{ orderId: orderNumber, orderDetails, setOrderDetails, addOrder, totalCost, }}
     >
       {children}
     </OrderContext.Provider>
   );
 }
+

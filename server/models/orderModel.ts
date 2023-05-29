@@ -20,17 +20,17 @@ export interface IOrder extends Document {
 
 const OrderSchema = new Schema<IOrder>({
  
-  totalCost: { type: Number, required: true },
+  totalCost: { type: Number, required: false },
   products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  // userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
   address: { type: String, required: true },
   city: { type: String, required: true },
   zip: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: Number, required: true },
-  isShipped: { type: Boolean, required: false },
-  createdAt: { type: Date, required: true, default: Date.now },
+  // isShipped: { type: Boolean, required: false },
+  // createdAt: { type: Date, required: true, default: Date.now },
   orderId: { type: String, required: true },
 
 });

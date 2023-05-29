@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useOrderContext } from "../contexts/OrderContext";
+import { useCart } from "../contexts/cartContext"; // Update the import statement
+
+
 
 const schema = Yup.object().shape({
   name: Yup.string().required(),
@@ -35,12 +38,14 @@ const initialValues: OrderDetails = {
 
 export const OrderForm = () => {
   const navigate = useNavigate();
-  const { setOrderDetails, addOrder } = useOrderContext();
+  const { setOrderDetails, addOrder, totalCost} = useOrderContext();
+  const { cartItems } = useCart(); // Access the totalCost value from the CartContext
+
 
   const handleSubmit = async (values: OrderDetails, { setSubmitting }: any) => {
     try {
       setOrderDetails(values);
-      await addOrder(values);
+      await addOrder({ ...values, products: cartItems, totalCost });
       setSubmitting(false);
       navigate("/confirmation");
     } catch (error) {
@@ -48,6 +53,7 @@ export const OrderForm = () => {
       // Handle error and display an error message to the user
     }
   };
+
 
   return (
     <>
@@ -62,12 +68,18 @@ export const OrderForm = () => {
       </div>
       <StyledFormContainer className="d-flex justify-content-center align-items-center">
         <Formik
-          validationSchema={schema}
-          onSubmit={(values) => {
-            setOrderDetails(values);
-            navigate("/confirmation");
-          }}
-          initialValues={initialValues}
+      validationSchema={schema}
+      onSubmit={async (values) => {
+        try {
+          setOrderDetails(values);
+          await addOrder(values);
+          navigate("/confirmation");
+        } catch (error) {
+          console.error("Error submitting order:", error);
+          // Handle error and display an error message to the user
+        }
+      }}
+      initialValues={initialValues}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form
