@@ -3,6 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { CartItem, Product } from "../../data";
+import { useProducts } from "../contexts/ProductContext";
 import { CartContext } from "../contexts/cartContext";
 import { FilterSelect } from "./FilterSelect";
 
@@ -12,13 +13,15 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext); //here is where the context is beeing used//dv
+  const { addToCart } = useContext(CartContext);
   const sizes = ["37", "38", "39", "40", "41", "42", "43", "44", "45", "46"];
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [quantity, setQuantity] = useState(1);
+  const { products, setSelectedProduct } = useProducts();
 
   const handleCardClick = () => {
-    navigate(`/product/${product.id}`, { state: { product } });
+    setSelectedProduct(product);
+    navigate(`/product/${product.id}`);
   };
 
   const handleAddToCart = () => {

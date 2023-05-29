@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useState } from "react";
+import { FC, createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRequest } from "../hooks/useRequest";
 
@@ -7,10 +7,10 @@ export interface ProductData {
   name: string;
   description: string;
   price: number;
-  /*imageId?: string;*/
+  imageId?: string;
   stock: number;
   category: string;
-  imageId: string;
+  //imageId: string;
   imageUrl?: string;
   quantity: number;
   color: string;
@@ -24,7 +24,7 @@ interface ProductContext {
   editProduct: (product: ProductData) => void; //
   addProduct: (product: ProductData) => void;
   getAllProducts: () => Promise<void>;
-  /* uploadImage: (file: File) => Promise<string>; */
+  //uploadImage: (file: File) => Promise<string>;
 }
 
 export const ProductContext = createContext<ProductContext>({
@@ -35,7 +35,7 @@ export const ProductContext = createContext<ProductContext>({
   removeProduct: async (id: string) => {},
   editProduct: () => {},
   getAllProducts: async () => {},
-  /* uploadImage: async () => "", */
+  //uploadImage: async () => "",
 });
 export const ProductProvider: FC<{ children: React.ReactNode }> = (
   props: any
@@ -67,16 +67,21 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
 
   const getAllProducts = async () => {
     try {
-      let { data, ok } = await useRequest(`/api/products`, "GET");
-      if (ok) {
+      const response = await fetch("/api/products/all");
+      const data = await response.json();
+      if (Array.isArray(data)) {
         setProducts(data);
+      } else {
+        console.error("Error fetching products: Invalid response format");
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        return console.error(`Error occurred: ${err.message}`);
-      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
   };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   const removeProduct = async (id: string) => {
     try {
@@ -110,23 +115,23 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
     }
   };
 
-  /*   const uploadImage = async (file: File) => {
-    try {
-      // Ladda upp bild till API'et
-      const formData = new FormData();
-      formData.append("image", file);
-      const response = await fetch("/api/images", {
-        method: "POST",
-        body: formData,
-      });
-      const imageId = await response.json();
-      return imageId;
-    } catch (err) {
-      if (err instanceof Error) {
-        return console.error(`Error occurred: ${err.message}`);
-      }
-    }
-  }; */
+  //const uploadImage = async (file: File) => {
+  //try {
+  // Ladda upp bild till API'et
+  //const formData = new FormData();
+  //formData.append("image", file);
+  //const response = await fetch("/api/images", {
+  //  method: "POST",
+  // body: formData,
+  //});
+  // const imageId = await response.json();
+  //return imageId;
+  //} catch (err) {
+  // if (err instanceof Error) {
+  //   return console.error(`Error occurred: ${err.message}`);
+  // }
+  // }
+  //};
 
   return (
     <ProductContext.Provider
@@ -138,7 +143,7 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
         selectedProduct,
         setSelectedProduct,
         getAllProducts,
-        /* uploadImage, */
+        //uploadImage,
       }}
     >
       {props.children}
