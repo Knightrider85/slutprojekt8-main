@@ -6,18 +6,13 @@ import { IUser } from "../models/userModel";
 // Controller method for submitting an order
 export const addOrder = async (req: Request, res: Response) => {
   try {
-    const { userId, products, totalCost, name, address, city, zip, email, phone } = req.body;
-    if (!userId || !totalCost) {
-      return res.status(400).json({ message: 'userId and totalCost are required' });
-    }
+    const { products, name, address, city, zip, email, phone } = req.body;
 
     const orderId = Math.floor(Math.random() * (1000000000 - 10000) + 10).toString();
 
     const order: IOrder = new Order({
       orderId,
-      userId,
       products,
-      totalCost,
       name,
       address,
       city,
@@ -36,6 +31,7 @@ export const addOrder = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to submit order' });
   }
 };
+
 
 
 // Controller method for retrieving all orders

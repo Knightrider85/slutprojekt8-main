@@ -6,7 +6,7 @@ export interface IOrder extends Document {
  
   products: IProduct["_id"][];
   totalCost: number;
-  userId: IUser["_id"];
+  // userId: IUser["_id"];
   name: string;
   address: string;
   city: string;

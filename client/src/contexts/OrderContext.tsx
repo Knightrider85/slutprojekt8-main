@@ -1,14 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { OrderDetails } from "../components/OrderForm";
-import { useCart } from "./cartContext";
+import { useCart, CartContextValue, CartContext, } from "../contexts/cartContext";
 
-interface OrderContextType {
+
+interface OrderContextType extends CartContextValue {
   orderId: number;
   orderDetails: OrderDetails;
   setOrderDetails: (values: Partial<OrderDetails>) => void;
   addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => Promise<void>;
-  totalCost: number; // Add the totalCost property to the interface
-
 }
 
 const OrderContext = createContext({} as OrderContextType);
@@ -18,7 +17,7 @@ export function useOrderContext() {
 }
 
 export function OrderProvider({ children }: PropsWithChildren) {
-  const { cartItems, setCartItems, totalCost } = useCart();
+  const { cartItems, setCartItems, totalCost: cartTotalCost } = useCart();
   const [orderNumber, setOrderNumber] = useState<number>(0);
   const [orderDetails, updateOrderDetails] = useState<OrderDetails>({
     name: "",
@@ -34,37 +33,27 @@ export function OrderProvider({ children }: PropsWithChildren) {
   };
 
   const setOrderDetails = (values: Partial<OrderDetails>) => {
-    const item = cartItems.map((cartItem) => (
-      <div style={{ padding: "1rem" }}>
-        <img src={cartItem.imageUrl} style={{ width: "5rem" }} />
-        <div>{cartItem.name}</div>
-        <div>{cartItem.price + " kr"}</div>
-      </div>
-    ));
-
     getOrderNumber();
     updateOrderDetails((prevOrderDetails) => ({
       ...prevOrderDetails,
       ...values,
-      item,
-      totalCost,
-        }));
+    }));
     setCartItems([]);
   };
 
-  const addOrder = async (order: Partial<OrderDetails & { userId: string; products: any[]; totalCost: number }>) => {
+  const addOrder = async (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => {
     try {
       const { name, address, city, zip, email, phone } = orderDetails;
       const { products, totalCost } = order;
-  
+
       const response = await fetch("/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          products: products,
-          totalCost: totalCost, // Pass the totalCost value
+          products: products || cartItems, // Use products from the order parameter if provided, otherwise use cartItems from the CartContext
+          totalCost: totalCost || cartTotalCost, // Use totalCost from the order parameter if provided, otherwise use cartTotalCost from the CartContext
           name,
           address,
           city,
@@ -73,7 +62,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
           phone,
         }),
       });
-  
+
       if (response.ok) {
         console.log("Order submitted successfully");
         const data = await response.json();
@@ -90,10 +79,17 @@ export function OrderProvider({ children }: PropsWithChildren) {
 
   return (
     <OrderContext.Provider
-      value={{ orderId: orderNumber, orderDetails, setOrderDetails, addOrder, totalCost, }}
+      value={{
+        orderId: orderNumber,
+        orderDetails,
+        setOrderDetails,
+        addOrder,
+        cartItems,
+        setCartItems,
+        totalCost: cartTotalCost,
+      }}
     >
       {children}
     </OrderContext.Provider>
   );
 }
-
