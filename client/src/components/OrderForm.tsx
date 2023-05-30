@@ -1,10 +1,11 @@
 import { Formik } from "formik";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useOrderContext } from "../contexts/OrderContext";
@@ -63,6 +64,19 @@ export const OrderForm = () => {
       // Handle error and display an error message to the user
     }
   };
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+
+  useEffect(() => {
+    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
+      if(data.isSignedIn === true){
+        setLoggedIn(true);
+      }else {
+        setLoggedIn(false);
+      }
+    }).catch((error) => console.log("Error checking if a user is logged in", error))
+  },[]) 
   
 
 
@@ -223,9 +237,15 @@ export const OrderForm = () => {
                   )}
                 </Form.Group>
               </Row>
-              <Button style={{ marginTop: "1rem" }} type="submit">
+              { loggedIn ?               <Button style={{ marginTop: "1rem" }} type="submit">
                 Submit order and pay
-              </Button>
+              </Button> : 
+              
+              <Link data-cy="user-link" to="/login">
+                <Button>Sign In</Button>
+              
+            </Link> }
+
             </Form>
           )}
         </Formik>

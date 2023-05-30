@@ -2,14 +2,13 @@ import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import StepUpProduct from "../components/StepUpProduct";
 import StepUpAdmin from "../components/StepupAdmin";
 import { ProductContext } from "../contexts/ProductContext";
 
 export function Admin() {
   const navigate = useNavigate();
 
-  const { products: items, setProducts: setItems } = useContext(ProductContext);
+  const { products: items } = useContext(ProductContext);
 
 /*   useEffect(() => {
     const storedProducts = localStorage.getItem("products");
@@ -21,7 +20,6 @@ export function Admin() {
   return (
     <Container>
       <StepUpAdmin />
-      <StepUpProduct />
       {/* <AddBtnContainer>
         <Button
           variant="primary"

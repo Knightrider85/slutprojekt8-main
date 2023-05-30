@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAdmin, createUser, deleteUser, getAllUsers, handleSignOutUser, signInUser, updateUserAdminStatus } from '../controllers/userController';
+import { checkAdmin, checkIsSignedIn, createUser, deleteUser, getAllUsers, handleSignOutUser, signInUser, updateUserAdminStatus } from '../controllers/userController';
 import { adminCheckMiddleware, signInCheckMiddleware } from '../middlewares/userMiddlewear';
 
 const userRouter = express.Router();
@@ -11,5 +11,6 @@ userRouter.get('/api/checkAdmin', signInCheckMiddleware, checkAdmin);
 userRouter.delete('/api/users/:userId', adminCheckMiddleware, deleteUser);
 userRouter.put('/api/users/:userId', adminCheckMiddleware, updateUserAdminStatus)
 userRouter.post('/api/signOut', handleSignOutUser)
+userRouter.get('/api/checkSignedIn', checkIsSignedIn)
 
 export default userRouter;

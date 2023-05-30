@@ -94,6 +94,4 @@ export function LoginForm() {
   );
 }
 
-export let isSignedIn = true;
-export const setIsSignedIn = (isSignedIn:Boolean) => {}; //
 export default LoginForm;

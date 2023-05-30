@@ -2,26 +2,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { isSignedIn } from "../components/LoginForm";
 import { OrderForm } from "../components/OrderForm";
 import { useCart } from "../contexts/cartContext";
-export function CartPage() {
-  const { cartItems, totalCost, addToCart, removeFromCart} = useCart();
-  
-  const navigate = useNavigate();
-function signIn(){
-  navigate("/login")
-}
 
-  function checkLoginStatus() {
-    if (isSignedIn === true) {
-      
-      return <p>User is logged in</p>; 
-    } else {
-      
-      return <Button>Logga in</Button>; 
-    }
-  }
+
+
+export function CartPage() {
+  const navigate = useNavigate();
+  const { cartItems, totalCost, addToCart, removeFromCart} = useCart();
+
+
   return (
     <CartContainer>
       <ProductsContainer>
@@ -79,7 +69,6 @@ function signIn(){
       </ProductsContainer>
       <TotalPrice data-cy="total-price">Total cost: {totalCost} kr</TotalPrice>
       <OrderForm />
-      <button onClick={() => { checkLoginStatus(); signIn(); }}>Sign in</button>
     </CartContainer>
   );
 }
