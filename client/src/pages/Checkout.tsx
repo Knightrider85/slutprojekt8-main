@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { OrderForm } from "../components/OrderForm";
-import styled from "styled-components";
-import { useCart } from "../contexts/cartContext";
 import { Button } from "react-bootstrap";
+import styled from "styled-components";
+import { OrderForm } from "../components/OrderForm";
+import { useCart } from "../contexts/cartContext";
 
 export function CartPage() {
   const { cartItems, totalCost, addToCart, removeFromCart} = useCart();
@@ -14,10 +14,10 @@ export function CartPage() {
         {cartItems.length > 0 ? (
           cartItems.map((product) => (
             <ProductItem data-cy="cart-item" key={product.id}>
-              <ProductImage src={product.image} alt={product.title} />
+              <ProductImage src={product.imageUrl} alt={product.name} />
               <ProductDetails>
                 <ProductTitle data-cy="product-title">
-                  {product.title}
+                  {product.name}
                 </ProductTitle>
                 <ProductPrice data-cy="product-price">
                   {product.price * product.quantity} kr

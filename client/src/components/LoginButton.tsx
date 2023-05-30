@@ -1,29 +1,44 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import { isLoggedIn } from "./LoginForm";
 
 export function LoginButton() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  const [isLoggedInState, setIsLoggedInState] = useState(
+    isLoggedIn && !isLoginPage
+  );
 
   const handleButtonClick = () => {
-    if (isLoggedIn) {
-      setIsLoggedIn(false);
-    } else {
-      setIsLoggedIn(true);
-    }
+    setIsLoggedInState(false);
   };
 
   return (
     <>
-      <Button
-        onClick={handleButtonClick}
-        style={{
-          backgroundColor: "white",
-          color: "black",
-          border: "0px",
-        }}
-      >
-        {isLoggedIn ? <span>Sign in</span> : <span>Sign out</span>}
-      </Button>
+      {isLoginPage ? (
+        <Button
+          style={{
+            backgroundColor: "white",
+            color: "black",
+            border: "0px",
+          }}
+          onClick={handleButtonClick}
+        >
+          <span>Sign in</span>
+        </Button>
+      ) : (
+        <Button
+          style={{
+            backgroundColor: "white",
+            color: "black",
+            border: "0px",
+          }}
+          onClick={handleButtonClick}
+        >
+          {isLoggedInState ? <span>Sign out</span> : <span>Sign in</span>}
+        </Button>
+      )}
     </>
   );
 }

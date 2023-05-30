@@ -8,7 +8,7 @@ export interface IUser extends Document {
     phone: number;
     address?: string;
     password: string;
-    isSignedIn: boolean;
+    isSignedIn: false;
 }
 
 const UserSchema = new Schema<IUser>({
