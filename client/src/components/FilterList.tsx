@@ -2,13 +2,22 @@ import Accordion from "react-bootstrap/esm/Accordion";
 import { FilterSelect } from "./FilterSelect";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useProducts } from "../contexts/ProductContext";
 
 export default function FilterList() {
+  const { filters, setFilters } = useProducts();
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
 
-  const price = ["Lowest to Highest", "Highest to Lowest"];
+  const handleSelect = (filterKey: string) => (selectedOption: any) => {
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      [filterKey]: selectedOption,
+    }));
+  };
+
+  const price = ["None", "Lowest to Highest", "Highest to Lowest"];
 
   const colors = [
     "None",
@@ -39,8 +48,8 @@ export default function FilterList() {
           <Accordion.Body>
             <FilterSelect
               filter={price}
-              selectedOption={selectedSize}
-              setSelectedOption={setSelectedSize}
+              selectedOption={filters.price}
+              setSelectedOption={handleSelect("price")}
             />
           </Accordion.Body>
           <Accordion.Body>
@@ -48,8 +57,8 @@ export default function FilterList() {
             <FilterSelect
               showLabel={false}
               filter={colors}
-              selectedOption={selectedColor}
-              setSelectedOption={setSelectedColor}
+              selectedOption={filters.color}
+              setSelectedOption={handleSelect("color")}
             />
           </Accordion.Body>
           <Accordion.Body>
@@ -57,8 +66,8 @@ export default function FilterList() {
             <FilterSelect
               showLabel={false}
               filter={category}
-              selectedOption={selectedBrand}
-              setSelectedOption={setSelectedBrand}
+              selectedOption={filters.category}
+              setSelectedOption={handleSelect("category")}
             />
           </Accordion.Body>
         </Accordion.Item>

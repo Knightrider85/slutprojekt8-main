@@ -7,8 +7,10 @@ export const addOrder = async (req: Request, res: Response) => {
   try {
     const { userId, products, totalCost, name, address, city, zip, email, phone } = req.body;
 
-    // Create a new order
+    const orderId = Math.floor(Math.random() * (1000000000 - 10000) + 10).toString();
+
     const order = new Order({
+      orderId,
       userId,
       products,
       totalCost,
@@ -21,7 +23,6 @@ export const addOrder = async (req: Request, res: Response) => {
       isShipped: false,
     });
 
-    // Save the order to the database
     const savedOrder = await order.save();
     console.log('Order saved:', savedOrder);
 
