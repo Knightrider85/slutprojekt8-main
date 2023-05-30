@@ -58,11 +58,12 @@ export const deleteProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { name, description, price, image, stock, categories } = req.body;
+    const { name, description, price, image, stock, category, color } =
+      req.body;
 
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: productId },
-      { name, description, price, image, stock, categories },
+      { name, description, price, image, stock, category, color },
       { new: true }
     );
 

@@ -2,55 +2,17 @@ import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import StepUpProduct from "../components/StepUpProduct";
 import StepUpAdmin from "../components/StepupAdmin";
 import { ProductContext } from "../contexts/ProductContext";
+import { NewProductForm } from "../components/NewProductForm";
+import EditProduct from "../components/EditProduct";
 
 export function Admin() {
-  const navigate = useNavigate();
-
-  const { products: items, setProducts: setItems } = useContext(ProductContext);
-
-/*   useEffect(() => {
-    const storedProducts = localStorage.getItem("products");
-    if (storedProducts) {
-      setItems(JSON.parse(storedProducts));
-    }
-  }, []); */
-
   return (
     <Container>
       <StepUpAdmin />
-      <StepUpProduct />
-      {/* <AddBtnContainer>
-        <Button
-          variant="primary"
-          onClick={() => navigate(`/admin/product/new`)}
-          data-cy="admin-add-product"
-        >
-          Add new item
-        </Button>
-      </AddBtnContainer>
-      <ListHeader>
-        <Row>
-          <Col xs={3}>Title</Col>
-          <Col xs={4}>Description</Col>
-          <Col>Price</Col>
-          <Col>Id</Col>
-        </Row>
-      </ListHeader>
-      <ListHeaderMediaQ>
-        <Col>Listed products</Col>
-      </ListHeaderMediaQ>
-        <div>
-          {items.map((product) => (
-            <Row key={product.id} data-cy="product">
-              <ProductListedItem
-                product={product}
-              />
-            </Row>
-          ))}
-        </div> */}
+      <NewProductForm />
+      <EditProduct />
     </Container>
   );
 }
