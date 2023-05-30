@@ -36,7 +36,10 @@ const initialValues: OrderDetails = {
 
 export const OrderForm = () => {
   const navigate = useNavigate();
-  const { setOrderDetails, addOrder, totalCost, cartItems } = useOrderContext();
+  const { setOrderDetails, addOrder,} = useOrderContext();
+  const { cartItems, totalCost } = useCart();
+
+  
 
   const handleSubmit = async (values: OrderDetails, { setSubmitting, resetForm }: any) => {
     try {
