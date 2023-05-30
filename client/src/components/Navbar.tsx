@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
-
 export function Navbar() {
   return (
     <header>

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import { isLoggedIn } from "./LoginForm";
+import { isSignedIn } from "./LoginForm";
 
 export function LoginButton() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const [isLoggedInState, setIsLoggedInState] = useState(
-    isLoggedIn && !isLoginPage
+    isSignedIn && !isLoginPage
   );
 
   const handleButtonClick = () => {
