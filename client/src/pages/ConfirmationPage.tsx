@@ -1,11 +1,18 @@
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useOrderContext } from "../contexts/OrderContext";
 
 export function ConfirmationPage() {
   const navigate = useNavigate();
-  const { orderNumber, orderDetails } = useOrderContext();
+  const location = useLocation();
+  const { orderNumber } = useOrderContext();
+  const orderDetails = location.state?.orderDetails;
+
+  if (!orderDetails) {
+    // Handle the case when orderDetails is not available
+    return <div>Order details not found</div>;
+  }
 
   return (
     <ConfirmationContainer>

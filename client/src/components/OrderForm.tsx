@@ -58,8 +58,7 @@ export const OrderForm = () => {
       await addOrder(orderDetails);
       setSubmitting(false);
       resetForm(); // Reset form values
-      navigate("/confirmation");
-    } catch (error) {
+      navigate("/confirmation", { state: { orderDetails } });    } catch (error) {
       console.error("Error submitting order:", error);
       // Handle error and display an error message to the user
     }

@@ -4,7 +4,7 @@ import { useCart, CartContextValue, CartContext } from "../contexts/cartContext"
 
 interface OrderContextType {
   orderId: number;
-  orderDetails: OrderDetails;
+  orderDetails: OrderDetails & { products: any[] };
   setOrderDetails: (values: Partial<OrderDetails>) => void;
   addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => Promise<void>;
   cartItems: CartContextValue["cartItems"];
@@ -22,13 +22,14 @@ export function useOrderContext() {
 export function OrderProvider({ children }: PropsWithChildren) {
   const { cartItems, setCartItems, totalCost: cartTotalCost } = useCart();
   const [orderNumber, setOrderNumber] = useState<number>(0);
-  const [orderDetails, updateOrderDetails] = useState<OrderDetails>({
+  const [orderDetails, updateOrderDetails] = useState<OrderDetails & { products: any[] }>({
     name: "",
     address: "",
     city: "",
     zip: "",
     email: "",
     phone: "",
+    products: [],
   });
 
   const getOrderNumber = () => {
