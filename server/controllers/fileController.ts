@@ -1,6 +1,8 @@
 import busboy from 'busboy';
 import { Request, Response } from 'express';
-import { fileBucket } from './models'
+import { fileBucket } from 'filebucket';
+import mongoose from 'mongoose';
+import sharp from 'sharp';
 
 export async function getFileById(req: Request, res: Response) {
  //to do implement
