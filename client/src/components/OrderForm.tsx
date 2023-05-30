@@ -36,7 +36,10 @@ const initialValues: OrderDetails = {
 
 export const OrderForm = () => {
   const navigate = useNavigate();
-  const { setOrderDetails, addOrder, totalCost, cartItems } = useOrderContext();
+  const { setOrderDetails, addOrder,} = useOrderContext();
+  const { cartItems, totalCost } = useCart();
+
+  
 
   const handleSubmit = async (values: OrderDetails, { setSubmitting, resetForm }: any) => {
     try {
@@ -55,8 +58,7 @@ export const OrderForm = () => {
       await addOrder(orderDetails);
       setSubmitting(false);
       resetForm(); // Reset form values
-      navigate("/confirmation");
-    } catch (error) {
+      navigate("/confirmation", { state: { orderDetails } });    } catch (error) {
       console.error("Error submitting order:", error);
       // Handle error and display an error message to the user
     }
