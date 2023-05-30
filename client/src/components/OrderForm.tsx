@@ -11,7 +11,7 @@ import { useOrderContext } from "../contexts/OrderContext";
 import { useCart } from "../contexts/cartContext";
 
 const schema = Yup.object().shape({
-  name: Yup.string().required(),
+  name: Yup.string().trim().min(1).required("Name is required"),
   address: Yup.string().required(),
   city: Yup.string().required(),
   zip: Yup.string()
