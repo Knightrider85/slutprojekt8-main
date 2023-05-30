@@ -17,7 +17,7 @@ export function EditProductCard({ product, onEdit }: EditProductCardProps) {
   };
 
   const handleDeleteProduct = () => {
-    removeProduct(product.id);
+    removeProduct(product._id);
   };
 
   return (

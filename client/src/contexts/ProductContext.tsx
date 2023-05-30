@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useRequest } from "../hooks/useRequest";
 
 export interface ProductData {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -119,7 +119,7 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
     try {
       let { data, ok } = await useRequest(`/api/products/${id}`, "DELETE");
       if (ok) {
-        setProducts(products.filter((product) => product.id !== id));
+        setProducts(products.filter((product) => product._id !== id));
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -131,13 +131,13 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
   const editProduct = async (product: ProductData) => {
     try {
       let { data, ok } = await useRequest(
-        `/api/products/${product.id}`,
+        `/api/products/${product._id}`,
         "PUT",
         product
       );
       if (ok) {
         setProducts(
-          products.map((item) => (item.id === product.id ? product : item))
+          products.map((item) => (item._id === product._id ? product : item))
         );
       }
     } catch (err) {

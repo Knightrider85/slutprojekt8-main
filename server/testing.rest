@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Delete Product
-DELETE http://<YOUR_SERVER_URL>/product/<PRODUCT_ID>
+DELETE http://localhost:3000/api/products/6471ea341c6fcd63aaa0127a
 
 ### Update Product
 PUT http://<YOUR_SERVER_URL>/product/<PRODUCT_ID>
@@ -34,4 +34,4 @@ Content-Type: application/json
 }
 
 ### Get All Products
-GET http://<YOUR_SERVER_URL>/products
+GET http://localhost:3000/api/products/all

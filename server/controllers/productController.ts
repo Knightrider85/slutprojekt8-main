@@ -49,9 +49,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
     res.json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error("Error deleting product:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the product" });
+    res.status(500).json({ error: `Error: ${error}` });
   }
 };
 

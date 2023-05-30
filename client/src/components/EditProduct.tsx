@@ -56,7 +56,7 @@ const EditProduct: React.FC = () => {
 
   const formik = useFormik({
     initialValues: selectedProduct || {
-      id: "",
+      _id: "",
       name: "",
       description: "",
       price: 0,
@@ -85,7 +85,7 @@ const EditProduct: React.FC = () => {
     <ProductContainer>
       {products.map((product) => (
         <EditProductCard
-          key={product.id}
+          key={product._id}
           product={product}
           onEdit={handleShow}
         />
