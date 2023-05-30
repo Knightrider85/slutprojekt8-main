@@ -100,6 +100,25 @@ export function NewProductForm() {
     }
   }
  */
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const response = await fetch("/api/files", {
+      method: "POST",
+      body: formData,
+    });
+  }
+
+  //   const fileId = await response.json();
+
+  //   await fetch("/api/product", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(product),
+  //   });
+  // }
+
   return (
     <>
       <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
