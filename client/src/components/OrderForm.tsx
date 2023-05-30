@@ -43,6 +43,8 @@ export const OrderForm = () => {
 
   const handleSubmit = async (values: OrderDetails, { setSubmitting, resetForm }: any) => {
     try {
+      console.log("Form Values:", values);
+  
       const orderDetails = {
         name: values.name,
         address: values.address,
@@ -54,15 +56,20 @@ export const OrderForm = () => {
         totalCost: totalCost,
       };
   
+      console.log("Order Details:", orderDetails);
+  
       setOrderDetails(orderDetails);
-      await addOrder(orderDetails);
+      resetForm(); // Reset form values before adding the order
       setSubmitting(false);
-      resetForm(); // Reset form values
-      navigate("/confirmation", { state: { orderDetails } });    } catch (error) {
+  
+      await addOrder(orderDetails);
+      navigate("/confirmation", { state: { orderDetails } });
+    } catch (error) {
       console.error("Error submitting order:", error);
       // Handle error and display an error message to the user
     }
   };
+  
   
 
 
