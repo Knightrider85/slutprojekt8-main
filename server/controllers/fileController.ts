@@ -1,6 +1,6 @@
 import busboy from 'busboy';
 import { Request, Response } from 'express';
-import { fileBucket } from './j'
+import { fileBucket } from './models'
 
 export async function getFileById(req: Request, res: Response) {
  //to do implement
