@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { useOrderContext } from "../contexts/OrderContext";
+import { useCart } from "../contexts/cartContext";
 
 const schema = Yup.object().shape({
-  name: Yup.string().required(),
+  name: Yup.string().trim().min(1).required("Name is required"),
   address: Yup.string().required(),
   city: Yup.string().required(),
   zip: Yup.string()
@@ -35,19 +36,33 @@ const initialValues: OrderDetails = {
 
 export const OrderForm = () => {
   const navigate = useNavigate();
-  const { setOrderDetails, addOrder } = useOrderContext();
+  const { setOrderDetails, addOrder, totalCost, cartItems } = useOrderContext();
 
-  const handleSubmit = async (values: OrderDetails, { setSubmitting }: any) => {
+  const handleSubmit = async (values: OrderDetails, { setSubmitting, resetForm }: any) => {
     try {
-      setOrderDetails(values);
-      await addOrder(values);
+      const orderDetails = {
+        name: values.name,
+        address: values.address,
+        city: values.city,
+        zip: values.zip,
+        email: values.email,
+        phone: values.phone,
+        products: cartItems,
+        totalCost: totalCost,
+      };
+  
+      setOrderDetails(orderDetails);
+      await addOrder(orderDetails);
       setSubmitting(false);
+      resetForm(); // Reset form values
       navigate("/confirmation");
     } catch (error) {
       console.error("Error submitting order:", error);
       // Handle error and display an error message to the user
     }
   };
+  
+
 
   return (
     <>
@@ -62,12 +77,9 @@ export const OrderForm = () => {
       </div>
       <StyledFormContainer className="d-flex justify-content-center align-items-center">
         <Formik
-          validationSchema={schema}
-          onSubmit={(values) => {
-            setOrderDetails(values);
-            navigate("/confirmation");
-          }}
-          initialValues={initialValues}
+        validationSchema={schema}
+        onSubmit={handleSubmit}
+        initialValues={initialValues}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form
