@@ -1,13 +1,16 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { OrderDetails } from "../components/OrderForm";
-import { useCart, CartContextValue, CartContext, } from "../contexts/cartContext";
+import { useCart, CartContextValue, CartContext } from "../contexts/cartContext";
 
-
-interface OrderContextType extends CartContextValue {
+interface OrderContextType {
   orderId: number;
   orderDetails: OrderDetails;
   setOrderDetails: (values: Partial<OrderDetails>) => void;
   addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => Promise<void>;
+  cartItems: CartContextValue["cartItems"];
+  setCartItems: CartContextValue["setCartItems"];
+  totalCost: CartContextValue["totalCost"];
+  orderNumber: number;
 }
 
 const OrderContext = createContext({} as OrderContextType);
@@ -52,8 +55,8 @@ export function OrderProvider({ children }: PropsWithChildren) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          products: products || cartItems, // Use products from the order parameter if provided, otherwise use cartItems from the CartContext
-          totalCost: totalCost || cartTotalCost, // Use totalCost from the order parameter if provided, otherwise use cartTotalCost from the CartContext
+          products: products || cartItems,
+          totalCost: totalCost || cartTotalCost,
           name,
           address,
           city,
@@ -69,11 +72,9 @@ export function OrderProvider({ children }: PropsWithChildren) {
         console.log("Order ID:", data.orderId);
       } else {
         console.error("Failed to submit order");
-        // Handle error and display an error message to the user
       }
     } catch (error) {
       console.error("Error submitting order:", error);
-      // Handle error and display an error message to the user
     }
   };
 
@@ -87,6 +88,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
         cartItems,
         setCartItems,
         totalCost: cartTotalCost,
+        orderNumber,
       }}
     >
       {children}
