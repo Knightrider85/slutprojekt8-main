@@ -7,7 +7,8 @@ import React, {
 import { CartItem, Product } from "../../data";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-interface CartContextValue {
+
+export interface CartContextValue {
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   addToCart: (cartItem: CartItem) => void;

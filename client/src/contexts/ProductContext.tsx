@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useState } from "react";
+import { FC, createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRequest } from "../hooks/useRequest";
 
@@ -7,12 +7,18 @@ export interface ProductData {
   name: string;
   description: string;
   price: number;
-  /*imageId?: string;*/
+  imageId?: string;
   stock: number;
   category: string;
-  imageId: string;
+  //imageId: string;
   imageUrl?: string;
   quantity: number;
+  color: string;
+}
+
+interface Filters {
+  price: string;
+  category: string;
   color: string;
 }
 
@@ -20,22 +26,30 @@ interface ProductContext {
   selectedProduct: ProductData | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<ProductData | null>>;
   products: ProductData[];
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   removeProduct: (id: string) => void;
-  editProduct: (product: ProductData) => void; //
+  editProduct: (product: ProductData) => void;
   addProduct: (product: ProductData) => void;
   getAllProducts: () => Promise<void>;
-  /* uploadImage: (file: File) => Promise<string>; */
+  //uploadImage: (file: File) => Promise<string>;
 }
 
 export const ProductContext = createContext<ProductContext>({
+  //uploadImage: async () => "",
   selectedProduct: null,
   setSelectedProduct: () => {},
   products: [],
+  filters: {
+    price: "None",
+    category: "None",
+    color: "None",
+  },
+  setFilters: () => {},
   addProduct: async () => {},
   removeProduct: async (id: string) => {},
   editProduct: () => {},
   getAllProducts: async () => {},
-  /* uploadImage: async () => "", */
 });
 export const ProductProvider: FC<{ children: React.ReactNode }> = (
   props: any
@@ -44,6 +58,11 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(
     null
   );
+  const [filters, setFilters] = useState<Filters>({
+    price: "None",
+    category: "None",
+    color: "None",
+  });
 
   const params = useParams<{ id: string }>();
 
@@ -67,16 +86,34 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
 
   const getAllProducts = async () => {
     try {
-      let { data, ok } = await useRequest(`/api/products`, "GET");
-      if (ok) {
-        setProducts(data);
+      // Convert filters object into an object with only string values
+      const stringFilters = Object.fromEntries(
+        Object.entries(filters).map(([key, value]) => [key, String(value)])
+      );
+
+      // Include filters in the request
+      const response = await fetch(
+        `/api/products/all?${new URLSearchParams(stringFilters).toString()}`
+      );
+
+      const data = await response.json();
+      if (Array.isArray(data.products)) {
+        setProducts(data.products);
+      } else {
+        console.error("Error fetching products: Invalid response format");
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        return console.error(`Error occurred: ${err.message}`);
-      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
   };
+
+  useEffect(() => {
+    getAllProducts();
+  }, [filters]); // Refetch when filters change
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   const removeProduct = async (id: string) => {
     try {
@@ -110,23 +147,23 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
     }
   };
 
-  /*   const uploadImage = async (file: File) => {
-    try {
-      // Ladda upp bild till API'et
-      const formData = new FormData();
-      formData.append("image", file);
-      const response = await fetch("/api/images", {
-        method: "POST",
-        body: formData,
-      });
-      const imageId = await response.json();
-      return imageId;
-    } catch (err) {
-      if (err instanceof Error) {
-        return console.error(`Error occurred: ${err.message}`);
-      }
-    }
-  }; */
+  //const uploadImage = async (file: File) => {
+  //try {
+  // Ladda upp bild till API'et
+  //const formData = new FormData();
+  //formData.append("image", file);
+  //const response = await fetch("/api/images", {
+  //  method: "POST",
+  // body: formData,
+  //});
+  // const imageId = await response.json();
+  //return imageId;
+  //} catch (err) {
+  // if (err instanceof Error) {
+  //   return console.error(`Error occurred: ${err.message}`);
+  // }
+  // }
+  //};
 
   return (
     <ProductContext.Provider
@@ -138,7 +175,9 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
         selectedProduct,
         setSelectedProduct,
         getAllProducts,
-        /* uploadImage, */
+        filters,
+        setFilters,
+        //uploadImage,
       }}
     >
       {props.children}

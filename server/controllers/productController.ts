@@ -40,7 +40,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    const deletedProduct = await Product.findOneAndDelete({ productId });
+    const deletedProduct = await Product.findOneAndDelete({ _id: productId });
 
     if (!deletedProduct) {
       return res.status(404).json({ error: "Product not found" });
@@ -61,7 +61,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     const { name, description, price, image, stock, categories } = req.body;
 
     const updatedProduct = await Product.findOneAndUpdate(
-      { productId },
+      { _id: productId },
       { name, description, price, image, stock, categories },
       { new: true }
     );
@@ -86,7 +86,23 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.find();
+    const { sort, order, color, category } = req.query;
+
+    let sortParams: Record<string, any> = {};
+    if (typeof sort === "string" && typeof order === "string") {
+      sortParams[sort] = order === "desc" ? -1 : 1;
+    }
+
+    let filterParams: Record<string, any> = {};
+    if (typeof color === "string" && color !== "None") {
+      filterParams["color"] = color;
+    }
+    if (typeof category === "string" && category !== "None") {
+      filterParams["category"] = category;
+    }
+
+    const products = await Product.find(filterParams).sort(sortParams);
+    console.log(products);
     res.json({ products });
   } catch (error) {
     console.error("Error getting products:", error);
