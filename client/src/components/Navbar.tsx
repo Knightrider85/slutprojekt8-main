@@ -6,27 +6,40 @@ import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
-export function Navbar() {
 
+export function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
-
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Define the screenWidth state
 
   useEffect(() => {
-    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
-      if(data.isSignedIn === true){
-        setLoggedIn(true);
-      }else {
-        setLoggedIn(false);
-      }
-    }).catch((error) => console.log("Error checking if a user is logged in", error))
+    fetch("/api/checkSignedIn")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.isSignedIn === true) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      })
+      .catch((error) =>
+        console.log("Error checking if a user is logged in", error)
+      );
 
     fetch("/api/checkAdmin")
-    .then((response) => response.json())
-    .then((data) => setIsAdmin(data.isAdmin))
-    .catch((error) => console.error("Error checking admin:", error));
-  },[]) 
+      .then((response) => response.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch((error) => console.error("Error checking admin:", error));
 
+    // Update the screenWidth state on window resize
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <header>
@@ -34,7 +47,7 @@ export function Navbar() {
         
         <Container>
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
-          <CartButton />
+          {screenWidth <= 767 && <CartButton/> }
           <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
@@ -61,7 +74,7 @@ export function Navbar() {
                 Admin
               </Link> : null }
 
-              
+              <CartButton />
             </Nav>
           </NavbarBs.Collapse>
         </Container>
