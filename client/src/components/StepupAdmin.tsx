@@ -82,40 +82,49 @@ function StepUpAdmin() {
     setShowModal(false);
   };
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <>
       {isAdmin && (
-        <Accordion>
-          {users.map((user, index) => (
-            <Accordion.Item key={user._id} eventKey={index.toString()}>
-              <Accordion.Header>{user.name}</Accordion.Header>
-              <Accordion.Body>
-                <p>UserId: {user._id}</p>
-                <p>Email: {user.email}</p>
-                <p>Phone: {user.phone}</p>
-                <p>Address: {user.address}</p>
-                <p>isAdmin: {user.isAdmin.toString()}</p>
-                {/* Render additional user information here */}
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    console.log("userId:", user._id); // Add this line for debugging
-                    deleteUser(user._id);
-                  }}
-                >
-                  Delete
-                </Button>
+        <>
+          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            Toggle Dropdown
+          </button>
+          {isDropdownOpen && (
+            <Accordion>
+              {users.map((user, index) => (
+                <Accordion.Item key={user._id} eventKey={index.toString()}>
+                  <Accordion.Header>{user.name}</Accordion.Header>
+                  <Accordion.Body>
+                    <p>UserId: {user._id}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Phone: {user.phone}</p>
+                    <p>Address: {user.address}</p>
+                    <p>isAdmin: {user.isAdmin.toString()}</p>
+                    {/* Render additional user information here */}
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        console.log("userId:", user._id); // Add this line for debugging
+                        deleteUser(user._id);
+                      }}
+                    >
+                      Delete
+                    </Button>
 
-                <Button
-                  variant="primary"
-                  onClick={() => updateAdminStatus(user._id, !user.isAdmin)}
-                >
-                  {user.isAdmin ? "Revoke Admin" : "Make Admin"}
-                </Button>
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
-        </Accordion>
+                    <Button
+                      variant="primary"
+                      onClick={() => updateAdminStatus(user._id, !user.isAdmin)}
+                    >
+                      {user.isAdmin ? "Revoke Admin" : "Make Admin"}
+                    </Button>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          )}
+        </>
       )}
 
       <Button variant="primary" onClick={() => setShowModal(true)}>
