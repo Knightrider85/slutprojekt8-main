@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CartItem, Product } from "../../data";
@@ -50,33 +49,10 @@ export function ProductPage() {
         <Container className="mb-5 mt-5">
           <Row>
             <Col lg={6}>
-              <Carousel
-                variant="dark"
-                interval={null}
-                className="d-flex justify-content-center"
-              >
-                <Carousel.Item>
-                  <img
-                    className="w-100"
-                    src={product.imageId}
-                    alt={product.name}
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    className="w-100"
-                    src={product.imageId}
-                    alt={product.name}
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    className="w-100"
-                    src={product.imageId}
-                    alt={product.name}
-                  />
-                </Carousel.Item>
-              </Carousel>{" "}
+              <ProductImage
+                src={"/api/file/" + product.imageId}
+                alt={product.name}
+              />
             </Col>
             <Col lg={6}>
               <ContentDetails>
