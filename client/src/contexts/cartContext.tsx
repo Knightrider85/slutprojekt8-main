@@ -46,7 +46,7 @@ export default function CartProvider({ children }: PropsWithChildren) {
 
   const addToCart = (cartItem: CartItem) => {
     const existingProductIndex = cartItems.findIndex(
-      (item) => item.id === cartItem.id
+      (item) => item._id === cartItem._id
     );
 
     if (existingProductIndex >= 0) {
@@ -66,7 +66,7 @@ export default function CartProvider({ children }: PropsWithChildren) {
 
   const removeFromCart = (cartItem: CartItem) => {
     const existingProductIndex = cartItems.findIndex(
-      (item) => item.id === cartItem.id
+      (item) => item._id === cartItem._id
     );
   
     if (existingProductIndex >= 0) {
