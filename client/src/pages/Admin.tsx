@@ -1,33 +1,23 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import StepUpAdmin from "../components/StepupAdmin";
-import { ProductContext } from "../contexts/ProductContext";
-import { NewProductForm } from "../components/NewProductForm";
 import EditProduct from "../components/EditProduct";
+import { NewProductForm } from "../components/NewProductForm";
+import StepUpAdmin from "../components/StepupAdmin";
+import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../contexts/ProductContext";
+import styled from "styled-components";
 
 export function Admin() {
+  const navigate = useNavigate();
+  const { products: items } = useContext(ProductContext);
 
   return (
     <Container>
       <StepUpAdmin />
       <NewProductForm />
       <EditProduct />
-  const navigate = useNavigate();
 
-  const { products: items } = useContext(ProductContext);
-
-/*   useEffect(() => {
-    const storedProducts = localStorage.getItem("products");
-    if (storedProducts) {
-      setItems(JSON.parse(storedProducts));
-    }
-  }, []); */
-
-  return (
-    <Container>
-      <StepUpAdmin />
+      {/* Commented out code */}
       {/* <AddBtnContainer>
         <Button
           variant="primary"
@@ -48,15 +38,13 @@ export function Admin() {
       <ListHeaderMediaQ>
         <Col>Listed products</Col>
       </ListHeaderMediaQ>
-        <div>
-          {items.map((product) => (
-            <Row key={product.id} data-cy="product">
-              <ProductListedItem
-                product={product}
-              />
-            </Row>
-          ))}
-        </div> */}
+      <div>
+        {items.map((product) => (
+          <Row key={product.id} data-cy="product">
+            <ProductListedItem product={product} />
+          </Row>
+        ))}
+      </div> */}
     </Container>
   );
 }
