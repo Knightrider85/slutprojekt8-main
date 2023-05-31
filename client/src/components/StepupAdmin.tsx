@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Accordion, Button, Modal } from "react-bootstrap";
 import { IOrder } from "../../../server/models/orderModel";
 import { IUser } from "../../../server/models/userModel";
-import { right } from "@popperjs/core";
 
 function StepUpAdmin() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -89,9 +88,9 @@ function StepUpAdmin() {
     <>
       {isAdmin && (
         <>
-          <Button style={{marginRight:'1rem'}}onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-            Users 
-          </Button>
+          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            Toggle Dropdown
+          </button>
           {isDropdownOpen && (
             <Accordion>
               {users.map((user, index) => (
