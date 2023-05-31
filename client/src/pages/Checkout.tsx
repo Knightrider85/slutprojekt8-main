@@ -17,7 +17,7 @@ export function CartPage() {
       <ProductsContainer>
         {cartItems.length > 0 ? (
           cartItems.map((product) => (
-            <ProductItem data-cy="cart-item" key={product.id}>
+            <ProductItem data-cy="cart-item" key={product._id}>
               <ProductImage src={product.imageUrl} alt={product.name} />
               <ProductDetails>
                 <ProductTitle data-cy="product-title">

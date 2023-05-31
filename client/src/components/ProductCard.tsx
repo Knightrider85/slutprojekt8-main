@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const handleCardClick = () => {
     setSelectedProduct(product);
-    navigate(`/product/${product.id}`);
+    navigate(`/product/${product._id}`);
   };
 
   const handleAddToCart = () => {

@@ -32,7 +32,7 @@ export function ProductListedItem({ product }: { product: ProductData }) {
         </Col>
 
         <Col>
-          <ProductID data-cy="product-id" >{product.id}</ProductID>
+          <ProductID data-cy="product-id" >{product._id}</ProductID>
         </Col>
 
         <Col>

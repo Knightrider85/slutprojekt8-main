@@ -13,7 +13,7 @@ import { useCart } from "../contexts/cartContext";
 export function ProductPage() {
   const params = useParams();
   const { products } = useProducts();
-  const product = products.find((product) => product.id === params.productid);
+  const product = products.find((product) => product._id === params.productid);
   const { addToCart } = useContext(CartContext); //here is where the context is beeing used//dv
   const sizes = ["37", "38", "39", "40", "41", "42", "43", "44", "45", "46"];
   const [selectedSize, setSelectedSize] = useState(sizes[0]);

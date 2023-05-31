@@ -63,7 +63,7 @@ export function Home() {
       )}
       <ProductContainer>
         {sortedAndFilteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </ProductContainer>
     </main>

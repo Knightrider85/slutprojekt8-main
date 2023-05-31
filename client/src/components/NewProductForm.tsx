@@ -63,7 +63,7 @@ export function NewProductForm() {
     onSubmit: (values) => {
       console.log("hello");
       const product: ProductData = {
-        id: values.id,
+        _id: values.id,
         name: values.name,
         imageId: values.imageId,
         price: values.price,

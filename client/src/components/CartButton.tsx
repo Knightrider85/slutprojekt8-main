@@ -84,7 +84,7 @@ export function CartButton() {
             {cartItems.length > 0 ? (
               cartItems.map((product: Product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   style={{
                     display: "flex",
                     alignItems: "center",
