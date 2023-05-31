@@ -5,7 +5,9 @@ import sharp from 'sharp';
 import { fileBucket } from '../models/fileModel';
 
 export async function getFileById(req: Request, res: Response) {
+    if (!req.params.id) return res.json('File not found');
     const _id = new mongoose.mongo.ObjectId(req.params.id);
+    
     const file = await fileBucket.find({ _id }).next();
 
     if (!file?.contentType) {
