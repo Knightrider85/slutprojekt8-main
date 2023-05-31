@@ -5,8 +5,18 @@ import sharp from 'sharp';
 import { fileBucket } from '../models/fileModel';
 
 export async function getFileById(req: Request, res: Response) {
- //to do implement
-}
+    const _id = new mongoose.mongo.ObjectId(req.params.id);
+    const file = await fileBucket.find({ _id }).next();
+
+    if (!file?.contentType) {
+      return res.status(404).json('File not found');
+    }
+    res.setHeader('Content-Type', file.contentType);
+    // res.setHeader('Content-Disposition', `attachment; filename=${file.filename}`);
+  const downloadStream = fileBucket.openDownloadStream(_id);
+  downloadStream.pipe(res);
+  }
+
 
 export async function uploadFile(req: Request, res: Response) {
   const bb = busboy({ headers: req.headers });
