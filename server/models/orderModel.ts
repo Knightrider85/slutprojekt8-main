@@ -6,6 +6,7 @@ export interface IOrder extends Document {
  
   products: IProduct["_id"][];
   totalCost: number;
+  quantity: number[];
   // userId: IUser["_id"];
   name: string;
   address: string;
@@ -13,8 +14,8 @@ export interface IOrder extends Document {
   zip: string;
   email: string;
   phone: number;
-  isShipped: boolean;
-  createdAt: Date;
+  // isShipped: boolean;
+  // createdAt: Date;
   orderId: string;
 }
 
@@ -22,6 +23,7 @@ const OrderSchema = new Schema<IOrder>({
  
   totalCost: { type: Number, required: false },
   products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
+  quantity: [{ type: Number, required: true }],
   // userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
   address: { type: String, required: true },

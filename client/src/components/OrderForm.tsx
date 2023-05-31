@@ -37,15 +37,16 @@ const initialValues: OrderDetails = {
 
 export const OrderForm = () => {
   const navigate = useNavigate();
-  const { setOrderDetails, addOrder,} = useOrderContext();
+  const { setOrderDetails, addOrder } = useOrderContext();
   const { cartItems, totalCost } = useCart();
 
-  
-
-  const handleSubmit = async (values: OrderDetails, { setSubmitting, resetForm }: any) => {
+  const handleSubmit = async (
+    values: OrderDetails,
+    { setSubmitting, resetForm }: any
+  ) => {
     try {
       console.log("Form Values:", values);
-  
+
       const orderDetails = {
         name: values.name,
         address: values.address,
@@ -55,14 +56,15 @@ export const OrderForm = () => {
         phone: values.phone,
         products: cartItems,
         totalCost: totalCost,
+        quantity: cartItems.map((item) => item.quantity),
       };
-  
+
       console.log("Order Details:", orderDetails);
-  
+
       setOrderDetails(orderDetails);
       resetForm(); // Reset form values before adding the order
       setSubmitting(false);
-  
+
       await addOrder(orderDetails);
       navigate("/confirmation", { state: { orderDetails } });
     } catch (error) {
@@ -73,19 +75,20 @@ export const OrderForm = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-
   useEffect(() => {
-    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
-      if(data.isSignedIn === true){
-        setLoggedIn(true);
-      }else {
-        setLoggedIn(false);
-      }
-    }).catch((error) => console.log("Error checking if a user is logged in", error))
-  },[]) 
-  
-  
-
+    fetch("/api/checkSignedIn")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.isSignedIn === true) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      })
+      .catch((error) =>
+        console.log("Error checking if a user is logged in", error)
+      );
+  }, []);
 
   return (
     <>
@@ -100,9 +103,9 @@ export const OrderForm = () => {
       </div>
       <StyledFormContainer className="d-flex justify-content-center align-items-center">
         <Formik
-        validationSchema={schema}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
+          validationSchema={schema}
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
         >
           {({ handleSubmit, handleChange, values, touched, errors }) => (
             <Form
@@ -244,15 +247,15 @@ export const OrderForm = () => {
                   )}
                 </Form.Group>
               </Row>
-              { loggedIn ?               <Button style={{ marginTop: "1rem" }} type="submit">
-                Submit order and pay
-              </Button> : 
-              
-              <Link data-cy="user-link" to="/login">
-                <Button>Sign In</Button>
-              
-            </Link> }
-
+              {loggedIn ? (
+                <Button style={{ marginTop: "1rem" }} type="submit">
+                  Submit order and pay
+                </Button>
+              ) : (
+                <Link data-cy="user-link" to="/login">
+                  <Button>Sign In</Button>
+                </Link>
+              )}
             </Form>
           )}
         </Formik>
