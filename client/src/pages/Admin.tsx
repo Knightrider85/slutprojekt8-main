@@ -11,7 +11,11 @@ import styled from "styled-components";
 export function Admin() {
   const navigate = useNavigate();
   const { products: items } = useContext(ProductContext);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
+  fetch("/api/checkAdmin")
+      .then((response) => response.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch((error) => console.error("Error checking admin:", error));
 
   return (
     <>
