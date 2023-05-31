@@ -86,21 +86,6 @@ export function NewProductForm() {
     },
   });
 
-  /*   async function handleUploadImage(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) {
-      try {
-        const imageId = await uploadImage(file);
-        formik.setFieldValue("imageId", imageId);
-      } catch (error) {
-        if (error instanceof Error) {
-          formik.setFieldError("imageId", error.message);
-        }
-      }
-    }
-  }
- */
-
   async function handleSubmit(e: any) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -110,14 +95,26 @@ export function NewProductForm() {
     });
   }
 
-  //   const fileId = await response.json();
-
-  //   await fetch("/api/product", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(product),
-  //   });
-  // }
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("image", file);
+        const response = await fetch("/api/files", {
+          method: "POST",
+          body: formData,
+        });
+        const imageId = await response.json();
+        formik.setFieldValue("imageId", imageId);
+        console.log("Response from image is:", imageId);
+      } catch (error) {
+        if (error instanceof Error) {
+          formik.setFieldError("imageId", error.message);
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -128,7 +125,7 @@ export function NewProductForm() {
             // placeholder="https://example.jpg"
             name="image"
             // value={formik.values.imageId}
-            /* onChange={handleUploadImage} */
+            onChange={handleFileChange}
             // onBlur={formik.handleBlur}
             data-cy="product-image"
             isInvalid={formik.touched.imageId && !!formik.errors.imageId}
