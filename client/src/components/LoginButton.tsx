@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
-export function LoginButton() {
-  const [loggedIn, setLoggedIn] = useState(false);
+interface LoginButtonProps {
+  loggedIn: boolean;
+  onSignOut: () => void;
+}
 
-  const handleSignOut = async (values: any) => {
+export function LoginButton({ loggedIn, onSignOut }: LoginButtonProps) {
+  const handleSignOut = async () => {
     try {
       const response = await fetch("/api/signOut", {
         method: "POST",
@@ -15,33 +17,25 @@ export function LoginButton() {
 
       if (response.ok) {
         console.log("User signed out successfully");
-        setLoggedIn(false);
+        onSignOut();
       }
     } catch (error) {
-      console.error("Error signing in user:", error);
+      console.error("Error signing out user:", error);
     }
   };
 
-   useEffect(() => {
-    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
-      setLoggedIn(true);
-    }).catch((error) => console.log("Error checking if a user is logged in", error))
-  },[]) 
-
   return (
     <>
-
-        <Button
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            border: "0px",
-          }}
-          onClick={handleSignOut}
-        >
-          {loggedIn ? <span>Sign out</span> : <span>Sign in</span>}
-        </Button>
-
+      <Button
+        style={{
+          backgroundColor: "white",
+          color: "black",
+          border: "0px",
+        }}
+        onClick={handleSignOut}
+      >
+        {loggedIn ? <span>Sign Out</span> : <span>Sign In</span>}
+      </Button>
     </>
   );
 }
