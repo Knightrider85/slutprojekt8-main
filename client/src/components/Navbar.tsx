@@ -1,39 +1,53 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from "react";
-import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
-export function Navbar() {
+import { useState, useEffect } from "react";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
+export function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
-
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
-      if(data.isSignedIn === true){
-        setLoggedIn(true);
-      }else {
-        setLoggedIn(false);
-      }
-    }).catch((error) => console.log("Error checking if a user is logged in", error))
+    fetch("/api/checkSignedIn")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.isSignedIn === true) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      })
+      .catch((error) =>
+        console.log("Error checking if a user is logged in", error)
+      );
 
     fetch("/api/checkAdmin")
-    .then((response) => response.json())
-    .then((data) => setIsAdmin(data.isAdmin))
-    .catch((error) => console.error("Error checking admin:", error));
-  },[]) 
+      .then((response) => response.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch((error) => console.error("Error checking admin:", error));
 
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <header>
-      <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
+      <Navbar sticky="top" expand="md" className="header shadow-lg mb-4">
         <Container>
-          <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
-          <NavbarBs.Collapse id="responsive-navbar-nav">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          {screenWidth <= 767 && <CartButton/> }
+          <Navbar.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
                 <HomeLogo />
@@ -49,21 +63,19 @@ export function Navbar() {
               <Link data-cy="user-link" to="/login" as={NavLink}>
                 <LoginButton />
               </Link>
-               <Link data-cy="user-link" to="/users" as={NavLink}>
+              <Link data-cy="user-link" to="/users" as={NavLink}>
                 Create User
-              </Link> 
-
-
-              {loggedIn && isAdmin  ? 
-              <Link data-cy="admin-link" to="/admin" as={NavLink}>
-                Admin
-              </Link> : null }
-
+              </Link>
+              {loggedIn && isAdmin ? (
+                <Link data-cy="admin-link" to="/admin" as={NavLink}>
+                  Admin
+                </Link>
+              ) : null}
               <CartButton />
             </Nav>
-          </NavbarBs.Collapse>
+          </Navbar.Collapse>
         </Container>
-      </NavbarBs>
+      </Navbar>
     </header>
   );
 }
@@ -79,6 +91,7 @@ const StyledNavLink = styled(NavLink)`
     color: #9d9d9d;
     text-decoration: underline 3px;
   }
+
   &.active {
     color: black;
     text-decoration: underline 3px;
@@ -90,6 +103,7 @@ const Link = styled(NavLink)`
   text-decoration: none;
   color: black;
   transition: all 0.3s ease;
+
   &:hover {
     color: #9d9d9d;
     text-decoration: underline 3px;
@@ -102,4 +116,4 @@ const NavWrapper = styled(Nav)`
     align-items: flex-start;
     margin-top: 10px;
   }
-`;
+};
