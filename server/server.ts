@@ -18,6 +18,9 @@ mongoose
   .then(() => {
     console.log('Connected to MongoDB Atlas');
 
+
+    app.set('trust proxy', 1) // trust first proxy
+
     // Set up cookie session middleware
     app.use(
       cookieSession({

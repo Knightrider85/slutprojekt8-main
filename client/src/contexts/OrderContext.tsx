@@ -47,7 +47,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
 
   const addOrder = async (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => {
     try {
-      const { name, address, city, zip, email, phone } = orderDetails;
+      const { name, address, city, zip, email, phone } = order;
       const { products, totalCost } = order;
 
       const response = await fetch("/api/order", {
