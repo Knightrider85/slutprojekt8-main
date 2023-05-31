@@ -35,7 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <StyledCard data-cy="product">
       <StyledCardImg
         variant="top"
-        src={product.imageUrl}
+        src={"/api/file/" + product.imageId}
         onClick={handleCardClick}
       />
       <Card.Body

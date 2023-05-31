@@ -11,7 +11,7 @@ export interface IProduct extends Document {
   color: string;
 }
 
-const ProductSchema = new Schema<IProduct>({
+export const ProductSchema = new Schema<IProduct>({
   productId: { type: String, required: false },
   name: { type: String, required: true },
   description: { type: String, required: true },

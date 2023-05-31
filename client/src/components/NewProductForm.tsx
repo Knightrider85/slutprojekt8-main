@@ -47,7 +47,7 @@ export function NewProductForm() {
     },
 
     validationSchema: Yup.object({
-      //imageId: Yup.object().required(),
+      imageId: Yup.object().required(),
       name: Yup.string().required("Please enter a title"),
       description: Yup.string().required("Please enter a description"),
       price: Yup.number()
