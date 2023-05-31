@@ -12,6 +12,7 @@ import { FAQ } from "./pages/FAQ";
 import { Home } from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import { ProductPage } from "./pages/ProductPage";
+import { Admin } from "./pages/Admin";
 
 export default function App() {
   return (
@@ -29,25 +30,7 @@ export default function App() {
         >
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/admin/product?/:productid?/:editItem?"
-              element={
-                <>
-                  <StepUpAdmin />
-                  <NewProductForm />
-                </>
-              }
-            />
-            <Route path="/admin/product/new" element={<NewProductForm />} />
-            <Route
-              path="/admin/product/editItem/:productid"
-              element={
-                <>
-                  <StepUpAdmin />
-                  <NewProductForm />
-                </>
-              }
-            />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/FAQ" element={<FAQ />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/product/:productid" element={<ProductPage />} />

@@ -4,8 +4,16 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import StepUpAdmin from "../components/StepupAdmin";
 import { ProductContext } from "../contexts/ProductContext";
+import { NewProductForm } from "../components/NewProductForm";
+import EditProduct from "../components/EditProduct";
 
 export function Admin() {
+
+  return (
+    <Container>
+      <StepUpAdmin />
+      <NewProductForm />
+      <EditProduct />
   const navigate = useNavigate();
 
   const { products: items } = useContext(ProductContext);
