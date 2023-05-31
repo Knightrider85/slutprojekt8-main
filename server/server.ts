@@ -2,6 +2,7 @@ import cookieSession from 'cookie-session';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import { fileRouter } from './routes/fileRoutes';
 import orderRouter from './routes/orderRoutes';
 import productRouter from './routes/productRoutes';
 import userRouter from './routes/userRoutes';
@@ -38,7 +39,8 @@ mongoose
     // Use the routes in your Express application
     app.use(userRouter);
     app.use(productRouter);
-    app.use(orderRouter)
+    app.use(orderRouter);
+    app.use(fileRouter);
 
     // Start the server after connecting to the database
     app.listen(port, () => {
