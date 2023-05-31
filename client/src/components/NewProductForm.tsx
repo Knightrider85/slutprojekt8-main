@@ -20,15 +20,15 @@ export function NewProductForm() {
     "Yellow",
     "Green",
     "Blue",
-    "Purpule",
-    "Orange",
+    "Brown",
+    "Gray",
   ];
   const category = [
     "Sandals",
     "Sneakers",
     "Boots",
     "Hikingshoes",
-    "Flipflops",
+    "High heels",
     "Running",
   ];
 

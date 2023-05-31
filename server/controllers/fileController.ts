@@ -40,7 +40,7 @@ export async function uploadFile(req: Request, res: Response) {
           res.status(201).json(data._id);
         });
 
-      const resizer = sharp().resize(1080).jpeg({ quality: 90 }).grayscale();
+      const resizer = sharp().resize(1080).jpeg({ quality: 90 });
 
       file.pipe(resizer).pipe(uploadStream);
     });

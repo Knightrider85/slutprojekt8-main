@@ -1,8 +1,8 @@
-import Accordion from "react-bootstrap/esm/Accordion";
-import { FilterSelect } from "./FilterSelect";
-import React, { Dispatch, SetStateAction, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import Accordion from "react-bootstrap/esm/Accordion";
 import { useProducts } from "../contexts/ProductContext";
+import { FilterSelect } from "./FilterSelect";
 
 export default function FilterList() {
   const { filters, setFilters } = useProducts();
@@ -27,8 +27,8 @@ export default function FilterList() {
     "Yellow",
     "Green",
     "Blue",
-    "Purpule",
-    "Orange",
+    "Brown",
+    "Gray",
   ];
   const category = [
     "None",
@@ -36,7 +36,7 @@ export default function FilterList() {
     "Sneakers",
     "Boots",
     "Hikingshoes",
-    "Flipflops",
+    "High heels",
     "Running",
   ];
 

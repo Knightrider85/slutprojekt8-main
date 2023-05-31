@@ -4,11 +4,10 @@ import Carousel from "react-bootstrap/Carousel";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CartItem, Product } from "../../data";
-import { CartContext } from "../contexts/cartContext";
 import { FilterSelect } from "../components/FilterSelect";
-import { useProducts } from "../contexts/ProductContext";
 import { ToastCart } from "../components/ToastCart";
-import { useCart } from "../contexts/cartContext";
+import { useProducts } from "../contexts/ProductContext";
+import { CartContext, useCart } from "../contexts/cartContext";
 
 export function ProductPage() {
   const params = useParams();
@@ -118,6 +117,12 @@ export function ProductPage() {
     </div>
   );
 }
+
+const ProductImage = styled.img`
+  width: 100%;
+  max-width: 490px;
+  height: auto;
+`;
 
 const Styledp = styled.p`
   font-weight: bold;
