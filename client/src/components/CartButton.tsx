@@ -8,22 +8,18 @@ import { CartContext } from "../contexts/cartContext";
 
 export function CartButton() {
   const [showCart, setShowCart] = useState(false);
-
   const handleCloseCart = () => setShowCart(false);
   const { cartItems, totalCartCount, totalCost } = useContext(CartContext);
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [hasNavigatedToCheckout, setHasNavigatedToCheckout] = useState(false);
+  
 
   const handleButtonClick = () => {
-    setIsLoggedIn(!isLoggedIn); // Toggle the isLoggedIn state
-  
-    if (!hasNavigatedToCheckout && !isLoggedIn) {
-      navigate("/checkout");
-      setHasNavigatedToCheckout(true);
-    } else {
-      console.log("Please sign in to proceed to checkout");
-    }
+    navigate("/checkout");
+    
+     {
+      
+     }
+    
   };
   return (
     <>

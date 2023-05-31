@@ -1,44 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
-import { isLoggedIn } from "./LoginForm";
 
 export function LoginButton() {
-  const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
-  const [isLoggedInState, setIsLoggedInState] = useState(
-    isLoggedIn && !isLoginPage
-  );
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleButtonClick = () => {
-    setIsLoggedInState(false);
+  const handleSignOut = async (values: any) => {
+    try {
+      const response = await fetch("/api/signOut", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        console.log("User signed out successfully");
+        setLoggedIn(false);
+      }
+    } catch (error) {
+      console.error("Error signing in user:", error);
+    }
   };
+
+   useEffect(() => {
+    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
+      setLoggedIn(true);
+    }).catch((error) => console.log("Error checking if a user is logged in", error))
+  },[]) 
 
   return (
     <>
-      {isLoginPage ? (
+
         <Button
           style={{
             backgroundColor: "white",
             color: "black",
             border: "0px",
           }}
-          onClick={handleButtonClick}
+          onClick={handleSignOut}
         >
-          <span>Sign in</span>
+          {loggedIn ? <span>Sign out</span> : <span>Sign in</span>}
         </Button>
-      ) : (
-        <Button
-          style={{
-            backgroundColor: "white",
-            color: "black",
-            border: "0px",
-          }}
-          onClick={handleButtonClick}
-        >
-          {isLoggedInState ? <span>Sign out</span> : <span>Sign in</span>}
-        </Button>
-      )}
+
     </>
   );
 }

@@ -76,7 +76,6 @@ export const signInUser = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
@@ -85,12 +84,18 @@ export const getAllUsers = async (req: Request, res: Response) => {
     console.error('Error retrieving users:', error);
     return res.status(500).json({ error });
   }
-}
+};
 
 //CHECK ADMIN
 export const checkAdmin = (req: Request, res: Response) => {
   const isAdmin = req.session?.isAdmin || false;
   res.json({ isAdmin });
+};
+
+//CHECK SIGNED IN
+export const checkIsSignedIn = (req: Request, res: Response) => {
+  const isSignedIn = req.session?.isSignedIn || false;
+  res.json({ isSignedIn });
 };
 
 //DELETE USER
@@ -113,7 +118,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     console.error('Error deleting user:', error);
     res.status(500).json({ error: 'An error occurred while deleting the user' });
   }
-}
+};
 
 // UPDATE THE USER´S isAdmin status
 export const updateUserAdminStatus = async (req: Request, res: Response) => {
@@ -135,14 +140,15 @@ export const updateUserAdminStatus = async (req: Request, res: Response) => {
     res.json({ message: 'User admin status updated successfully' });
   } catch (error) {
     console.error('Error updating the user admin status', error);
-    res.status(500).json({ error: 'An error occured while updating the user admin status' });
+    res.status(500).json({ error: 'An error occurred while updating the user admin status' });
   }
-}
+};
 
 export const handleSignOutUser = (req: Request, res: Response) => {
   // Remove the user-related information from the session
   delete req.session!.userId;
   delete req.session!.isAdmin;
+  delete req.session!.isSignedIn;
 
   // Send a response indicating successful sign-out
   res.json({ message: "Sign-out successful" });

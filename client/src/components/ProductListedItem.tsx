@@ -37,11 +37,11 @@ export function ProductListedItem({ product }: { product: ProductData }) {
 
         <Col>
           <BtnContainer>
-            <DeleteButton product={product} />{" "}
+            <DeleteButton product={product} />
             <Button
               variant="outline-secondary"
               onClick={() => {
-                editProduct(product.id);
+                editProduct(product);
               }}
               data-cy="admin-edit-product"
             >

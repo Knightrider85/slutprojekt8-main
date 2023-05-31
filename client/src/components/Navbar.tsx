@@ -1,12 +1,33 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
-
 export function Navbar() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
+
+
+  useEffect(() => {
+    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
+      if(data.isSignedIn === true){
+        setLoggedIn(true);
+      }else {
+        setLoggedIn(false);
+      }
+    }).catch((error) => console.log("Error checking if a user is logged in", error))
+
+    fetch("/api/checkAdmin")
+    .then((response) => response.json())
+    .then((data) => setIsAdmin(data.isAdmin))
+    .catch((error) => console.error("Error checking admin:", error));
+  },[]) 
+
+
   return (
     <header>
       <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
@@ -28,12 +49,16 @@ export function Navbar() {
               <Link data-cy="user-link" to="/login" as={NavLink}>
                 <LoginButton />
               </Link>
-              <Link data-cy="user-link" to="/users" as={NavLink}>
-                User
-              </Link>
+               <Link data-cy="user-link" to="/users" as={NavLink}>
+                Create User
+              </Link> 
+
+
+              {loggedIn && isAdmin  ? 
               <Link data-cy="admin-link" to="/admin" as={NavLink}>
                 Admin
-              </Link>
+              </Link> : null }
+
               <CartButton />
             </Nav>
           </NavbarBs.Collapse>

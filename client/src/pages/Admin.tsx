@@ -8,11 +8,55 @@ import { NewProductForm } from "../components/NewProductForm";
 import EditProduct from "../components/EditProduct";
 
 export function Admin() {
+
   return (
     <Container>
       <StepUpAdmin />
       <NewProductForm />
       <EditProduct />
+  const navigate = useNavigate();
+
+  const { products: items } = useContext(ProductContext);
+
+/*   useEffect(() => {
+    const storedProducts = localStorage.getItem("products");
+    if (storedProducts) {
+      setItems(JSON.parse(storedProducts));
+    }
+  }, []); */
+
+  return (
+    <Container>
+      <StepUpAdmin />
+      {/* <AddBtnContainer>
+        <Button
+          variant="primary"
+          onClick={() => navigate(`/admin/product/new`)}
+          data-cy="admin-add-product"
+        >
+          Add new item
+        </Button>
+      </AddBtnContainer>
+      <ListHeader>
+        <Row>
+          <Col xs={3}>Title</Col>
+          <Col xs={4}>Description</Col>
+          <Col>Price</Col>
+          <Col>Id</Col>
+        </Row>
+      </ListHeader>
+      <ListHeaderMediaQ>
+        <Col>Listed products</Col>
+      </ListHeaderMediaQ>
+        <div>
+          {items.map((product) => (
+            <Row key={product.id} data-cy="product">
+              <ProductListedItem
+                product={product}
+              />
+            </Row>
+          ))}
+        </div> */}
     </Container>
   );
 }

@@ -51,6 +51,7 @@ export const ProductContext = createContext<ProductContext>({
   editProduct: () => {},
   getAllProducts: async () => {},
 });
+
 export const ProductProvider: FC<{ children: React.ReactNode }> = (
   props: any
 ) => {
