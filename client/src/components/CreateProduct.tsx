@@ -15,7 +15,7 @@ const CreateProductForm = () => {
     description: Yup.string().required("Description is required"),
     price: Yup.number().required("Price is required"),
     stock: Yup.number().required("Stock is required"),
-    categories: Yup.string().required("categories is required")
+    categories: Yup.string().required("categories is required"),
   });
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
