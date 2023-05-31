@@ -93,6 +93,12 @@ export const checkAdmin = (req: Request, res: Response) => {
   res.json({ isAdmin });
 };
 
+//CHECK SIGNED IN
+export const checkIsSignedIn = (req: Request, res: Response) => {
+  const isSignedIn = req.session?.isSignedIn || false;
+  res.json({ isSignedIn });
+};
+
 //DELETE USER
 export const deleteUser = async (req: Request, res: Response) => {
   try {
@@ -143,6 +149,7 @@ export const handleSignOutUser = (req: Request, res: Response) => {
   // Remove the user-related information from the session
   delete req.session!.userId;
   delete req.session!.isAdmin;
+  delete req.session!.isSignedIn;
 
   // Send a response indicating successful sign-out
   res.json({ message: "Sign-out successful" });

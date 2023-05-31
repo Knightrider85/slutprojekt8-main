@@ -1,12 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { OrderForm } from "../components/OrderForm";
 import { useCart } from "../contexts/cartContext";
 
+
+
 export function CartPage() {
+  const navigate = useNavigate();
   const { cartItems, totalCost, addToCart, removeFromCart} = useCart();
-  
+
 
   return (
     <CartContainer>
@@ -50,13 +54,17 @@ export function CartPage() {
                     style={{ marginLeft: "1rem" }}
                   >
                     +
+                    
                   </Button>
+                  
                 </ProductQuantity>
               </ProductDetails>
             </ProductItem>
+            
           ))
         ) : (
           <div>Your cart is empty</div>
+          
         )}
       </ProductsContainer>
       <TotalPrice data-cy="total-price">Total cost: {totalCost} kr</TotalPrice>
