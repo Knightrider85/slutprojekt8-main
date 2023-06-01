@@ -74,6 +74,7 @@ export function Navbar() {
           </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
+      
     </header>
   );
 }
