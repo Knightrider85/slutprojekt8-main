@@ -5,12 +5,9 @@ import styled from "styled-components";
 import { OrderForm } from "../components/OrderForm";
 import { useCart } from "../contexts/cartContext";
 
-
-
 export function CartPage() {
   const navigate = useNavigate();
-  const { cartItems, totalCost, addToCart, removeFromCart} = useCart();
-
+  const { cartItems, totalCost, addToCart, removeFromCart } = useCart();
 
   return (
     <CartContainer>
@@ -18,7 +15,10 @@ export function CartPage() {
         {cartItems.length > 0 ? (
           cartItems.map((product) => (
             <ProductItem data-cy="cart-item" key={product._id}>
-              <ProductImage src={product.imageUrl} alt={product.name} />
+              <ProductImage
+                src={"/api/file/" + product.imageId}
+                alt={product.name}
+              />
               <ProductDetails>
                 <ProductTitle data-cy="product-title">
                   {product.name}
@@ -32,7 +32,7 @@ export function CartPage() {
                     data-cy="decrease-quantity-button"
                     variant="outline-secondary"
                     onClick={() => {
-                      removeFromCart({...product})
+                      removeFromCart({ ...product });
                     }}
                     style={{ marginRight: "1rem" }}
                   >
@@ -40,7 +40,7 @@ export function CartPage() {
                     -
                   </Button>
                   <InputField
-                   data-cy="product-quantity"
+                    data-cy="product-quantity"
                     type="number"
                     value={product.quantity}
                   />
@@ -49,22 +49,18 @@ export function CartPage() {
                     data-cy="increase-quantity-button"
                     variant="outline-secondary"
                     onClick={() => {
-                    addToCart({...product, quantity: 1})
+                      addToCart({ ...product, quantity: 1 });
                     }}
                     style={{ marginLeft: "1rem" }}
                   >
                     +
-                    
                   </Button>
-                  
                 </ProductQuantity>
               </ProductDetails>
             </ProductItem>
-            
           ))
         ) : (
           <div>Your cart is empty</div>
-          
         )}
       </ProductsContainer>
       <TotalPrice data-cy="total-price">Total cost: {totalCost} kr</TotalPrice>
@@ -73,13 +69,12 @@ export function CartPage() {
   );
 }
 
-
 const InputField = styled.input`
-width: 100%;
-max-width: 50px;
-text-align: center;
-height: 38px;
-`
+  width: 100%;
+  max-width: 50px;
+  text-align: center;
+  height: 38px;
+`;
 const ProductQuantity = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
