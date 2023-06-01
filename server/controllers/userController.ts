@@ -1,9 +1,16 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
+import { Session } from 'express-session';
 import * as Yup from 'yup';
 import User, { IUser } from '../models/userModel';
 
-const signinSchema = Yup.object({
+interface CustomSession extends Session {
+  userId?: Object;
+  isAdmin?: boolean;
+  isSignedIn?: boolean;
+}
+
+const loginSchema = Yup.object({
   email: Yup.string().email().required(),
   password: Yup.string().required(),
 });
@@ -70,9 +77,10 @@ export const signInUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    req.session!.userId = existingUser.id;
-    req.session!.isAdmin = existingUser.isAdmin;
-    req.session!.isSignedIn = true; // Add a flag indicating the user is signed in
+    const session = req.session as CustomSession;
+    session.userId = existingUser.id;
+    session.isAdmin = existingUser.isAdmin;
+    session.isSignedIn = true;
 
     // User authenticated successfully
     console.log("User signed in successfully");
@@ -86,6 +94,7 @@ export const signInUser = async (req: Request, res: Response) => {
   }
 };
 
+
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
@@ -98,13 +107,15 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 //CHECK ADMIN
 export const checkAdmin = (req: Request, res: Response) => {
-  const isAdmin = req.session?.isAdmin || false;
+  const session = req.session as CustomSession;
+  const isAdmin = session.isAdmin || false;
   res.json({ isAdmin });
 };
 
 //CHECK SIGNED IN
 export const checkIsSignedIn = (req: Request, res: Response) => {
-  const isSignedIn = req.session?.isSignedIn || false;
+  const session = req.session as CustomSession;
+  const isSignedIn = session.isSignedIn || false;
   res.json({ isSignedIn });
 };
 
@@ -159,10 +170,10 @@ export const updateUserAdminStatus = async (req: Request, res: Response) => {
 };
 
 export const handleSignOutUser = (req: Request, res: Response) => {
-  // Remove the user-related information from the session
-  delete req.session!.userId;
-  delete req.session!.isAdmin;
-  delete req.session!.isSignedIn;
+  const session = req.session as CustomSession;
+  delete session.userId;
+  delete session.isAdmin;
+  delete session.isSignedIn;
 
   // Send a response indicating successful sign-out
   res.json({ message: "Sign-out successful" });

@@ -1,6 +1,12 @@
 import argon2 from "argon2";
 import { NextFunction, Request, Response } from "express";
+import { Session } from "express-session";
 import { IUser } from "../models/userModel";
+
+interface CustomSession extends Session {
+  userId?: string;
+  isAdmin?: boolean;
+}
 
 // Middleware to hash user password using argon2
 export const hashPassword = async (
@@ -21,8 +27,8 @@ export const hashPassword = async (
     const user = req.body as IUser;
 
     if (req.session) {
-      req.session!.userId = user.userId;
-      req.session!.isAdmin = user.isAdmin;
+      (req.session as CustomSession).userId = user.userId;
+      (req.session as CustomSession).isAdmin = user.isAdmin;
     }
 
     next();
@@ -38,7 +44,7 @@ export const adminCheckMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const isAdmin = req.session?.isAdmin;
+  const isAdmin = (req.session as CustomSession).isAdmin;
 
   // If user is not an admin, return an error
   if (!isAdmin) {
@@ -54,7 +60,7 @@ export const signInCheckMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.session?.userId;
+  const userId = (req.session as CustomSession).userId;
 
   next();
 };
