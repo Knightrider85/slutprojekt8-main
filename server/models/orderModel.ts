@@ -38,7 +38,12 @@ const OrderSchema = new Schema<IOrder>({
   // createdAt: { type: Date, required: true, default: Date.now },
   orderId: { type: String, required: true },
 
+
+  
+
 });
+
+
 
 const Order = mongoose.model<IOrder>("Order", OrderSchema);
 

@@ -1,30 +1,39 @@
 import { Request, Response } from "express";
+import * as Yup from "yup";
 import Product, { IProduct } from "../models/productModel";
+
+const productSchema = Yup.object({
+  imageId: Yup.string().required(),
+  name: Yup.string().required("Please enter a title"),
+  description: Yup.string().required("Please enter a description"),
+  price: Yup.number()
+    .moreThan(0, "Please enter a number")
+    .required("Please enter a price"),
+  stock: Yup.number()
+    .moreThan(0, "Please enter a number")
+    .required("Please enter a quantity"),
+  category: Yup.string().required("Please enter a category"),
+  color: Yup.string().required("Please select a color"),
+}).strip();
+
+const editProductSchema = Yup.object({
+  name: Yup.string().required("Please enter a title"),
+  description: Yup.string().required("Please enter a description"),
+  price: Yup.number()
+    .moreThan(0, "Please enter a number")
+    .required("Please enter a price"),
+  stock: Yup.number()
+    .moreThan(0, "Please enter a number")
+    .required("Please enter a quantity"),
+  category: Yup.string().required("Please enter a category"),
+  color: Yup.string().required("Please select a color"),
+});
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const {
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    } = req.body;
-
-    const product: IProduct = new Product({
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    });
-
+    const productData = await productSchema.validate(req.body);
+    console.log(productData);
+    const product: IProduct = new Product(productData);
     await product.save();
 
     res.status(201).json({ message: "Product created successfully", product });
@@ -56,12 +65,13 @@ export const deleteProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { name, description, price, image, stock, category, color } =
-      req.body;
+
+    const { name, description, price, stock, category, color } =
+      await editProductSchema.validate(req.body);
 
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: productId },
-      { name, description, price, image, stock, category, color },
+      { name, description, price, stock, category, color },
       { new: true }
     );
 
@@ -75,6 +85,9 @@ export const updateProduct = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Error updating product:", error);
+    if (error instanceof Yup.ValidationError) {
+      return res.status(400).json({ error });
+    }
     res
       .status(500)
       .json({ error: "An error occurred while updating the product" });

@@ -61,11 +61,13 @@ const EditProduct: React.FC = () => {
       category: "",
       color: "",
       quantity: 0,
+      imageId: "",
     },
     validationSchema,
     onSubmit: (values) => {
       editProduct(values);
       handleClose();
+      console.log("edit works")
     },
     enableReinitialize: true,
   });

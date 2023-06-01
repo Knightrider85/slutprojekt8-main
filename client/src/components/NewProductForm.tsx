@@ -43,7 +43,7 @@ export function NewProductForm() {
       description: "",
       stock: 0,
       category: "",
-      id: "",
+      _id: "",
     },
 
     validationSchema: Yup.object({
@@ -63,7 +63,7 @@ export function NewProductForm() {
     onSubmit: (values) => {
       console.log("hello");
       const product: ProductData = {
-        _id: values.id,
+        _id: values._id,
         name: values.name,
         imageId: values.imageId,
         price: values.price,
@@ -186,7 +186,7 @@ export function NewProductForm() {
         <FloatingLabel controlId="price" label="Product price">
           <Form.Control
             style={{ marginTop: "1rem" }}
-            type="text"
+            type="number"
             placeholder="Set a price for the product"
             name="price"
             value={formik.values.price}
@@ -207,7 +207,7 @@ export function NewProductForm() {
         <FloatingLabel controlId="stock" label="Amount in Stock">
           <Form.Control
             style={{ marginTop: "1rem" }}
-            type="text"
+            type="number"
             placeholder="Set how many in stock"
             name="stock"
             value={formik.values.stock}
