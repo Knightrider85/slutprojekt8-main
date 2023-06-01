@@ -3,28 +3,9 @@ import Product, { IProduct } from "../models/productModel";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const {
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    } = req.body;
+    const productBody = await productSchema.validate(req.body);
 
-    const product: IProduct = new Product({
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    });
-
+    const product: IProduct = new Product(productBody);
     await product.save();
 
     res.status(201).json({ message: "Product created successfully", product });

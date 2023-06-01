@@ -1,13 +1,25 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
+import * as Yup from 'yup';
 import User, { IUser } from '../models/userModel';
+import cookieSession from 'cookie-session';
+
+const signinSchema = Yup.object({
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+});
+
+const signupSchema = Yup.object({
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+});
 
 export const createUser = async (req: Request, res: Response) => {
   try {
     console.log('Received request to create user:', req.body);
 
-    const { name, email, password } = req.body;
-    const { isAdmin, userId, phone, address } = req.body; // Additional fields
+    const { name, email, password } = await signupSchema.validate(req.body);
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -24,16 +36,12 @@ export const createUser = async (req: Request, res: Response) => {
 
     console.log('User created successfully');
 
-    // Check if user should be promoted to admin
-    if (isAdmin && userId) {
-      user.isAdmin = isAdmin;
-      user.userId = userId;
-      await user.save();
-    }
-
     return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     console.error('Error creating user:', error);
+    if (error instanceof Yup.ValidationError) {
+      return res.status(400).json({ error });
+    }
     return res.status(500).json({ error });
   }
 };
@@ -43,7 +51,7 @@ export const signInUser = async (req: Request, res: Response) => {
   try {
     console.log('Received request to sign in user:', req.body);
 
-    const { email, password } = req.body;
+    const { email, password } = await loginSchema.validate(req.body);
 
     // Find the user by email
     const existingUser = await User.findOne({ email });
@@ -72,6 +80,9 @@ export const signInUser = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'User signed in successfully' });
   } catch (error) {
     console.error('Error signing in user:', error);
+    if (error instanceof Yup.ValidationError) {
+      return res.status(400).json({ error });
+    }
     return res.status(500).json({ error });
   }
 };
