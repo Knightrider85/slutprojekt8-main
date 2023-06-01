@@ -26,14 +26,14 @@ export function Navbar() {
       .then((data) => setIsAdmin(data.isAdmin))
       .catch((error) => console.error("Error checking admin:", error));
 
-      const handleResize = () => {
-        setScreenWidth(window.innerWidth);
-      };
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }, []);
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSignOut = () => {
     setLoggedIn(false);
@@ -44,7 +44,7 @@ export function Navbar() {
       <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
         <Container>
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
-          {screenWidth <= 767 && <CartButton/> }
+          {screenWidth <= 767 && <CartButton />}
           <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
@@ -74,7 +74,6 @@ export function Navbar() {
           </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
-      
     </header>
   );
 }
@@ -115,5 +114,4 @@ const NavWrapper = styled(Nav)`
     align-items: flex-start;
     margin-top: 10px;
   }
-  }
-  `;
+`;

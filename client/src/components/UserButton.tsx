@@ -8,7 +8,7 @@ export function UserButton() {
           width: "3rem",
           height: "3rem",
           position: "relative",
-          color: "black", // ändra bild sedan!
+          color: "black",
         }}
         variant="outline-dark"
         className="rounded-circle"

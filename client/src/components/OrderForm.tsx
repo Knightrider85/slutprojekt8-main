@@ -62,14 +62,13 @@ export const OrderForm = () => {
       console.log("Order Details:", orderDetails);
 
       setOrderDetails(orderDetails);
-      resetForm(); // Reset form values before adding the order
+      resetForm();
       setSubmitting(false);
 
       await addOrder(orderDetails);
       navigate("/confirmation", { state: { orderDetails } });
     } catch (error) {
       console.error("Error submitting order:", error);
-      // Handle error and display an error message to the user
     }
   };
 

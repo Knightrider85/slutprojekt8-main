@@ -19,7 +19,7 @@ const CreateProductForm = () => {
   });
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
-    console.log("Form values:", values); // Log form values
+    console.log("Form values:", values);
 
     try {
       const response = await fetch("/api/products", {

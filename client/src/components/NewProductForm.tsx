@@ -75,14 +75,8 @@ export function NewProductForm() {
       };
 
       formik.resetForm();
-
-      /*       if (editProduct) {
-        console.log("trying to edit product, called edit from context");
-        editProduct(product);
-      } else { */
       console.log("trying to add product, called add from context");
       addProduct(product);
-      /*       } */
     },
   });
 
@@ -127,11 +121,8 @@ export function NewProductForm() {
         <FloatingLabel controlId="image" label="Image" className="mb-3">
           <Form.Control
             type="file"
-            // placeholder="https://example.jpg"
             name="image"
-            // value={formik.values.imageId}
             onChange={handleFileChange}
-            // onBlur={formik.handleBlur}
             data-cy="product-image"
             isInvalid={formik.touched.imageId && !!formik.errors.imageId}
           />
