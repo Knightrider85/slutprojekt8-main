@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
@@ -9,7 +8,8 @@ import { LoginButton } from "./LoginButton";
 
 export function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     fetch("/api/checkSignedIn")
@@ -25,7 +25,15 @@ export function Navbar() {
       .then((response) => response.json())
       .then((data) => setIsAdmin(data.isAdmin))
       .catch((error) => console.error("Error checking admin:", error));
-  }, []);
+
+      const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
 
   const handleSignOut = () => {
     setLoggedIn(false);
@@ -34,10 +42,9 @@ export function Navbar() {
   return (
     <header>
       <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
-        
         <Container>
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
-          <CartButton />
+          {screenWidth <= 767 && <CartButton/> }
           <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
@@ -57,18 +64,17 @@ export function Navbar() {
               <Link data-cy="user-link" to="/users" as={NavLink}>
                 Create User
               </Link>
-
               {loggedIn && isAdmin ? (
                 <Link data-cy="admin-link" to="/admin" as={NavLink}>
                   Admin
                 </Link>
               ) : null}
-
-              
+              {screenWidth >= 767 && <CartButton />}
             </Nav>
           </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
+      
     </header>
   );
 }
@@ -84,6 +90,7 @@ const StyledNavLink = styled(NavLink)`
     color: #9d9d9d;
     text-decoration: underline 3px;
   }
+
   &.active {
     color: black;
     text-decoration: underline 3px;
@@ -95,6 +102,7 @@ const Link = styled(NavLink)`
   text-decoration: none;
   color: black;
   transition: all 0.3s ease;
+
   &:hover {
     color: #9d9d9d;
     text-decoration: underline 3px;
@@ -107,4 +115,5 @@ const NavWrapper = styled(Nav)`
     align-items: flex-start;
     margin-top: 10px;
   }
-`;
+  }
+  `;
