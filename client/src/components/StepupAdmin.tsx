@@ -24,12 +24,13 @@ function StepUpAdmin() {
     // Check if the user is an admin
     fetch("/api/checkAdmin")
       .then((response) => response.json())
-      .then((data) => setIsAdmin(data.isAdmin))
+      .then((data) => {
+        setIsAdmin(data.isAdmin);
+        if (!data.isAdmin) {
+          navigate("/");
+        }
+      })
       .catch((error) => console.error("Error checking admin:", error));
-
-    if (!isAdmin) {
-      navigate("/");
-    }
   }, []);
 
   const deleteUser = (userId: string) => {

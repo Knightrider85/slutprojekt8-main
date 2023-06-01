@@ -1,0 +1,17 @@
+### 
+# @name signout
+# @description testing various endpoints
+POST http://localhost:3000/api/signIn HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "simon1@email.com",
+    "password": "Simon1"
+}
+
+
+###
+GET http://localhost:3000/api/checkAdmin HTTP/1.1
+
+###
+POST http://localhost:3000/api/signOut
