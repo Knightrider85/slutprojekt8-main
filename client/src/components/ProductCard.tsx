@@ -35,7 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <StyledCard data-cy="product">
       <StyledCardImg
         variant="top"
-        src={product.imageUrl}
+        src={"/api/file/" + product.imageId}
         onClick={handleCardClick}
       />
       <Card.Body
@@ -120,6 +120,7 @@ const StyledCardImg = styled(Card.Img)`
   width: 18rem;
   margin-left: 2rem;
   cursor: pointer;
+  filter: none; /* Remove any CSS filter applied to the image */
 
   @media only screen and (max-width: 420px) {
     margin-left: 7px;

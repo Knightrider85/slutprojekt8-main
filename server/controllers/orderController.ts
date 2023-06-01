@@ -1,18 +1,27 @@
 import { Request, Response } from 'express';
-import Order, {IOrder} from "../models/orderModel";
-import { IUser } from "../models/userModel";
+import Order, { IOrder } from "../models/orderModel";
+import ProductModel from "../models/productModel";
 
 
 // Controller method for submitting an order
 export const addOrder = async (req: Request, res: Response) => {
   try {
-    const { products, name, address, city, zip, email, phone } = req.body;
+
+    const { products, quantity, name, address, city, zip, email, phone } = req.body;
+    const dbproducts = await ProductModel.find({ _id: { $in: products } }) 
+    console.log('dbproducts', dbproducts)
+
 
     const orderId = Math.floor(Math.random() * (1000000000 - 10000) + 10).toString();
+    //Lägg till QUANTITY från products till dbproducts
 
     const order: IOrder = new Order({
       orderId,
-      products,
+
+      products: dbproducts,
+
+      quantity,
+
       name,
       address,
       city,

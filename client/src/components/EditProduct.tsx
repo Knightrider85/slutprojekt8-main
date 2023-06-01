@@ -1,13 +1,10 @@
 import { useFormik } from "formik";
-import { useContext } from "react";
 import { useRef } from "react";
 
-import * as Yup from "yup";
-import styled from "styled-components";
-import { Modal, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
-
-import { ProductCard } from "../components/ProductCard";
+import { Button, Form, Modal } from "react-bootstrap";
+import styled from "styled-components";
+import * as Yup from "yup";
 
 import { ProductData, useProducts } from "../contexts/ProductContext";
 import { EditProductCard } from "./EditProductCard";
@@ -28,15 +25,15 @@ const EditProduct: React.FC = () => {
     "Yellow",
     "Green",
     "Blue",
-    "Purpule",
-    "Orange",
+    "Brown",
+    "Gray",
   ];
   const categories = [
     "Sandals",
     "Sneakers",
     "Boots",
     "Hikingshoes",
-    "Flipflops",
+    "High heels",
     "Running",
   ];
   const handleClose = () => setShow(false);

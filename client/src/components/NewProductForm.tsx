@@ -20,15 +20,15 @@ export function NewProductForm() {
     "Yellow",
     "Green",
     "Blue",
-    "Purpule",
-    "Orange",
+    "Brown",
+    "Gray",
   ];
   const category = [
     "Sandals",
     "Sneakers",
     "Boots",
     "Hikingshoes",
-    "Flipflops",
+    "High heels",
     "Running",
   ];
 
@@ -47,7 +47,7 @@ export function NewProductForm() {
     },
 
     validationSchema: Yup.object({
-      //imageId: Yup.object().required(),
+      imageId: Yup.string().required(),
       name: Yup.string().required("Please enter a title"),
       description: Yup.string().required("Please enter a description"),
       price: Yup.number()
@@ -86,10 +86,10 @@ export function NewProductForm() {
     },
   });
 
-  async function handleSubmit(e: any) {
+  function handleSubmit(e: any) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const response = await fetch("/api/files", {
+    fetch("/api/files", {
       method: "POST",
       body: formData,
     });
@@ -118,7 +118,12 @@ export function NewProductForm() {
 
   return (
     <>
-      <Form noValidate onSubmit={formik.handleSubmit} data-cy="product-form">
+      <Form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        data-cy="product-form"
+        encType="multipart/form-data"
+      >
         <FloatingLabel controlId="image" label="Image" className="mb-3">
           <Form.Control
             type="file"

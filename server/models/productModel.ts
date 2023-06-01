@@ -5,18 +5,18 @@ export interface IProduct extends Document {
   name: string;
   description: string;
   price: number;
-  image: string;
+  imageId: string;
   stock: number;
   category: string;
   color: string;
 }
 
-const ProductSchema = new Schema<IProduct>({
+export const ProductSchema = new Schema<IProduct>({
   productId: { type: String, required: false },
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
-  image: { type: String, required: false },
+  imageId: { type: String, required: false },
   stock: { type: Number, required: true },
   category: { type: String, required: true },
   color: { type: String, required: true },

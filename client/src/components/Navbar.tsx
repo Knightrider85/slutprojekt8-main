@@ -15,11 +15,7 @@ export function Navbar() {
     fetch("/api/checkSignedIn")
       .then((response) => response.json())
       .then((data) => {
-        if (data.isSignedIn === true) {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
+        setLoggedIn(data.isSignedIn);
       })
       .catch((error) =>
         console.log("Error checking if a user is logged in", error)
@@ -38,6 +34,10 @@ export function Navbar() {
         window.removeEventListener("resize", handleResize);
       };
     }, []);
+
+  const handleSignOut = () => {
+    setLoggedIn(false);
+  };
 
   return (
     <header>
@@ -59,7 +59,7 @@ export function Navbar() {
             </NavWrapper>
             <Nav style={{ alignItems: "center" }}>
               <Link data-cy="user-link" to="/login" as={NavLink}>
-                <LoginButton />
+                <LoginButton loggedIn={loggedIn} onSignOut={handleSignOut} />
               </Link>
               <Link data-cy="user-link" to="/users" as={NavLink}>
                 Create User
@@ -113,5 +113,6 @@ const NavWrapper = styled(Nav)`
     flex-direction: column;
     align-items: flex-start;
     margin-top: 10px;
+  }
   }
   `;
