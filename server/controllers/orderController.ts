@@ -7,7 +7,7 @@ import ProductModel from "../models/productModel";
 export const addOrder = async (req: Request, res: Response) => {
   try {
 
-    const { products, quantity, name, address, city, zip, email, phone } = req.body;
+    const { products, quantity, totalCost, name, address, city, zip, email, phone } = req.body;
     const dbproducts = await ProductModel.find({ _id: { $in: products } }) 
     console.log('dbproducts', dbproducts)
 
@@ -17,11 +17,9 @@ export const addOrder = async (req: Request, res: Response) => {
 
     const order: IOrder = new Order({
       orderId,
-
       products: dbproducts,
-
       quantity,
-
+      totalCost,
       name,
       address,
       city,
