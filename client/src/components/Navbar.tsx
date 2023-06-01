@@ -34,8 +34,10 @@ export function Navbar() {
   return (
     <header>
       <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
+        
         <Container>
           <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
+          <CartButton />
           <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
@@ -62,7 +64,7 @@ export function Navbar() {
                 </Link>
               ) : null}
 
-              <CartButton />
+              
             </Nav>
           </NavbarBs.Collapse>
         </Container>

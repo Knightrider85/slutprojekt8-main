@@ -125,36 +125,6 @@ export function CartButton() {
           </Button>
         </Offcanvas.Body>
       </Offcanvas>
-
-      {/* MODAL SOM SKA VISAS OM ANVÄNDAREN INTE ÄR INLOGGAD OCH KLICKAR PÅ VARUKORGEN */}
-      {/* <Modal show={showModal} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Sign In or Create User</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Please sign in or create a user to access the cart.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("/login");
-              handleCloseModal();
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("/users");
-              handleCloseModal();
-            }}
-          >
-            Create User
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
     </>
   );
 }
