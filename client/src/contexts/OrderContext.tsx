@@ -6,7 +6,7 @@ interface OrderContextType {
   orderId: number;
   orderDetails: OrderDetails & { products: any[] };
   setOrderDetails: (values: Partial<OrderDetails>) => void;
-  addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => Promise<void>;
+  addOrder: (order: Partial<OrderDetails & { products: any[]; totalCost: number, quantity: number[] }>) => Promise<void>;
   cartItems: CartContextValue["cartItems"];
   setCartItems: CartContextValue["setCartItems"];
   totalCost: CartContextValue["totalCost"];
@@ -22,7 +22,7 @@ export function useOrderContext() {
 export function OrderProvider({ children }: PropsWithChildren) {
   const { cartItems, setCartItems, totalCost: cartTotalCost } = useCart();
   const [orderNumber, setOrderNumber] = useState<number>(0);
-  const [orderDetails, updateOrderDetails] = useState<OrderDetails & { products: any[] }>({
+  const [orderDetails, updateOrderDetails] = useState<OrderDetails & { products: any[], quantity: number }>({
     name: "",
     address: "",
     city: "",
@@ -30,6 +30,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
     email: "",
     phone: "",
     products: [],
+    quantity: 0,
   });
 
   const getOrderNumber = () => {
@@ -45,11 +46,15 @@ export function OrderProvider({ children }: PropsWithChildren) {
     setCartItems([]);
   };
 
-  const addOrder = async (order: Partial<OrderDetails & { products: any[]; totalCost: number }>) => {
+  const addOrder = async (order: Partial<OrderDetails & { products: any[]; totalCost: number, quantity: number[] }>) => {
     try {
       const { name, address, city, zip, email, phone } = order;
-      const { products, totalCost } = order;
-
+      const { products, totalCost, quantity } = order;
+  
+      const calculatedQuantity = products
+        ? products.reduce((acc, product) => acc + product.quantity, 0)
+        : cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  
       const response = await fetch("/api/order", {
         method: "POST",
         headers: {
@@ -58,6 +63,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
         body: JSON.stringify({
           products: products || cartItems,
           totalCost: totalCost || cartTotalCost,
+          quantity: quantity || calculatedQuantity,
           name,
           address,
           city,
@@ -66,7 +72,7 @@ export function OrderProvider({ children }: PropsWithChildren) {
           phone,
         }),
       });
-
+  
       if (response.ok) {
         console.log("Order submitted successfully");
         const data = await response.json();

@@ -26,7 +26,12 @@ export function ConfirmationPage() {
           padding: "1rem",
         }}
       >
-        <div>{orderDetails.item}</div>
+        {orderDetails.products.map((product: any, index: any) => (
+          <div key={index}>
+            <span style={{ fontWeight: "bold" }}>{product.name}: </span>
+            {product.quantity}
+          </div>
+        ))}
         <div style={{ fontWeight: "bold", margin: "2rem 0" }}>
           {"Total cost: " + orderDetails.totalCost + " kr"}
         </div>

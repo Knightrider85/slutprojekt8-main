@@ -6,13 +6,14 @@ import { IUser } from "../models/userModel";
 // Controller method for submitting an order
 export const addOrder = async (req: Request, res: Response) => {
   try {
-    const { products, name, address, city, zip, email, phone } = req.body;
+    const { products, quantity, name, address, city, zip, email, phone } = req.body;
 
     const orderId = Math.floor(Math.random() * (1000000000 - 10000) + 10).toString();
 
     const order: IOrder = new Order({
       orderId,
       products,
+      quantity,
       name,
       address,
       city,
