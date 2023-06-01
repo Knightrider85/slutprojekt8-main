@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Accordion, Button, Modal } from "react-bootstrap";
 import { IOrder } from "../../../server/models/orderModel";
 import { IUser } from "../../../server/models/userModel";
+import { useNavigate } from "react-router-dom";
 
 function StepUpAdmin() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
   const [showModal, setShowModal] = useState(false);
   const [orders, setOrders] = useState<IOrder[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch users from the server
@@ -24,6 +26,10 @@ function StepUpAdmin() {
       .then((response) => response.json())
       .then((data) => setIsAdmin(data.isAdmin))
       .catch((error) => console.error("Error checking admin:", error));
+
+    if (!isAdmin) {
+      navigate("/");
+    }
   }, []);
 
   const deleteUser = (userId: string) => {
