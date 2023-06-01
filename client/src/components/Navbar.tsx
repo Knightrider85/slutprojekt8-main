@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
+import { Container, Nav, Navbar as NavbarBs } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
-import { useState, useEffect } from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 
 export function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -30,24 +30,22 @@ export function Navbar() {
       .then((data) => setIsAdmin(data.isAdmin))
       .catch((error) => console.error("Error checking admin:", error));
 
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
 
   return (
     <header>
-      <Navbar sticky="top" expand="md" className="header shadow-lg mb-4">
+      <NavbarBs sticky="top" expand="md" className="header shadow-lg mb-4">
         <Container>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <NavbarBs.Toggle aria-controls="responsive-navbar-nav" />
           {screenWidth <= 767 && <CartButton/> }
-          <Navbar.Collapse id="responsive-navbar-nav">
+          <NavbarBs.Collapse id="responsive-navbar-nav">
             <NavWrapper className="me-auto" style={{ alignItems: "center" }}>
               <StyledNavLink to="/" as={NavLink}>
                 <HomeLogo />
@@ -71,11 +69,11 @@ export function Navbar() {
                   Admin
                 </Link>
               ) : null}
-              <CartButton />
+              {screenWidth >= 767 && <CartButton />}
             </Nav>
-          </Navbar.Collapse>
+          </NavbarBs.Collapse>
         </Container>
-      </Navbar>
+      </NavbarBs>
     </header>
   );
 }
@@ -116,4 +114,4 @@ const NavWrapper = styled(Nav)`
     align-items: flex-start;
     margin-top: 10px;
   }
-};
+  `;
