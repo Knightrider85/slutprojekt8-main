@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button, Modal } from "react-bootstrap";
+import { Accordion, Button, Modal, Table } from "react-bootstrap";
 import { IOrder } from "../../../server/models/orderModel";
 import { IUser } from "../../../server/models/userModel";
 import { useNavigate } from "react-router-dom";
@@ -95,9 +95,9 @@ function StepUpAdmin() {
     <>
       {isAdmin && (
         <>
-          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-            Toggle Dropdown
-          </button>
+          <Button variant="dark" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            Users
+          </Button>
           {isDropdownOpen && (
             <Accordion>
               {users.map((user, index) => (
@@ -134,7 +134,7 @@ function StepUpAdmin() {
         </>
       )}
 
-<Button variant="primary" onClick={() => setShowModal(true)}>
+      <Button variant="primary" onClick={() => setShowModal(true)}>
         View Orders
       </Button>
 
@@ -143,25 +143,31 @@ function StepUpAdmin() {
           <Modal.Title>Orders</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {orders.map((order) => (
-            <div key={order._id}>
-              <h4>Order ID: {order._id}</h4>
-              <p>Name: {order.name}</p>
-              <p>Address: {order.address}</p>
-              <p>City: {order.city}</p>
-              <p>Zipcode: {order.zip}</p>
-              <p>Email: {order.email}</p>
-              <p>Phone: {order.phone}</p>
-              <h5>Products:</h5>
-              {order.products.map((product, index) => (
-                <div key={index}>
-                  <p>Product: {product.name}</p>
-                  <p>Quantity: {order.quantity[index]}</p>
-                </div>
+          <Table striped bordered>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td colSpan={2}>
+                    <h4>Order ID: {order._id}</h4>
+                    <p>Name: {order.name}</p>
+                    <p>Address: {order.address}</p>
+                    <p>City: {order.city}</p>
+                    <p>Zipcode: {order.zip}</p>
+                    <p>Email: {order.email}</p>
+                    <p>Phone: {order.phone}</p>
+                    <h5>Products:</h5>
+                    {order.products.map((product, index) => (
+                      <div key={index}>
+                        <p>Product: {product.name}</p>
+                        <p>Quantity: {order.quantity[index]}</p>
+                      </div>
+                    ))}
+                    <p>Total cost: {order.totalCost} kr</p>
+                  </td>
+                </tr>
               ))}
-              <p>Total cost: {order.totalCost} kr</p>
-            </div>
-          ))}
+            </tbody>
+          </Table>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
