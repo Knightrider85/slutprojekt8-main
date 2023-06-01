@@ -6,27 +6,30 @@ import styled from "styled-components";
 import { CartButton } from "./CartButton";
 import { HomeLogo } from "./HomeLogo";
 import { LoginButton } from "./LoginButton";
+
 export function Navbar() {
-
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
-
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    fetch("/api/checkSignedIn").then((response) => response.json()).then((data)=> {
-      if(data.isSignedIn === true){
-        setLoggedIn(true);
-      }else {
-        setLoggedIn(false);
-      }
-    }).catch((error) => console.log("Error checking if a user is logged in", error))
+    fetch("/api/checkSignedIn")
+      .then((response) => response.json())
+      .then((data) => {
+        setLoggedIn(data.isSignedIn);
+      })
+      .catch((error) =>
+        console.log("Error checking if a user is logged in", error)
+      );
 
     fetch("/api/checkAdmin")
-    .then((response) => response.json())
-    .then((data) => setIsAdmin(data.isAdmin))
-    .catch((error) => console.error("Error checking admin:", error));
-  },[]) 
+      .then((response) => response.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch((error) => console.error("Error checking admin:", error));
+  }, []);
 
+  const handleSignOut = () => {
+    setLoggedIn(false);
+  };
 
   return (
     <header>
@@ -49,17 +52,17 @@ export function Navbar() {
             </NavWrapper>
             <Nav style={{ alignItems: "center" }}>
               <Link data-cy="user-link" to="/login" as={NavLink}>
-                <LoginButton />
+                <LoginButton loggedIn={loggedIn} onSignOut={handleSignOut} />
               </Link>
-               <Link data-cy="user-link" to="/users" as={NavLink}>
+              <Link data-cy="user-link" to="/users" as={NavLink}>
                 Create User
-              </Link> 
+              </Link>
 
-
-              {loggedIn && isAdmin  ? 
-              <Link data-cy="admin-link" to="/admin" as={NavLink}>
-                Admin
-              </Link> : null }
+              {loggedIn && isAdmin ? (
+                <Link data-cy="admin-link" to="/admin" as={NavLink}>
+                  Admin
+                </Link>
+              ) : null}
 
               
             </Nav>

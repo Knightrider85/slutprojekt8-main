@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IProduct } from "./productModel";
-import { IUser } from "./userModel";
+import { IProduct, ProductSchema } from "./productModel";
 
 export interface IOrder extends Document {
  
@@ -22,8 +21,12 @@ export interface IOrder extends Document {
 const OrderSchema = new Schema<IOrder>({
  
   totalCost: { type: Number, required: false },
-  products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
+
+  products: [{ type: ProductSchema, required: true }],
+
+  // products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
   quantity: [{ type: Number, required: true }],
+
   // userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
   address: { type: String, required: true },
