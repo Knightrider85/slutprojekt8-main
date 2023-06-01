@@ -1,21 +1,20 @@
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import EditProduct from "../components/EditProduct";
 import { NewProductForm } from "../components/NewProductForm";
 import StepUpAdmin from "../components/StepupAdmin";
-import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
-import { useState } from "react";
-import styled from "styled-components";
 
 export function Admin() {
   const navigate = useNavigate();
   const { products: items } = useContext(ProductContext);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
   fetch("/api/checkAdmin")
-      .then((response) => response.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((error) => console.error("Error checking admin:", error));
+    .then((response) => response.json())
+    .then((data) => setIsAdmin(data.isAdmin))
+    .catch((error) => console.error("Error checking admin:", error));
 
   return (
     <>
@@ -24,35 +23,6 @@ export function Admin() {
           <StepUpAdmin />
           <NewProductForm />
           <EditProduct />
-
-          {/* Commented out code */}
-          {/* <AddBtnContainer>
-            <Button
-              variant="primary"
-              onClick={() => navigate(`/admin/product/new`)}
-              data-cy="admin-add-product"
-            >
-              Add new item
-            </Button>
-          </AddBtnContainer>
-          <ListHeader>
-            <Row>
-              <Col xs={3}>Title</Col>
-              <Col xs={4}>Description</Col>
-              <Col>Price</Col>
-              <Col>Id</Col>
-            </Row>
-          </ListHeader>
-          <ListHeaderMediaQ>
-            <Col>Listed products</Col>
-          </ListHeaderMediaQ>
-          <div>
-            {items.map((product) => (
-              <Row key={product.id} data-cy="product">
-                <ProductListedItem product={product} />
-              </Row>
-            ))}
-          </div> */}
         </Container>
       )}
     </>
