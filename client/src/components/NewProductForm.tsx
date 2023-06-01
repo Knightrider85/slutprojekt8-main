@@ -43,7 +43,7 @@ export function NewProductForm() {
       description: "",
       stock: 0,
       category: "",
-      id: "",
+      _id: "",
     },
 
     validationSchema: Yup.object({
@@ -63,7 +63,7 @@ export function NewProductForm() {
     onSubmit: (values) => {
       console.log("hello");
       const product: ProductData = {
-        _id: values.id,
+        _id: values._id,
         name: values.name,
         imageId: values.imageId,
         price: values.price,
