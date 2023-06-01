@@ -186,7 +186,7 @@ export function NewProductForm() {
         <FloatingLabel controlId="price" label="Product price">
           <Form.Control
             style={{ marginTop: "1rem" }}
-            type="text"
+            type="number"
             placeholder="Set a price for the product"
             name="price"
             value={formik.values.price}
@@ -207,7 +207,7 @@ export function NewProductForm() {
         <FloatingLabel controlId="stock" label="Amount in Stock">
           <Form.Control
             style={{ marginTop: "1rem" }}
-            type="text"
+            type="number"
             placeholder="Set how many in stock"
             name="stock"
             value={formik.values.stock}

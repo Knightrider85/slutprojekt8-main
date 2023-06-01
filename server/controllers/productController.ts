@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import Product, { IProduct } from "../models/productModel";
 
 const productSchema = Yup.object({
-  productId: Yup.string(),
   imageId: Yup.string().required(),
   name: Yup.string().required("Please enter a title"),
   description: Yup.string().required("Please enter a description"),
@@ -15,7 +14,7 @@ const productSchema = Yup.object({
     .required("Please enter a quantity"),
   category: Yup.string().required("Please enter a category"),
   color: Yup.string().required("Please select a color"),
-});
+}).strip();
 
 const editProductSchema = Yup.object({
   name: Yup.string().required("Please enter a title"),
@@ -32,28 +31,9 @@ const editProductSchema = Yup.object({
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const {
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    } = req.body;
-
-    const product: IProduct = new Product({
-      productId,
-      name,
-      description,
-      price,
-      imageId,
-      stock,
-      category,
-      color,
-    });
-
+    const productData = await productSchema.validate(req.body);
+    console.log(productData);
+    const product: IProduct = new Product(productData);
     await product.save();
 
     res.status(201).json({ message: "Product created successfully", product });
@@ -86,7 +66,8 @@ export const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    const { name, description, price, stock, category, color } = await editProductSchema.validate(req.body);
+    const { name, description, price, stock, category, color } =
+      await editProductSchema.validate(req.body);
 
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: productId },
