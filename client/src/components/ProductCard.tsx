@@ -62,6 +62,13 @@ export function ProductCard({ product }: ProductCardProps) {
               <Card.Text data-cy="product-price">
                 Price: {product.price + " SEK"}
               </Card.Text>
+              <Card.Text>
+                {product.stock == 0 ?
+                  <>Out of Stock</>
+                :
+                  <>Stock: {product.stock  + " st"}</>
+                }
+              </Card.Text>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <FilterSelect
