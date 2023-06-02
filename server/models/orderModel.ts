@@ -20,12 +20,12 @@ export interface IOrder extends Document {
 
 const OrderSchema = new Schema<IOrder>({
  
-  totalCost: { type: Number, required: false },
-
+  
   products: [{ type: ProductSchema, required: true }],
-
+  
   // products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
   quantity: [{ type: Number, required: true }],
+  totalCost: { type: Number, required: false },
 
   // userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
@@ -38,7 +38,12 @@ const OrderSchema = new Schema<IOrder>({
   // createdAt: { type: Date, required: true, default: Date.now },
   orderId: { type: String, required: true },
 
+
+  
+
 });
+
+
 
 const Order = mongoose.model<IOrder>("Order", OrderSchema);
 

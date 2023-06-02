@@ -134,7 +134,7 @@ function StepUpAdmin() {
         </>
       )}
 
-      <Button variant="primary" onClick={() => setShowModal(true)}>
+<Button variant="primary" onClick={() => setShowModal(true)}>
         View Orders
       </Button>
 
@@ -150,10 +150,16 @@ function StepUpAdmin() {
               <p>Address: {order.address}</p>
               <p>City: {order.city}</p>
               <p>Zipcode: {order.zip}</p>
-              {/* <p>Email: {user.email}</p>
-              <p>Phone: {user.phone}</p> */}
-              {/* <p>createdAt: {order.address}</p> */}
-              {/* Render other order details */}
+              <p>Email: {order.email}</p>
+              <p>Phone: {order.phone}</p>
+              <h5>Products:</h5>
+              {order.products.map((product, index) => (
+                <div key={index}>
+                  <p>Product: {product.name}</p>
+                  <p>Quantity: {order.quantity[index]}</p>
+                </div>
+              ))}
+              <p>Total cost: {order.totalCost} kr</p>
             </div>
           ))}
         </Modal.Body>

@@ -1,13 +1,31 @@
-import argon2 from "argon2";
-import { Request, Response } from "express";
-import User, { IUser } from "../models/userModel";
+import argon2 from 'argon2';
+import { Request, Response } from 'express';
+import { Session } from 'express-session';
+import * as Yup from 'yup';
+import User, { IUser } from '../models/userModel';
+
+interface CustomSession extends Session {
+  userId?: Object;
+  isAdmin?: boolean;
+  isSignedIn?: boolean;
+}
+
+const loginSchema = Yup.object({
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+});
+
+const signupSchema = Yup.object({
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+});
 
 export const createUser = async (req: Request, res: Response) => {
   try {
     console.log("Received request to create user:", req.body);
 
-    const { name, email, password } = req.body;
-    const { isAdmin, userId } = req.body;
+    const { name, email, password } = await signupSchema.validate(req.body);
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -24,16 +42,12 @@ export const createUser = async (req: Request, res: Response) => {
 
     console.log("User created successfully");
 
-    // Check if user should be promoted to admin
-    if (isAdmin && userId) {
-      user.isAdmin = isAdmin;
-      user.userId = userId;
-      await user.save();
-    }
-
-    return res.status(201).json({ message: "User created successfully" });
+    return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.error('Error creating user:', error);
+    if (error instanceof Yup.ValidationError) {
+      return res.status(400).json({ error });
+    }
     return res.status(500).json({ error });
   }
 };
@@ -43,7 +57,7 @@ export const signInUser = async (req: Request, res: Response) => {
   try {
     console.log("Received request to sign in user:", req.body);
 
-    const { email, password } = req.body;
+    const { email, password } = await loginSchema.validate(req.body);
 
     // Find the user by email
     const existingUser = await User.findOne({ email });
@@ -63,18 +77,23 @@ export const signInUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    req.session!.userId = existingUser.id;
-    req.session!.isAdmin = existingUser.isAdmin;
-    req.session!.isSignedIn = true; // Add a flag indicating the user is signed in
+    const session = req.session as CustomSession;
+    session.userId = existingUser.id;
+    session.isAdmin = existingUser.isAdmin;
+    session.isSignedIn = true;
 
     // User authenticated successfully
     console.log("User signed in successfully");
     return res.status(200).json({ message: "User signed in successfully" });
   } catch (error) {
-    console.error("Error signing in user:", error);
+    console.error('Error signing in user:', error);
+    if (error instanceof Yup.ValidationError) {
+      return res.status(400).json({ error });
+    }
     return res.status(500).json({ error });
   }
 };
+
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -88,13 +107,15 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 //CHECK ADMIN
 export const checkAdmin = (req: Request, res: Response) => {
-  const isAdmin = req.session?.isAdmin || false;
+  const session = req.session as CustomSession;
+  const isAdmin = session.isAdmin || false;
   res.json({ isAdmin });
 };
 
 //CHECK SIGNED IN
 export const checkIsSignedIn = (req: Request, res: Response) => {
-  const isSignedIn = req.session?.isSignedIn || false;
+  const session = req.session as CustomSession;
+  const isSignedIn = session.isSignedIn || false;
   res.json({ isSignedIn });
 };
 
@@ -149,10 +170,10 @@ export const updateUserAdminStatus = async (req: Request, res: Response) => {
 };
 
 export const handleSignOutUser = (req: Request, res: Response) => {
-  // Remove the user-related information from the session
-  delete req.session!.userId;
-  delete req.session!.isAdmin;
-  delete req.session!.isSignedIn;
+  const session = req.session as CustomSession;
+  delete session.userId;
+  delete session.isAdmin;
+  delete session.isSignedIn;
 
   // Send a response indicating successful sign-out
   res.json({ message: "Sign-out successful" });
