@@ -31,10 +31,30 @@ const editProductSchema = Yup.object({
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-    const productData = await productSchema.validate(req.body);
-    console.log(productData);
-    const product: IProduct = new Product(productData);
+    const {
+      productId,
+      name,
+      description,
+      price,
+      imageId,
+      stock,
+      category,
+      color,
+    } = req.body;
+
+    const product: IProduct = new Product({
+      productId,
+      name,
+      description,
+      price,
+      imageId,
+      stock,
+      category,
+      color,
+    });
+
     await product.save();
+
 
     res.status(201).json({ message: "Product created successfully", product });
   } catch (error) {
