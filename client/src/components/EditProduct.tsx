@@ -52,17 +52,7 @@ const EditProduct: React.FC = () => {
   });
 
   const formik = useFormik({
-    initialValues: selectedProduct || {
-      _id: "",
-      name: "",
-      description: "",
-      price: 0,
-      stock: 0,
-      category: "",
-      color: "",
-      quantity: 0,
-      imageId: "",
-    },
+    initialValues: selectedProduct!,
     validationSchema,
     onSubmit: (values) => {
       editProduct(values);

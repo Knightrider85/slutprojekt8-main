@@ -37,7 +37,7 @@ export function DeleteButton({ product }: DeleteButtonProps) {
             variant="danger"
             onClick={() => {
               handleClose();
-              removeProduct(product.id)
+              removeProduct(product._id)
             }}
             data-cy="confirm-delete-button"
           >

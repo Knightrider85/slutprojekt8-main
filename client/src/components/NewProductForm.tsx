@@ -5,9 +5,9 @@ import Form from "react-bootstrap/Form";
 import * as Yup from "yup";
 
 import {
+  CreateProductData,
   ProductContext,
-  ProductData,
-  useProducts,
+  useProducts
 } from "../contexts/ProductContext";
 
 export function NewProductForm() {
@@ -43,7 +43,6 @@ export function NewProductForm() {
       description: "",
       stock: 0,
       category: "",
-      _id: "",
     },
 
     validationSchema: Yup.object({
@@ -62,8 +61,7 @@ export function NewProductForm() {
 
     onSubmit: (values) => {
       console.log("hello");
-      const product: ProductData = {
-        _id: values._id,
+      const product: CreateProductData = {
         name: values.name,
         imageId: values.imageId,
         price: values.price,

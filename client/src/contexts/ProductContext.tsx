@@ -15,6 +15,8 @@ export interface ProductData {
   color: string;
 }
 
+export type CreateProductData = Omit<ProductData, '_id'>
+
 interface Filters {
   price: string;
   category: string;
@@ -29,7 +31,7 @@ interface ProductContext {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   removeProduct: (id: string) => void;
   editProduct: (product: ProductData) => void;
-  addProduct: (product: ProductData) => void;
+  addProduct: (product: CreateProductData) => void;
   getAllProducts: () => Promise<void>;
   //uploadImage: (file: File) => Promise<string>;
 }
@@ -66,13 +68,13 @@ export const ProductProvider: FC<{ children: React.ReactNode }> = (
 
   const params = useParams<{ id: string }>();
 
-  const addProduct = async (product: ProductData) => {
+  const addProduct = async (product: CreateProductData) => {
     console.log("Form values:", product);
     try {
       let response = await useRequest("/api/products", "POST", product);
       if (response.ok) {
         console.log("product created");
-        setProducts([...products, product]);
+        setProducts([...products, response.data]);
         return console.log("Product created successfully" + product);
       }
     } catch (err) {
