@@ -118,6 +118,7 @@ export function NewProductForm() {
 
   return (
     <>
+    <h4>Products</h4>
       <Form
         noValidate
         onSubmit={formik.handleSubmit}
